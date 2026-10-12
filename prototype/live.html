@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GeekCat Live</title>
+<style>
+  /* 直播 / OBS 浏览器源：整页透明，只画猫。构图和离线导出完全一致（同一个 frameSVG） */
+  html, body { margin: 0; height: 100%; overflow: hidden; background: transparent }
+  body.dots { background: #F8F9FB radial-gradient(#CCD1DA 1.6px, transparent 1.7px) 0 0 / 26px 26px }
+  body.green { background: #00B140 }
+  #cat { position: fixed; inset: 0 }
+  #cat svg { display: block; width: 100%; height: 100% }
+  #help { position: fixed; left: 12px; bottom: 12px; font: 12px/1.6 ui-monospace, Menlo, monospace; color: #17161A; background: rgba(255,255,255,.88); padding: 8px 12px; border-radius: 8px; white-space: pre }
+  body.clean #help { display: none }
+</style>
+</head>
+<body>
+<div id="cat"></div>
+<div id="help"></div>
+<script src="cat-engine.js"></script>
+<script src="cat-svg.js"></script>
+<script>
+(() => {
+  // 地址参数：?x=0.85&y=0.97&scale=0.6&flip=1&bg=transparent|dots|green&clean=1
+  const q = new URLSearchParams(location.search)
+  const view = { x: +(q.get('x') || 0.85), y: +(q.get('y') || 0.97), scale: +(q.get('scale') || 0.6), flip: q.get('flip') === '1', background: 'transparent' }
+  const bg = q.get('bg') || 'transparent'
+  if (bg !== 'transparent') document.body.classList.add(bg)
+  if (q.get('clean') === '1') document.body.classList.add('clean')
+  const { frameAt, SCENES } = GeekCat, { frameSVG } = GeekCatSVG
+
+  let clock = 0, state = { do: 'enter', scene: [], accessories: [], text: '' }
+  let schedule = [{ id: 'enter', t0: 0, ta: 0, scenes: [], acc: [], text: {} }]
+  function apply(s) {
+    const prev = schedule[schedule.length - 1]
+    const scenes = [].concat(s.scene || []), acc = [].concat(s.accessories || [])
+    const sameAction = s.do === state.do && prev
+    const text = {}; for (const k of scenes) if (SCENES[k] && SCENES[k].text && s.text) text[k] = s.text
+    schedule.push({ id: s.do, t0: clock, ta: sameAction ? prev.ta : clock, scenes, acc, text })
+    if (schedule.length > 10) schedule.shift()
+    state = s
+  }
+
+  // 1. 服务端遥控（node render.mjs live 提供 /events）；直接双击打开文件时没有服务端，只用键盘
+  if (location.protocol.startsWith('http')) {
+    const es = new EventSource('/events')
+    es.onmessage = e => { try { apply(JSON.parse(e.data)) } catch (_) {} }
+  }
+  // 2. 键盘快捷键
+  const KEYS = { 1: 'idle', 2: 'talk', 3: 'curious', 4: 'think', 5: 'surprised', 6: 'scared', 7: 'happy', 8: 'cheer', 9: 'wave', 0: 'sleep', n: 'nod', m: 'shake', w: 'wink', j: 'jump', e: 'enter', x: 'exit' }
+  const SKEYS = { p: 'peek', s: 'sign', b: 'bubble', l: 'laptop', k: 'book', r: 'ring', c: 'cabinet', f: 'fishing' }
+  addEventListener('keydown', e => {
+    const k = e.key.toLowerCase()
+    if (KEYS[k]) apply(Object.assign({}, state, { do: KEYS[k] }))
+    else if (SKEYS[k]) {
+      const sc = new Set([].concat(state.scene || []))
+      sc.has(SKEYS[k]) ? sc.delete(SKEYS[k]) : sc.add(SKEYS[k])
+      apply(Object.assign({}, state, { scene: [...sc] }))
+    } else if (k === 'h') document.body.classList.toggle('clean')
+  })
+  document.getElementById('help').textContent =
+    '动作 1待机 2说话 3好奇 4思考 5吓一跳 6炸毛 7开心 8欢呼 9挥手 0睡觉 N点头 M摇头 W眨眼 J跳 E登场 X退场\n' +
+    '场景 P探头 S举牌 B气泡 L电脑 K看书 R游泳圈 C文件柜 F逗鱼 · H 隐藏说明'
+  // 3. 给自动化脚本用
+  window.GeekCatPlayer = { play: s => apply(Object.assign({}, state, s)), get state() { return state } }
+
+  const box = document.getElementById('cat')
+  let last = performance.now()
+  function tick(now) {
+    clock += Math.min(0.1, (now - last) / 1000); last = now
+    const W = innerWidth, H = innerHeight
+    box.innerHTML = frameSVG(frameAt(schedule, clock), Object.assign({ width: W, height: H, uid: 'live' }, view))
+    requestAnimationFrame(tick)
+  }
+  requestAnimationFrame(tick)
+})()
+</script>
+</body>
+</html>

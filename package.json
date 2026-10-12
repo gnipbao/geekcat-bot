@@ -1,0 +1,22 @@
+{
+  "name": "geekcat-bot",
+  "version": "1.0.0",
+  "description": "知识猫 GeekCat：参数驱动的 SVG 猫咪角色，剧本 JSON → 透明背景视频，给 AI agent 和剪辑工作流用",
+  "type": "module",
+  "license": "MIT",
+  "author": "gnipbao",
+  "repository": { "type": "git", "url": "git+https://github.com/gnipbao/geekcat-bot.git" },
+  "keywords": ["svg", "animation", "character", "cat", "video", "agent", "prores", "lipsync"],
+  "bin": { "geekcat": "./render/render.mjs" },
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node --test render/test/engine.test.mjs",
+    "list": "node render/render.mjs list",
+    "schema": "node render/render.mjs schema > render/script.schema.json",
+    "demo": "node render/render.mjs render render/examples/demo.json -o render/out/demo.mov",
+    "live": "node render/render.mjs live",
+    "preview": "npx --yes serve prototype"
+  },
+  "dependencies": { "@resvg/resvg-js": "2.6.2" },
+  "optionalDependencies": { "ffmpeg-static": "5.2.0" }
+}

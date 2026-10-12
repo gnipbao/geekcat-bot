@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gnipbao/geekcat-bot/render/script.schema.json",
+  "title": "GeekCat 剧本",
+  "type": "object",
+  "required": [
+    "timeline"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 64,
+      "default": 1920
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 64,
+      "default": 1080
+    },
+    "fps": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 120,
+      "default": 60
+    },
+    "duration": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "秒；不写 = 最后一条 at + 3"
+    },
+    "background": {
+      "type": "string",
+      "pattern": "^(transparent|green|dots|#[0-9a-fA-F]{6})$",
+      "default": "transparent"
+    },
+    "cat": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "number",
+          "description": "猫落地点（底部中心）横坐标，画面宽度的比例 0–1",
+          "default": 0.82
+        },
+        "y": {
+          "type": "number",
+          "description": "落地点纵坐标，比例；角落探头用 1.0",
+          "default": 0.95
+        },
+        "scale": {
+          "type": "number",
+          "description": "猫高占画面高的比例，0.4–0.8",
+          "default": 0.6
+        },
+        "flip": {
+          "type": "boolean",
+          "description": "镜像。猫默认朝左看，放画面左边时设 true",
+          "default": false
+        }
+      }
+    },
+    "scene": {
+      "description": "全局默认场景",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "enum": [
+            "sign",
+            "bubble",
+            "point",
+            "laptop",
+            "book",
+            "fishing",
+            "peek",
+            "write",
+            "scroll",
+            "ring",
+            "cabinet",
+            "money",
+            "spider"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "sign",
+              "bubble",
+              "point",
+              "laptop",
+              "book",
+              "fishing",
+              "peek",
+              "write",
+              "scroll",
+              "ring",
+              "cabinet",
+              "money",
+              "spider"
+            ]
+          },
+          "uniqueItems": true
+        }
+      ]
+    },
+    "accessories": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "glasses",
+          "cap",
+          "headphones",
+          "bowtie",
+          "bell",
+          "fish",
+          "blush"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "lipsync": {
+      "type": "string",
+      "description": "配音文件路径（相对剧本），嘴型按音量自动驱动"
+    },
+    "timeline": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "at"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "at": {
+            "type": "number",
+            "minimum": 0,
+            "description": "秒"
+          },
+          "do": {
+            "type": "string",
+            "enum": [
+              "idle",
+              "look",
+              "talk",
+              "happy",
+              "surprised",
+              "scared",
+              "curious",
+              "think",
+              "sleep",
+              "wave",
+              "cheer",
+              "nod",
+              "shake",
+              "wink",
+              "jump",
+              "enter",
+              "exit"
+            ],
+            "description": "动作；不写 = 保持当前动作"
+          },
+          "scene": {
+            "description": "粘性；null 清空；大姿势一次只能一个",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "sign",
+                  "bubble",
+                  "point",
+                  "laptop",
+                  "book",
+                  "fishing",
+                  "peek",
+                  "write",
+                  "scroll",
+                  "ring",
+                  "cabinet",
+                  "money",
+                  "spider"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "sign",
+                    "bubble",
+                    "point",
+                    "laptop",
+                    "book",
+                    "fishing",
+                    "peek",
+                    "write",
+                    "scroll",
+                    "ring",
+                    "cabinet",
+                    "money",
+                    "spider"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            ]
+          },
+          "accessories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "glasses",
+                "cap",
+                "headphones",
+                "bowtie",
+                "bell",
+                "fish",
+                "blush"
+              ]
+            },
+            "uniqueItems": true,
+            "description": "粘性；[] 清空"
+          },
+          "text": {
+            "description": "粘性；只对 sign / bubble 生效",
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "sign": {
+                    "type": "string"
+                  },
+                  "bubble": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

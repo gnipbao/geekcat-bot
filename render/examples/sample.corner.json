@@ -1,0 +1,85 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "background": "transparent",
+  "cat": {
+    "x": 0.88,
+    "y": 1,
+    "scale": 0.55,
+    "flip": false
+  },
+  "timeline": [
+    {
+      "at": 0,
+      "do": "enter",
+      "scene": [
+        "peek"
+      ],
+      "accessories": []
+    },
+    {
+      "at": 0.8,
+      "do": "talk",
+      "scene": [
+        "peek"
+      ]
+    },
+    {
+      "at": 3.4,
+      "do": "curious",
+      "scene": [
+        "peek",
+        "bubble"
+      ],
+      "text": "为什么它总是出错？"
+    },
+    {
+      "at": 6.2,
+      "do": "scared",
+      "scene": [
+        "peek"
+      ]
+    },
+    {
+      "at": 9.2,
+      "do": "talk",
+      "scene": [
+        "peek",
+        "bubble"
+      ],
+      "text": "第一步"
+    },
+    {
+      "at": 12.2,
+      "do": "think",
+      "scene": [
+        "peek"
+      ]
+    },
+    {
+      "at": 15.2,
+      "do": "happy",
+      "scene": [
+        "peek"
+      ]
+    },
+    {
+      "at": 17.7,
+      "do": "wave",
+      "scene": [
+        "peek",
+        "bubble"
+      ],
+      "text": "谢谢观看，下期见"
+    },
+    {
+      "at": 20.3,
+      "do": "exit",
+      "scene": [
+        "peek"
+      ]
+    }
+  ],
+  "duration": 21.3
+}

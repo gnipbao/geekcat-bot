@@ -1,0 +1,17 @@
+node_modules/
+render/out/
+render/shots/
+work/
+out/
+*.geekcat/
+.DS_Store
+# 参考图来自 Canva 素材，不随仓库分发；本地校准时放在 prototype/ref.png
+知识猫*.png
+prototype/ref.png
+# 用户素材
+*.mov
+*.mp4
+*.webm
+*.wav
+*.aiff
+!docs/*.gif

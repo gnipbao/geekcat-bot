@@ -1,0 +1,16 @@
+{
+  "$schema": "../script.schema.json",
+  "width": 720, "height": 405, "fps": 25,
+  "background": "dots",
+  "cat": { "x": 0.5, "y": 0.96, "scale": 0.72 },
+  "timeline": [
+    { "at": 0,   "do": "enter" },
+    { "at": 0.8, "do": "wave",  "scene": "bubble", "text": "我是墨墨" },
+    { "at": 2.6, "do": "talk",  "scene": "sign", "text": "知识猫", "accessories": ["glasses"] },
+    { "at": 4.4, "do": "scared", "scene": null },
+    { "at": 6.0, "do": "idle",  "scene": "write" },
+    { "at": 8.4, "do": "cheer", "scene": null, "accessories": ["cap"] },
+    { "at": 10.0, "do": "sleep", "scene": "scroll", "accessories": [] }
+  ],
+  "duration": 12.5
+}

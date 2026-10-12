@@ -1,0 +1,19 @@
+{
+  "width": 1920, "height": 1080, "fps": 60,
+  "background": "dots",
+  "cat": { "x": 0.72, "y": 0.96, "scale": 0.72, "flip": false },
+  "accessories": ["glasses"],
+  "timeline": [
+    { "at": 0,    "do": "enter" },
+    { "at": 0.9,  "do": "wave",  "scene": "bubble", "text": "大家好，我是墨墨" },
+    { "at": 3.4,  "do": "talk",  "scene": "sign",   "text": "今天讲 3 件事" },
+    { "at": 6.2,  "do": "talk",  "scene": "point" },
+    { "at": 8.6,  "do": "think", "scene": null },
+    { "at": 12.4, "do": "happy", "accessories": ["glasses", "cap"] },
+    { "at": 14.6, "do": "idle",  "scene": "laptop" },
+    { "at": 17.0, "do": "idle",  "scene": "fishing", "accessories": ["bell"] },
+    { "at": 20.5, "do": "wave",  "scene": null },
+    { "at": 22.4, "do": "exit" }
+  ],
+  "duration": 23.2
+}

@@ -1,0 +1,628 @@
+<title>GeekCat 知识猫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* 版式：一份方案文档，开头是活的角色舞台（论点本身），之后是可扫读的规格与表格 */
+:root {
+  --paper: #F3F4F6; --surface: #FFFFFF; --text: #17161A; --muted: #5C5F6B; --line: #DCDFE5;
+  --accent: #B98200; --accent-fill: #FFC83D; --accent-soft: #FFF1C7; --pink: #F48FA4;
+  --ink: #17161A; --stage: #F8F9FB; --stage-dot: #CCD1DA;
+  --display: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  --body: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111216; --surface: #1A1B21; --text: #ECEDF0; --muted: #9EA1AC; --line: #2D2F37;
+  --accent: #FFC83D; --accent-soft: #3A3017; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #111216; --surface: #1A1B21; --text: #ECEDF0; --muted: #9EA1AC; --line: #2D2F37;
+  --accent: #FFC83D; --accent-soft: #3A3017; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--text); font-family: var(--body); font-size: 15px; line-height: 1.75; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 80px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.3; margin: 0 }
+h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 900; letter-spacing: 0.01em }
+h2 { font-size: 26px; font-weight: 900; margin-block: 0 14px }
+h3 { font-size: 17px; font-weight: 700; margin-block: 22px 8px; font-family: var(--body) }
+p { margin: 0 0 12px; max-width: 68ch }
+code, .mono { font-family: var(--mono); font-size: 0.86em }
+code { background: var(--accent-soft); padding: 1px 5px; border-radius: 4px }
+a { color: inherit; text-underline-offset: 3px }
+.eyebrow { font-size: 12px; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; font-weight: 500 }
+
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; margin-bottom: 22px }
+header.top p { color: var(--muted); margin: 6px 0 0 }
+
+/* ---------- 舞台 ---------- */
+.demo { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 20px; align-items: start }
+.stage { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--line);
+  background-color: var(--stage); background-image: radial-gradient(var(--stage-dot) 1.6px, transparent 1.7px); background-size: 26px 26px; }
+.stage.green { background: #00B140 }
+.stage.alpha { background-color: #fff; background-image: conic-gradient(#E6E8EC 25%, #fff 0 50%, #E6E8EC 0 75%, #fff 0); background-size: 22px 22px }
+.svgbox svg, .stage svg { display: block; width: 100%; height: auto; max-height: 620px; touch-action: none }
+.stage .hud { position: absolute; left: 12px; bottom: 10px; font-family: var(--mono); font-size: 11px; color: #5C5F6B; background: rgba(255,255,255,.8); padding: 2px 8px; border-radius: 6px }
+.stage .now { position: absolute; left: 12px; top: 10px; font-size: 13px; font-weight: 700; color: #17161A; background: rgba(255,255,255,.85); padding: 3px 10px; border-radius: 999px }
+
+.panel { display: grid; gap: 16px; min-width: 0 }
+.panel .lbl { font-size: 12px; color: var(--muted); letter-spacing: .08em; margin-bottom: 6px }
+.acts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px }
+@media (max-width: 1000px) { .acts { grid-template-columns: repeat(5, minmax(0, 1fr)) } }
+.acts button, .seg button { font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  border-radius: 10px; padding: 7px 4px; cursor: pointer; line-height: 1.25; transition: border-color .15s, background .15s }
+.acts button small { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--muted) }
+.acts button:hover, .seg button:hover { border-color: var(--text) }
+.acts button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink) }
+.acts button[aria-pressed="true"] small { color: #C9CBD2 }
+:root[data-theme="dark"] .acts button[aria-pressed="true"] { background: var(--accent-fill); color: #17161A; border-color: var(--accent-fill) }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .acts button[aria-pressed="true"] { background: var(--accent-fill); color: #17161A; border-color: var(--accent-fill) } }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.seg { display: flex; flex-wrap: wrap; gap: 6px }
+.seg button { padding: 5px 12px; font-size: 13px }
+.seg button[aria-pressed="true"] { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text) }
+.params { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 14px; font-family: var(--mono); font-size: 11.5px; color: var(--muted) }
+.params div { display: grid; grid-template-columns: 72px 1fr 38px; align-items: center; gap: 6px }
+.params i { display: block; height: 4px; border-radius: 2px; background: var(--line); position: relative; overflow: hidden }
+.params i b { position: absolute; inset: 0 auto 0 0; background: var(--accent-fill) }
+.params span:last-child { text-align: right; font-variant-numeric: tabular-nums }
+.txtrow { display: grid; gap: 0 }
+.txtrow input { font: inherit; font-size: 14px; padding: 7px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text); width: 100%; max-width: 360px }
+.txtrow input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px }
+.gallery { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; margin-top: 14px }
+.gallery.g6 { grid-template-columns: repeat(6, minmax(0, 1fr)) }
+@media (max-width: 860px) { .gallery { grid-template-columns: repeat(4, minmax(0, 1fr)) } .gallery.g6 { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
+@media (max-width: 480px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)) } .gallery.g6 { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.gallery figure { margin: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--stage) }
+.gallery figure div svg { display: block; width: 100%; height: auto }
+.gallery figcaption { font-size: 13px; padding: 6px 10px 8px; border-top: 1px solid var(--line); background: var(--surface) }
+.gallery figcaption small { display: block; color: var(--muted); font-size: 12px; line-height: 1.5 }
+.note { font-size: 13px; color: var(--muted); margin: 0 }
+
+/* ---------- 正文 ---------- */
+section { margin-top: 64px }
+.lead { font-size: 17px; max-width: 64ch }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 18px }
+.cols > div { min-width: 0 }
+.cols h3 { margin-top: 0 }
+.cols .k { font-family: var(--display); font-size: 30px; font-weight: 900; color: var(--accent); line-height: 1 }
+.callout { border-left: 3px solid var(--accent-fill); padding: 4px 0 4px 16px; margin: 18px 0; max-width: 72ch }
+
+.tbl { overflow-x: auto; margin: 14px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 620px }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: top }
+th { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: .06em; background: var(--paper) }
+tr:last-child td { border-bottom: 0 }
+td.nowrap { white-space: nowrap }
+
+.swatches { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 12px }
+.sw { min-width: 0 }
+.sw .chip { height: 64px; border-radius: 12px; border: 1px solid var(--line) }
+.sw b { display: block; font-size: 14px; margin-top: 8px }
+.sw span { font-family: var(--mono); font-size: 12px; color: var(--muted) }
+.sw p { font-size: 12.5px; color: var(--muted); margin: 2px 0 0 }
+
+.dodont { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px }
+.dodont ul { margin: 0; padding-left: 18px }
+.dodont li { margin-bottom: 6px }
+.tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 9px; border-radius: 999px; margin-bottom: 8px }
+.tag.ok { background: #DDF3E4; color: #17603A } .tag.no { background: #FBE1E1; color: #8C1D1D }
+
+pre { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 12.5px; line-height: 1.6; margin: 12px 0 }
+pre.mermaid { background: var(--surface) }
+ol.steps { padding-left: 20px; max-width: 72ch } ol.steps li { margin-bottom: 8px }
+
+.ms { display: grid; gap: 0; border-top: 1px solid var(--line) }
+.ms > div { display: grid; grid-template-columns: 80px 110px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line) }
+.ms b { font-family: var(--display); font-size: 18px }
+.ms .d { color: var(--muted); font-variant-numeric: tabular-nums }
+
+@media (max-width: 860px) {
+  .demo { grid-template-columns: minmax(0, 1fr) }
+  .stage svg { max-height: 460px }
+  .cols, .dodont { grid-template-columns: minmax(0, 1fr) }
+  .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+}
+@media (max-width: 480px) {
+  .acts { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  .params { grid-template-columns: minmax(0, 1fr) }
+  .ms > div { grid-template-columns: 56px minmax(0, 1fr) } .ms .d { grid-column: 2 }
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">IP 设计 + 动画方案 · 基于 bloub</div>
+      <h1>知识猫 GeekCat</h1>
+      <p>把 Canva 上那只斜眼小黑猫做成一个参数驱动的 SVG 角色：17 个动作、13 个场景（含 6 个大姿势）、7 件配饰，60fps 实时运行。写一份剧本 JSON 就能渲染出透明视频，agent 可以直接调用。</p>
+    </div>
+  </header>
+
+  <div class="demo">
+    <div class="stage" id="stage">
+      <div id="cat" class="svgbox" role="img" aria-label="知识猫动画原型"></div>
+      <div class="now" id="now">待机</div>
+      <div class="hud" id="hud">— fps</div>
+    </div>
+
+    <div class="panel">
+      <div>
+        <div class="lbl">动作（点击切换，连点也不会跳帧）</div>
+        <div class="acts" id="acts"></div>
+      </div>
+      <div>
+        <div class="lbl">场景（可叠加，例如「角落探头 + 对话气泡」）</div>
+        <div class="seg" id="scenes"></div>
+      </div>
+      <div>
+        <div class="lbl">配饰（可叠加）</div>
+        <div class="seg" id="accs"></div>
+      </div>
+      <div class="txtrow">
+        <label class="lbl" for="sceneText">牌子 / 气泡上的字</label>
+        <input id="sceneText" type="text" value="今天讲 3 件事" maxlength="24">
+      </div>
+      <div>
+        <div class="lbl">播放</div>
+        <div class="seg">
+          <button id="auto" aria-pressed="true">自动演示</button>
+          <button id="slow" aria-pressed="false">0.25× 慢放</button>
+          <button id="follow" aria-pressed="true">眼睛跟随鼠标</button>
+          <button id="calib" aria-pressed="false">叠加参考图</button>
+          <button id="flip" aria-pressed="false">左右镜像</button>
+        </div>
+      </div>
+      <div>
+        <div class="lbl">背景（模拟导出效果）</div>
+        <div class="seg" id="bgs">
+          <button data-bg="" aria-pressed="true">点阵画布</button>
+          <button data-bg="green" aria-pressed="false">绿幕</button>
+          <button data-bg="alpha" aria-pressed="false">透明</button>
+        </div>
+      </div>
+      <div>
+        <div class="lbl">实时参数（动画只改这些数字，不改路径）</div>
+        <div class="params" id="params"></div>
+      </div>
+      <p class="note">这只猫完全由代码绘制：32 个身体锚点、8 节尾巴、两节前爪。页面预览和离线导出用的是同一个渲染函数，这里看到什么，导出的视频就是什么。</p>
+    </div>
+  </div>
+
+  <!-- ===================================================== 结论 -->
+  <section>
+    <div class="eyebrow">结论</div>
+    <h2>能做到丝滑，关键是放弃"直接出 SVG"</h2>
+    <p class="lead">你之前把 Canva 图直接转 SVG，得到的是描摹出来的一整块路径：几百个节点，眼睛、胡须和身体粘在一起，节点数和顺序每张图都不一样。这种路径既不像原图，也没法做动画，因为两张图之间没有点对点的对应关系，变形必然扭曲、跳动。</p>
+    <p class="lead">换个做法：照着原图手工重建一套"骨骼"。身体是 32 个锚点，眼睛是圆，尾巴是一条有粗细的脊线。所有动作只是改这几十个数字，图形结构永远不变，所以任意两个动作之间都能平滑过渡。上面的原型就是这样做出来的。</p>
+    <div class="cols">
+      <div><div class="k">32</div><h3>个锚点画出整个身体</h3><p>每个点带"头部权重"：歪头时头顶跟着转，脖子转一半，屁股不动，过渡自然没有折痕。</p></div>
+      <div><div class="k">40</div><h3>个参数驱动所有动作</h3><p>眼睛开合、瞳孔方向、耳朵角度、尾巴卷曲、张嘴、炸毛……动作就是这些参数随时间的曲线。</p></div>
+      <div><div class="k">t</div><h3>帧是时间的纯函数</h3><p>沿用 bloub 最核心的设计：<code>frameAt(t)</code> 不依赖任何状态。实时预览和逐帧导出得到完全一样的画面。</p></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== IP -->
+  <section id="ip">
+    <div class="eyebrow">IP 设计</div>
+    <h2>墨墨，一只好奇心比胆子大的小黑猫</h2>
+    <p class="lead">角色名暂定「墨墨 Momo」，系列名「知识猫 GeekCat」，两个都可以换。设定：什么都想弄明白，胆子只有一点点。它在视频里负责提问、吃惊、恍然大悟，替观众说出那句"咦？"。Canva 稿里的其他姿势正好对得上这套性格：被蜘蛛吓到、炸成毛球、认真写字、从文件柜里探头、在卷轴上睡着。</p>
+
+    <h3>视觉基因（从参考图实测）</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>部位</th><th>规格</th><th>为什么重要</th></tr></thead>
+      <tbody>
+        <tr><td class="nowrap">身体</td><td>头身一体的豆形剪影，高 : 宽 ≈ 1.9 : 1（不含尾巴），重心在下三分之一</td><td>纯剪影在 16px 图标里也认得出</td></tr>
+        <tr><td class="nowrap">耳朵</td><td>两只尖耳，右耳略高；耳尖保留很小的圆角</td><td>高低耳带出 3/4 侧脸的转头感</td></tr>
+        <tr><td class="nowrap">眼睛</td><td>两个白色正圆，直径约为身宽的 32%，相切并略微交叠；左眼贴住头部外轮廓</td><td>角色辨识度的核心，眼睛占了一半的表情</td></tr>
+        <tr><td class="nowrap">瞳孔</td><td>实心小黑点，直径约为眼径的 25%，默认两只都偏向左侧</td><td>标志性的"斜眼"，呆萌感就来自这里</td></tr>
+        <tr><td class="nowrap">口鼻</td><td>白色小倒三角鼻 + 人字嘴，总宽不超过 18 单位</td><td>越小越呆，张嘴时露出粉色口腔</td></tr>
+        <tr><td class="nowrap">胡须</td><td>每侧 3 根细线：左侧从下巴、右侧从脸颊伸出</td><td>强化侧脸方向，也是"抖动"动画的载体</td></tr>
+        <tr><td class="nowrap">尾巴</td><td>等粗 J 形，粗细约为身宽的 12%，圆头收尾</td><td>动作里最有"弹性"的部位</td></tr>
+        <tr><td class="nowrap">后脚</td><td>只用一条白色双弧线暗示</td><td>保持剪影完整，不画多余结构</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>色彩</h3>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#17161A"></div><b>墨黑</b><span>#17161A</span><p>主体。比纯黑略暖，印刷和屏幕都更稳</p></div>
+      <div class="sw"><div class="chip" style="background:#FFFFFF"></div><b>纸白</b><span>#FFFFFF</span><p>眼白、鼻子、嘴、闭眼线</p></div>
+      <div class="sw"><div class="chip" style="background:#CCD1DA"></div><b>点阵灰</b><span>#CCD1DA</span><p>品牌背景，直接沿用 Canva 画布的点阵</p></div>
+      <div class="sw"><div class="chip" style="background:#FFC83D"></div><b>灵感黄</b><span>#FFC83D</span><p>只给道具和特效：灯泡、星星</p></div>
+      <div class="sw"><div class="chip" style="background:#F48FA4"></div><b>腮红粉</b><span>#F48FA4</span><p>张嘴、腮红、领结、项圈</p></div>
+    </div>
+
+    <h3>表情系统</h3>
+    <p>微调说明：尾巴加粗到 40、略微下移，耳尖更尖，开心和眨眼时有腮红；眼睛、口鼻位置按原图重新测过。炸毛参考 Canva 稿的毛球重做：整只猫鼓成一团带尖刺的毛球，眼睛变成竖椭圆、瞳孔变成竖缝，尾巴炸成毛刷，身边有惊吓线，开头先惊跳一下。<br>表情全部由同一双眼睛派生：眼睛是"圆 ∩ 上下眼睑"，眼睑边缘的弧度是一个参数（-1 是睡眼 ‿，+1 是笑眼 ^）。所以笑眼、睡眼、眨眼、吃惊之间都能连续变形，不需要换图。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>表情</th><th>眼睛</th><th>瞳孔</th><th>其他</th></tr></thead>
+      <tbody>
+        <tr><td>默认（斜眼）</td><td>全开</td><td>偏左，缓慢漂移</td><td>每 3–5 秒眨一次，偶尔连眨</td></tr>
+        <tr><td>吃惊</td><td>放大 18%</td><td>缩小 45%</td><td>耳朵竖起，原地一蹦，头顶冒「!」</td></tr>
+        <tr><td>开心</td><td>闭成 ^ ^</td><td>隐藏</td><td>张嘴，尾巴快速摆动，冒星星</td></tr>
+        <tr><td>睡觉</td><td>闭成 ‿ ‿</td><td>隐藏</td><td>深呼吸，耳朵微塌，飘 Z</td></tr>
+        <tr><td>好奇</td><td>略放大</td><td>放大 30%</td><td>歪头 13°，一只耳朵竖一只耳朵外翻，冒「?」</td></tr>
+        <tr><td>炸毛</td><td>竖椭圆</td><td>竖缝</td><td>先惊跳，再鼓成尖刺毛球，尾巴炸成毛刷，惊吓线，发抖</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>设计规则</h3>
+    <div class="dodont">
+      <div><span class="tag ok">要</span><ul>
+        <li>保持纯剪影，靠轮廓和白色五官说话</li>
+        <li>眼睛永远是白色，形状永远由圆裁切出来</li>
+        <li>动作夸张一点：预备、回弹、尾巴跟随</li>
+        <li>配饰和道具只用灵感黄、腮红粉，配墨黑描边；小鱼和蜘蛛是墨黑剪影加白色描边</li>
+        <li>配饰同时最多两件，剪影要一眼认得出</li>
+      </ul></div>
+      <div><span class="tag no">不要</span><ul>
+        <li>给身体加描边、渐变、阴影</li>
+        <li>给瞳孔加高光（会失去呆感）</li>
+        <li>画牙齿，或者让嘴超过鼻子宽度的两倍</li>
+        <li>改变尾巴粗细，或者让尾巴尖变细</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 动作库 -->
+  <section id="actions">
+    <div class="eyebrow">动作库</div>
+    <h2>17 个动作，覆盖讲解视频的常见镜头</h2>
+    <p>每个动作都从待机姿态出发、能回到待机姿态，所以剪辑时任意两段拼在一起都不会跳。循环动作按整数周期导出，可以无限平铺。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>动作</th><th>id</th><th>时长</th><th>剪辑里的用途</th></tr></thead>
+      <tbody id="actTable"></tbody>
+    </table></div>
+  </section>
+
+
+  <!-- ===================================================== 配饰与场景 -->
+  <section id="kit">
+    <div class="eyebrow">配饰与场景</div>
+    <h2>给剪辑用的陪伴角色工具箱</h2>
+    <p>场景是"道具 + 姿态"的组合，比如举牌时爪子会自动扶住牌子，指示时会伸出教鞭。场景和配饰都能叠加，也能和任意动作组合：<code>talk</code> + 举牌，就是举着牌子说话。它们都是参数，切换时一样平滑淡入淡出。</p>
+    <h3>场景</h3>
+    <div class="gallery" id="sceneGallery"></div>
+    <h3>大姿势（参考 Canva 稿）</h3>
+    <p>这 6 个姿势对应 Canva 稿里的其他形象。趴卷轴和写字用的是同一组身体锚点的另一套坐标，所以从坐姿过渡过去是连续变形，不是切图；其余 4 个复用坐姿骨骼，加上第二只前爪、整体翻转、遮挡和道具。大姿势一次只能用一个，可以和动作、配饰、文字场景组合，比如 <code>sleep</code> + 趴卷轴就是睡着。</p>
+    <div class="gallery g6" id="bigGallery"></div>
+    <h3>配饰</h3>
+    <p>配饰画在猫自己的坐标系里，外面套一个跟随矩阵，所以歪头、挤压、打滚、趴下时都贴在原来的位置。它们也有自己的反应：吓一跳时帽子和眼镜被顶起来，炸毛时眼镜被弹歪，睡着时眼镜滑到鼻梁上，跳跃下落时帽子微微飘起，铃铛和流苏有惯性，叼着的小鱼说话时会甩尾巴。</p>
+    <div class="gallery" id="accGallery"></div>
+    <h3>在视频里怎么摆</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>用法</th><th>位置</th><th>推荐组合</th></tr></thead>
+      <tbody>
+        <tr><td>讲解主持</td><td>画面右侧三分之一，占画面高 70%</td><td>眼镜 + 指示 / 举牌，配 talk</td></tr>
+        <tr><td>角落陪看</td><td>右下角，底边对齐，占画面高 50%</td><td>角落探头 + 对话气泡，配 curious / surprised</td></tr>
+        <tr><td>章节转场</td><td>画面中央，1 秒内登场再退场</td><td>enter → jump → exit，或举牌写章节名</td></tr>
+        <tr><td>知识点强调</td><td>侧边</td><td>学士帽 + 看书，或 think 的灯泡时刻</td></tr>
+        <tr><td>技术内容</td><td>侧边</td><td>耳机 / 眼镜 + 敲电脑</td></tr>
+        <tr><td>片尾</td><td>中央或侧边</td><td>挥手 + 气泡「下期见」，或逗小鱼做彩蛋</td></tr>
+        <tr><td>总结 / 记笔记</td><td>侧边，占画面高 60%</td><td>写字 + 眼镜</td></tr>
+        <tr><td>无聊 / 长文</td><td>底边</td><td>趴卷轴 + sleep</td></tr>
+        <tr><td>摸鱼 / 下班</td><td>侧边</td><td>游泳圈，或 cheer + 叼小鱼</td></tr>
+        <tr><td>bug / 意外</td><td>侧边</td><td>被蜘蛛吓到 → scared</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ===================================================== 技术 -->
+  <section id="tech">
+    <div class="eyebrow">技术方案</div>
+    <h2>从 bloub 拿什么，改什么</h2>
+    <p>bloub 用一个黑色圆形加两只白眼复刻了 Grok 头像，工程质量很高：引擎没有时钟、动作只截断不缩放、导出是同一套渲染。这些原样继承。要改的是造型表示方法，因为猫的轮廓比圆复杂得多。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>模块</th><th>bloub 的做法</th><th>知识猫的做法</th></tr></thead>
+      <tbody>
+        <tr><td class="nowrap">引擎</td><td><code>engine.sample(t)</code> 纯函数</td><td>保留。<code>frameAt(schedule, t)</code>，回放、导出、测试三者一致</td></tr>
+        <tr><td class="nowrap">造型</td><td>64 个角度的径向半径 r(θ)，变形 = 插值半径</td><td>改为锚点骨骼。尾巴会回卷、耳尖是尖角，r(θ) 表达不了；32 个锚点 + 头部权重 + 弦长切线贝塞尔</td></tr>
+        <tr><td class="nowrap">眼睛</td><td>mask 镂空</td><td>改为 clipPath 裁切的白色实体。镂空的眼睛导出透明视频时会透出底下的画面</td></tr>
+        <tr><td class="nowrap">过渡</td><td>easeOutQuint，刻意不用弹簧</td><td>切换用 smootherstep（速度连续）；动作内部允许预备、回弹、跟随。头像要克制，角色要有弹性</td></tr>
+        <tr><td class="nowrap">时间轴</td><td><code>cycles.ts</code>：拉长靠保持，缩短靠截断，从不缩放时间</td><td>原样保留。动作时长恒定，卡点可预测</td></tr>
+        <tr><td class="nowrap">眨眼</td><td>预生成的眨眼日程</td><td>保留思路</td></tr>
+        <tr><td class="nowrap">视线</td><td><code>Look</code>：mix / wander 分离</td><td>保留，增加头部跟着转一点</td></tr>
+        <tr><td class="nowrap">导出</td><td>浏览器内 SVG / PNG / GIF / MP4（mediabunny）</td><td>保留，另加离线渲染管线出 ProRes 4444 透明视频</td></tr>
+        <tr><td class="nowrap">新增</td><td>无</td><td>尾巴正向运动学 + 时间延迟跟随、两节前爪、胡须、嘴型、特效层、炸毛噪声、速度驱动的惯性</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>数据流</h3>
+<pre class="mermaid">
+flowchart LR
+  A["时间表<br/>[{id, t0}]"] --> B["rigAt(t)<br/>动作姿态 + 淡入混合"]
+  B --> C["约 40 个参数"]
+  D["眨眼日程 / 呼吸 / 视线"] --> C
+  C --> E["绑定<br/>头部权重 · 耳朵 · 挤压拉伸"]
+  E --> F["几何<br/>锚点→贝塞尔 · 尾巴 FK · 眼睑"]
+  F --> G["SVG 路径"]
+  G --> H["浏览器 60fps 预览"]
+  G --> I["离线逐帧渲染<br/>PNG / ProRes / WebM"]
+</pre>
+
+    <h3>丝滑的六个来源</h3>
+    <ol class="steps">
+      <li><b>只插值参数，不插值路径。</b>图形拓扑永远不变，这是能任意切换的前提。</li>
+      <li><b>按时间取样，不按帧推进。</b>60Hz 和 120Hz 屏幕都按真实时间取帧；导出时按 1/60 秒精确取样，不会掉帧。</li>
+      <li><b>切换从屏幕上的合成帧出发。</b>上一次过渡还没结束就点下一个动作，也是从当前看到的画面开始混合（bloub 修过的同一个问题）。</li>
+      <li><b>smootherstep 混合。</b>6t⁵−15t⁴+10t³ 的起止速度和加速度都为 0，过渡没有"顿一下"的感觉。</li>
+      <li><b>跟随与重叠。</b>尾巴第 i 节读取 i×45ms 之前的姿态，动作像波一样从根部传到尾尖；尾巴和耳朵还读取身体速度产生惯性。两者都是纯函数，不需要物理模拟，可以回放、可以逐帧导出。</li>
+      <li><b>持续的小生命感。</b>呼吸、眨眼、视线漂移、胡须轻抖、耳朵偶尔抖一下。静止的角色看起来像死机。</li>
+    </ol>
+    <p>导出视频时还可以加运动模糊：每帧在快门时间内取 8 个子帧平均，跳跃和甩尾会更像动画片。</p>
+
+    <h3>造型校准：让它和 Canva 原图一模一样</h3>
+    <ol class="steps">
+      <li>拿到 Canva 原始高清 PNG 或原始 SVG（现在的锚点是从 1422px 截图测的，精度有限）。</li>
+      <li>在编辑器里打开「叠加参考图」，逐个拖动锚点，直到轮廓重合。</li>
+      <li>眼睛、瞳孔、鼻子用圆拟合测量，记下圆心和半径。</li>
+      <li>冻结数值并写测试锁住。和 bloub 的规则一样：这些数字是测量值，不是可以随手取整的设置。</li>
+    </ol>
+  </section>
+
+  <!-- ===================================================== 视频 -->
+  <section id="video">
+    <div class="eyebrow">剪辑工作流</div>
+    <h2>导出成剪辑软件能直接用的素材</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>格式</th><th>透明</th><th>适合</th></tr></thead>
+      <tbody>
+        <tr><td>ProRes 4444 .mov</td><td>是</td><td>Premiere、Final Cut、达芬奇、剪映专业版。首选</td></tr>
+        <tr><td>PNG 序列</td><td>是</td><td>After Effects，或任何需要逐帧处理的软件</td></tr>
+        <tr><td>WebM VP9 alpha</td><td>是</td><td>网页、OBS 浏览器源、轻量分发</td></tr>
+        <tr><td>MP4 绿幕 #00B140</td><td>否，需抠像</td><td>剪映 / CapCut 手机端</td></tr>
+        <tr><td>GIF / APNG</td><td>部分</td><td>文档、PPT、聊天表情</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>离线渲染管线（已实现）</h3>
+    <p><code>render/render.mjs</code> 按 1/60 秒步进调用 <code>frameAt</code>，用和网页同一个 <code>frameSVG</code> 生成 SVG，再用 resvg 光栅化成带透明通道的 PNG，通过管道交给 ffmpeg 编码。同一份剧本每次渲染逐像素一致。实测在 M 系列 Mac 上，1080p 60fps 的 23 秒样片渲染约 63 秒。</p>
+<h3>三种用法</h3>
+    <ol class="steps">
+      <li><b>动作素材包。</b>每个动作单独导出一段，命名如 <code>geekcat_talk_loop_3.0s_60fps.mov</code>，在剪辑软件里像贴纸一样拖用。</li>
+      <li><b>剧本驱动。</b>写一份时间表 <code>[{"at":0,"do":"enter"},{"at":1.2,"do":"talk"},{"at":4.5,"do":"think"}]</code>，一次渲染整段，和配音时间轴对齐。</li>
+      <li><b>直播 / 录屏演示。</b>透明背景网页直接当 OBS 浏览器源；页面暴露了 <code>window.GeekCatPlayer.play("talk")</code>，脚本或自动化工具都能触发动作。</li>
+    </ol>
+
+    <h3>口型同步</h3>
+    <p>已实现：剧本里写 <code>"lipsync": "voice.wav"</code>，渲染时用 ffmpeg 解码音频，按帧计算音量包络，映射到 <code>mouth</code> 参数，再整体提前 40ms（嘴先动、声音后到更像真人）。要更精细时，可以接 Rhubarb Lip Sync 把音素分成 5 种嘴型。</p>
+  </section>
+
+
+  <!-- ===================================================== Agent -->
+  <section id="agent">
+    <div class="eyebrow">Agent 接入</div>
+    <h2>agent 写剧本，命令行出片</h2>
+    <p>接入口是一个命令行和一份 JSON 剧本，没有界面，任何能跑 shell 的 agent（Claude Code、Codex、自建流水线）都能直接用。仓库已开源在 <a href="https://github.com/gnipbao/geekcat-bot">github.com/gnipbao/geekcat-bot</a>，附带 Codex / Claude Code / Gemini CLI 都能读的 <code>AGENTS.md</code>。在仓库里对 agent 说"给这个视频加上墨墨，在右下角吐槽"，它就会按流程走。</p>
+    <h3>命令</h3>
+<pre>git clone https://github.com/gnipbao/geekcat-bot.git && cd geekcat-bot
+npm install                                                         # Node 18+，自带 ffmpeg 和中文字体
+node render/render.mjs list                                         # 动作 / 场景 / 配饰目录，JSON
+node render/render.mjs draft subs.srt -o work/script.json --video main.mp4   # 按字幕生成剧本草稿
+node render/render.mjs validate work/script.json                    # 校验，错误信息会列出可用值
+node render/render.mjs still work/script.json --at 1.5,4 -o work/shots       # 关键帧 PNG，agent 自己看一眼
+node render/render.mjs render work/script.json -o work/overlay.mov  # 透明叠加层（多核并行）
+node render/render.mjs composite --video main.mp4 --overlay work/overlay.mov -o final.mp4   # 合成成片
+node render/render.mjs auto --video main.mp4 --srt subs.srt --corner -o final.mp4           # 一条命令出成片</pre>
+    <p>仓库根目录的 <code>AGENTS.md</code> 是给 agent 的完整手册（Codex 直接读它，<code>CLAUDE.md</code>、<code>GEMINI.md</code> 都引用它），<code>render/script.schema.json</code> 是剧本的 JSON Schema。</p>
+    <h3>剧本格式</h3>
+<pre>{
+  "width": 1920, "height": 1080, "fps": 60,
+  "background": "transparent",              // transparent | green | dots | #RRGGBB
+  "cat": { "x": 0.85, "y": 1.0, "scale": 0.55, "flip": false },   // 落地点在画面中的比例位置
+  "accessories": ["glasses"],               // 全局默认配饰
+  "lipsync": "voice.wav",                   // 可选：按音量自动对口型
+  "timeline": [
+    { "at": 0,   "do": "enter" },
+    { "at": 1.0, "do": "talk", "scene": ["peek", "bubble"], "text": "这里有坑！" },
+    { "at": 4.2, "do": "surprised" },                       // scene / accessories / text 不写就沿用
+    { "at": 6.0, "do": "idle", "scene": "sign", "text": "第 2 步", "accessories": ["glasses", "cap"] },
+    { "at": 9.0, "do": "exit" }
+  ],
+  "duration": 9.6
+}</pre>
+    <div class="tbl"><table>
+      <thead><tr><th>字段</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><code>at</code></td><td>秒。动作从这一刻开始，和上一个动作平滑混合</td></tr>
+        <tr><td><code>do</code></td><td>动作 id，见上方动作库。不写则保持当前动作，只换场景或配饰</td></tr>
+        <tr><td><code>scene</code></td><td>字符串或数组，<code>null</code> 清空。粘性：后面的条目不写就沿用</td></tr>
+        <tr><td><code>accessories</code></td><td>数组，<code>[]</code> 清空。粘性</td></tr>
+        <tr><td><code>text</code></td><td>牌子或气泡上的字，<code>\n</code> 换行。也可以写成 <code>{"sign": "…", "bubble": "…"}</code></td></tr>
+        <tr><td><code>cat.x / cat.y</code></td><td>猫的落地点在画面里的位置，0–1。角落探头时 <code>y</code> 设为 1.0</td></tr>
+        <tr><td><code>cat.flip</code></td><td>镜像。猫默认朝左看，放在画面左侧时设为 true，让它看向画面中间</td></tr>
+      </tbody>
+    </table></div>
+    <h3>agent 的标准流程</h3>
+    <ol class="steps">
+      <li><b>读口播稿或字幕的时间戳。</b>从剪辑工具导出 SRT，或读转写结果，找出每句话的开始时间。</li>
+      <li><b>写剧本。</b>说话段落用 <code>talk</code>，提问用 <code>curious</code>，结论用 <code>think</code> 的灯泡，强调句举牌写关键词。动作切换放在句首前 0.2 秒。</li>
+      <li><b>validate 校验，still 抽 3–5 帧看构图。</b>重点看猫有没有挡住主体、字有没有超出牌子。</li>
+      <li><b>render 出 .mov。</b>透明通道直接叠在主视频上方。</li>
+      <li><b>放进剪辑工具。</b>Premiere / Final Cut / 达芬奇：拖到主视频上方轨道。剪映手机版：渲染 .mp4（自动绿幕），用色度抠图。ChatCut：让 agent 把 .mov 导入为素材，放到主轨之上的叠加轨，起点对齐时间轴 0 秒。</li>
+    </ol>
+  </section>
+
+  <!-- ===================================================== 计划 -->
+  <section id="plan">
+    <div class="eyebrow">里程碑</div>
+    <h2>原型和出片管线已经跑通</h2>
+    <div class="ms">
+      <div><b>M0</b><span class="d">已完成 ✓</span><span>造型校准（截图精度）、IP 规范、配饰与场景、色彩扩展。拿到高清原图后再精修一轮。</span></div>
+      <div><b>M1</b><span class="d">原型完成 ✓</span><span>16 个动作 + 7 个场景 + 7 件配饰，引擎为纯函数。下一步 fork bloub（Vue 3 + Vite + TS）补测试和时间轴编辑器。</span></div>
+      <div><b>M2</b><span class="d">已完成 ✓</span><span>离线渲染 CLI：ProRes 4444 / WebM / MP4 / GIF / PNG 序列，口型同步，Claude Code skill。</span></div>
+      <div><b>M3</b><span class="d">已完成 ✓</span><span>多核并行渲染、按 SRT 自动生成剧本、一条命令合成成片、OBS 直播模式（HTTP 遥控 + 快捷键）、自带字体和 ffmpeg、7 项自动化测试、开源发布。</span></div>
+      <div><b>M4</b><span class="d">已完成 ✓</span><span>大姿势：写字、趴卷轴、游泳圈、文件柜探头、钱堆打滚、被蜘蛛吓到。配饰改为跟随矩阵 + 反应，小鱼改为墨黑，炸毛重做。</span></div>
+      <div><b>M5</b><span class="d">按需</span><span>侧面行走、转身、正面等需要全新视角的姿势；拿到高清原图后精修所有锚点。</span></div>
+    </div>
+  </section>
+
+  <section id="risks">
+    <div class="eyebrow">风险与待确认</div>
+    <h2>开工前需要你拍板的事</h2>
+    <ol class="steps">
+      <li><b>素材授权。</b>这组猫看起来像 Canva 素材库里的插画。Canva 的授权一般不允许把素材元素用作商标或 IP 形象。如果要当长期品牌用，最好确认原作者授权，或者以它为参考重新设计。重绘版只要比例、五官有明显区别，风险会小很多。</li>
+      <li><b>视角限制。</b>现在所有姿势都是同一个 3/4 侧面视角。趴、弓身可以和坐姿连续变形；行走、转身、正面需要新视角的锚点，属于下一阶段。</li>
+      <li><b>名字和性格。</b>「墨墨」和"好奇但胆小"的设定是提案，确认后再写进规范。</li>
+      <li><b>原图精度。</b>我没有你的 Canva 登录权限，公开网页上也搜不到这组素材。请在 Canva 里选中猫，点「分享 → 下载」，选 PNG、尺寸 ×3 或 SVG（需 Pro），把文件放进项目目录，我再精确对齐一遍。</li>
+    </ol>
+  </section>
+</div>
+
+<script src="cat-engine.js"></script>
+<script src="cat-svg.js"></script>
+<script>
+(() => {
+  const { STATES, SCENES, ACCESSORIES, frameAt } = window.GeekCat
+  const { frameSVG } = window.GeekCatSVG
+  const $ = id => document.getElementById(id)
+  const ORDER = ['idle', 'look', 'talk', 'happy', 'surprised', 'scared', 'curious', 'think', 'sleep', 'wave', 'cheer', 'nod', 'shake', 'wink', 'jump', 'enter', 'exit']
+  const VIEW = '-150 -170 820 930', VB = VIEW.split(' ').map(Number)
+  const REF = '<image href="ref.png" x="-21" y="-3.5" width="735" height="840" preserveAspectRatio="none"/>'
+
+  const mkBtn = (parent, html, onClick) => { const b = document.createElement('button'); b.innerHTML = html; b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', onClick); parent.appendChild(b); return b }
+
+  // 动作表格
+  const tb = $('actTable')
+  for (const id of ORDER) {
+    const st = STATES[id], tr = document.createElement('tr')
+    tr.innerHTML = `<td>${st.label}</td><td><code>${id}</code></td><td class="nowrap">${st.dur}</td><td>${st.use}</td>`
+    tb.appendChild(tr)
+  }
+
+  // 播放状态：和离线渲染用同一种时间表
+  let clock = 0, speed = 1, current = 'enter'
+  const scenes = new Set(), accs = new Set()
+  let schedule = [{ id: 'enter', t0: 0, ta: 0, scenes: [], acc: [], text: {} }]
+  const textNow = () => $('sceneText').value || '知识猫'
+  function push(id, keepAction) {
+    const prev = schedule[schedule.length - 1]
+    const text = { sign: textNow(), bubble: textNow() }
+    schedule.push({ id, t0: clock, ta: keepAction ? prev.ta : clock, scenes: [...scenes], acc: [...accs], text })
+    if (schedule.length > 10) schedule.shift()
+    current = id; $('now').textContent = STATES[id].label + ([...scenes].length ? ' · ' + [...scenes].map(k => SCENES[k].label).join(' + ') : '')
+    for (const b of $('acts').children) b.setAttribute('aria-pressed', String(b.dataset.id === id))
+  }
+  const play = id => push(id, false)
+
+  for (const id of ORDER) {
+    const b = mkBtn($('acts'), `${STATES[id].label}<small>${id}</small>`, () => { setAuto(false); play(id) }); b.dataset.id = id
+  }
+  for (const k in SCENES) {
+    const b = mkBtn($('scenes'), SCENES[k].label, () => {
+      setAuto(false)
+      if (scenes.has(k)) scenes.delete(k)
+      else { if (SCENES[k].big) for (const o of [...scenes]) if (SCENES[o].big) scenes.delete(o); scenes.add(k) }
+      syncToggles()
+      b.setAttribute('aria-pressed', String(scenes.has(k))); push(current, true)
+    })
+    b.dataset.k = k
+  }
+  for (const k in ACCESSORIES) {
+    const b = mkBtn($('accs'), ACCESSORIES[k].label, () => {
+      if (accs.has(k)) accs.delete(k); else accs.add(k)
+      b.setAttribute('aria-pressed', String(accs.has(k))); push(current, true)
+    })
+    b.dataset.k = k
+  }
+  $('sceneText').addEventListener('input', () => { const last = schedule[schedule.length - 1]; last.text = { sign: textNow(), bubble: textNow() } })
+  const syncToggles = () => {
+    for (const b of $('scenes').children) b.setAttribute('aria-pressed', String(scenes.has(b.dataset.k)))
+    for (const b of $('accs').children) b.setAttribute('aria-pressed', String(accs.has(b.dataset.k)))
+  }
+
+  // 自动演示：把动作、场景、配饰都走一遍
+  const DEMO = [
+    ['enter', 1.2, [], []], ['wave', 2.6, ['bubble'], [], '大家好，我是墨墨'], ['talk', 3, ['sign'], ['glasses'], '今天讲 3 件事'],
+    ['talk', 2.8, ['point'], ['glasses']], ['think', 4.8, [], ['glasses']], ['happy', 2.4, [], ['glasses', 'cap']],
+    ['idle', 3, ['laptop'], ['headphones']], ['idle', 3.4, ['write'], ['glasses']], ['idle', 2.8, ['book'], ['cap']], ['idle', 4, ['fishing'], ['bell']],
+    ['cheer', 2.2, [], []], ['idle', 3, ['ring'], []], ['idle', 3, ['cabinet'], []], ['idle', 3, ['money'], []], ['idle', 2.6, ['spider'], []],
+    ['curious', 2.2, ['peek'], []], ['surprised', 1.2, ['peek', 'bubble'], [], '这里有坑！'], ['scared', 2.2, [], []],
+    ['nod', 1.8, [], ['bowtie']], ['shake', 1.5, [], ['bowtie']], ['wink', 2.4, [], ['fish']], ['jump', 2.2, [], []],
+    ['sleep', 4.5, ['scroll'], []], ['exit', 0.9, [], []]
+  ]
+  let auto = !matchMedia('(prefers-reduced-motion: reduce)').matches, demoI = 1, nextAt = DEMO[0][1]
+  function setAuto(v) { auto = v; $('auto').setAttribute('aria-pressed', String(v)); if (v) { demoI = 0; nextAt = clock } }
+  function demoStep() {
+    const [id, d, sc, ac, txt] = DEMO[demoI % DEMO.length]
+    scenes.clear(); sc.forEach(k => scenes.add(k)); accs.clear(); ac.forEach(k => accs.add(k))
+    if (txt) $('sceneText').value = txt
+    syncToggles(); play(id); nextAt = clock + d; demoI++
+  }
+  $('auto').addEventListener('click', () => setAuto(!auto))
+  $('slow').addEventListener('click', e => { speed = speed === 1 ? 0.25 : 1; e.currentTarget.setAttribute('aria-pressed', String(speed !== 1)) })
+  let follow = true, flip = false, calib = false
+  $('follow').addEventListener('click', e => { follow = !follow; e.currentTarget.setAttribute('aria-pressed', String(follow)) })
+  $('flip').addEventListener('click', e => { flip = !flip; e.currentTarget.setAttribute('aria-pressed', String(flip)) })
+  $('calib').addEventListener('click', e => {
+    calib = !calib; e.currentTarget.setAttribute('aria-pressed', String(calib))
+    setAuto(false); scenes.clear(); accs.clear(); syncToggles(); flip = false; $('flip').setAttribute('aria-pressed', 'false')
+    play(calib ? 'calib' : 'idle'); $('now').textContent = calib ? '对齐模式' : '待机'
+  })
+  for (const b of $('bgs').children) b.addEventListener('click', () => {
+    $('stage').className = 'stage ' + b.dataset.bg
+    for (const o of $('bgs').children) o.setAttribute('aria-pressed', String(o === b))
+  })
+  if (!auto) { $('auto').setAttribute('aria-pressed', 'false'); play('idle') }
+
+  // 给自动化脚本 / OBS 用的接口
+  window.GeekCatPlayer = {
+    play: (id, opts) => { opts = opts || {}; if (opts.scene !== undefined) { scenes.clear(); [].concat(opts.scene || []).forEach(k => scenes.add(k)) } if (opts.accessories) { accs.clear(); opts.accessories.forEach(k => accs.add(k)) } if (opts.text != null) $('sceneText').value = opts.text; syncToggles(); setAuto(false); play(id) },
+    get state() { return { action: current, scenes: [...scenes], accessories: [...accs], t: clock } }
+  }
+
+  // 鼠标视线
+  const box = $('cat'); const look = { px: 0, py: 0, mix: 0 }; let gx = 0, gy = 0, lastMove = -9
+  box.addEventListener('pointermove', e => {
+    const rc = box.getBoundingClientRect(); if (!rc.width) return
+    let x = VB[0] + (e.clientX - rc.left) / rc.width * VB[2]; const y = VB[1] + (e.clientY - rc.top) / rc.height * VB[3]
+    if (flip) x = 524 - x
+    gx = Math.max(-1.3, Math.min(1.3, (x - 205) / 180)); gy = Math.max(-1.3, Math.min(1.3, (y - 190) / 180)); lastMove = performance.now()
+  })
+  box.addEventListener('pointerleave', () => { lastMove = -9 })
+
+  const PSHOW = [['mouth', 0, 1], ['eyeS', 0.8, 1.3], ['pupil', 0.4, 1.4], ['head', -15, 15], ['tailA', -80, 10], ['arm', 0, 1], ['sc_sign', 0, 1], ['fuzz', 0, 1]]
+  const pv = []
+  for (const [k] of PSHOW) { const d = document.createElement('div'); d.innerHTML = `<span>${k}</span><i><b></b></i><span>0</span>`; $('params').appendChild(d); pv.push([d.querySelector('b'), d.lastElementChild]) }
+
+  let last = performance.now(), acc = 0, frames = 0
+  function tick(now) {
+    const dt = Math.min(0.1, (now - last) / 1000); last = now
+    clock += dt * speed
+    if (auto && clock >= nextAt) demoStep()
+    const want = follow && now - lastMove < 1600 && !scenes.has('fishing') ? 1 : 0
+    look.mix += (want - look.mix) * (1 - Math.exp(-dt * 5))
+    look.px += (gx - look.px) * (1 - Math.exp(-dt * 12)); look.py += (gy - look.py) * (1 - Math.exp(-dt * 12))
+    const F = frameAt(schedule, clock, { look })
+    box.innerHTML = frameSVG(F, { viewBox: VIEW, flip, uid: 'live', before: calib ? REF : '', catOpacity: calib ? 0.55 : null })
+    PSHOW.forEach(([k, lo, hi], i) => { const v = F.r[k]; pv[i][0].style.width = (Math.max(0, Math.min(1, (v - lo) / (hi - lo))) * 100) + '%'; pv[i][1].textContent = v.toFixed(2) })
+    acc += dt; frames++
+    if (acc > 0.5) { $('hud').textContent = `${Math.round(frames / acc)} fps · t=${clock.toFixed(1)}s${speed !== 1 ? ' · 0.25×' : ''}`; acc = 0; frames = 0 }
+    requestAnimationFrame(tick)
+  }
+  requestAnimationFrame(tick)
+
+  // 静态图库：每个场景 / 配饰冻结在一个好看的时刻
+  const thumb = (scs, ac, id, t, text) => frameSVG(frameAt([{ id: id || 'idle', t0: 0, ta: 0, scenes: scs, acc: ac, text: { sign: text || '知识猫', bubble: text || '喵？' } }], t || 1.6), { viewBox: '-300 -230 860 1000', uid: 'g' + Math.random().toString(36).slice(2, 8) })
+  const SC_SHOT = { sign: ['talk', 1.2, '要点①'], bubble: ['talk', 1.3, '这里有坑！'], point: ['talk', 1.4], laptop: ['idle', 1.3], book: ['idle', 1.1], fishing: ['idle', 1.9], peek: ['curious', 1.5],
+    write: ['idle', 1.5], scroll: ['sleep', 2], ring: ['idle', 1.3], cabinet: ['idle', 1.3], money: ['idle', 1.3], spider: ['idle', 1.3] }
+  for (const k in SCENES) {
+    if (SCENES[k].big) continue
+    const [id, t, text] = SC_SHOT[k]
+    const f = document.createElement('figure')
+    f.innerHTML = `<div>${thumb([k], [], id, t, text)}</div><figcaption>${SCENES[k].label} <code>${k}</code><small>${SCENES[k].use}</small></figcaption>`
+    $('sceneGallery').appendChild(f)
+  }
+  for (const k in SCENES) {
+    if (!SCENES[k].big) continue
+    const [id, t] = SC_SHOT[k]
+    const f = document.createElement('figure')
+    f.innerHTML = `<div>${thumb([k], [], id, t)}</div><figcaption>${SCENES[k].label} <code>${k}</code><small>${SCENES[k].use}</small></figcaption>`
+    $('bigGallery').appendChild(f)
+  }
+  for (const k in ACCESSORIES) {
+    const f = document.createElement('figure')
+    f.innerHTML = `<div>${thumb([], [k], k === 'blush' ? 'happy' : 'idle', 1.6)}</div><figcaption>${ACCESSORIES[k].label} <code>${k}</code><small>${ACCESSORIES[k].use}</small></figcaption>`
+    $('accGallery').appendChild(f)
+  }
+})()
+</script>

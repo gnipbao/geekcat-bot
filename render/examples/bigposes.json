@@ -1,0 +1,18 @@
+{
+  "width": 1920, "height": 1080, "fps": 60,
+  "background": "dots",
+  "cat": { "x": 0.62, "y": 0.92, "scale": 0.62 },
+  "timeline": [
+    { "at": 0,    "do": "enter" },
+    { "at": 1.0,  "do": "idle",  "scene": "write", "accessories": ["glasses"] },
+    { "at": 4.0,  "do": "think", "scene": null },
+    { "at": 6.0,  "do": "idle",  "scene": "spider", "accessories": [] },
+    { "at": 8.0,  "do": "scared", "scene": null },
+    { "at": 10.0, "do": "idle",  "scene": "cabinet" },
+    { "at": 12.5, "do": "idle",  "scene": "money" },
+    { "at": 15.0, "do": "cheer", "scene": null, "accessories": ["fish"] },
+    { "at": 17.0, "do": "idle",  "scene": "ring", "accessories": [] },
+    { "at": 19.5, "do": "sleep", "scene": "scroll" }
+  ],
+  "duration": 23
+}

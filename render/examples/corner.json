@@ -1,0 +1,42 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "background": "transparent",
+  "cat": {
+    "x": 0.88,
+    "y": 1.0,
+    "scale": 0.55,
+    "flip": false
+  },
+  "scene": "peek",
+  "timeline": [
+    {
+      "at": 0,
+      "do": "idle"
+    },
+    {
+      "at": 2,
+      "do": "curious"
+    },
+    {
+      "at": 4,
+      "do": "surprised"
+    },
+    {
+      "at": 5,
+      "do": "talk",
+      "scene": [
+        "peek",
+        "bubble"
+      ],
+      "text": "这里有坑！"
+    },
+    {
+      "at": 7.5,
+      "do": "idle",
+      "scene": "peek"
+    }
+  ],
+  "duration": 9.5
+}
