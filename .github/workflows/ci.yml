@@ -1,0 +1,25 @@
+name: ci
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  render:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - run: npm test
+      # 模拟 agent 沙箱：不装系统 ffmpeg，全靠 ffmpeg-static 和仓库自带字体
+      - run: node render/render.mjs list
+      - run: node render/render.mjs draft render/examples/sample.srt -o work/script.json --corner
+      - run: node render/render.mjs still render/examples/demo.json --at 4.5,9.5 -o work/shots
+      - run: node render/render.mjs render render/examples/preview.json --to 3 -o work/preview.webm
+      - run: node render/render.mjs render render/examples/corner.json --to 2 --fps 30 -o work/corner.mov
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shots-${{ matrix.os }}
+          path: work/shots
