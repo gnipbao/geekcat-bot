@@ -1,0 +1,24 @@
+{
+  "id": "mascot",
+  "name": "知识猫",
+  "selfName": "知识猫",
+  "persona": "好奇心比胆子大的小黑猫；第一人称主讲，口语化，会吃惊、会炸毛、会恍然大悟",
+  "repo": "",
+  "repoEnv": "GEEKCAT_REPO",
+  "repoProbe": "render/render.mjs",
+  "setup": "cd {repo} && npm install",
+  "commands": {
+    "list": "node {repo}/render/render.mjs list",
+    "validate": "node {repo}/render/render.mjs validate {script}",
+    "layer": "node {repo}/render/render.mjs hyperframes {script} -o {out} --id {id}",
+    "still": "node {repo}/render/render.mjs still {script} --at {at} -o {dir}"
+  },
+  "scriptSchema": "{repo}/render/script.schema.json",
+  "guide": "{repo}/AGENTS.md",
+  "zones": {
+    "host": { "x": 0.78, "y": 0.97, "scale": 0.8, "note": "开场 / 结尾主讲：右侧，内容放左侧 0–1050px" },
+    "side": { "x": 0.86, "y": 0.97, "scale": 0.5, "note": "讲解时退到右侧，内容放左侧 0–1400px" },
+    "peek": { "x": 0.91, "y": 1.0, "scale": 0.44, "scene": "peek", "note": "信息密集 / 终端：右下角探头，右下 360×300 留空" },
+    "center": { "x": 0.66, "y": 0.97, "scale": 0.86, "note": "高光时刻（自我介绍、炸毛）：画面中间偏右" }
+  }
+}

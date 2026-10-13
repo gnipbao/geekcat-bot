@@ -1,0 +1,37 @@
+<div class="ground"></div>
+<div class="dots"></div>
+<div class="ghost" id="s08-ghost" style="right:-40px; top:90px; font-size:300px;">BYE</div>
+<div class="pill" style="left:60px; top:50px; background:var(--yellow);"><b>08</b>· 提醒</div>
+<h2 id="s08-head" class="h-lg" style="position:absolute; left:80px; top:140px; font-family:'Noto Sans SC','Inter',sans-serif;">最后提醒两句</h2>
+
+<div id="s08-w1" class="card" data-rot="-1.5" style="left:80px; top:300px; width:1060px; padding:26px 34px; background:var(--yellow);">
+  <span class="tag" style="background:#fff;">01 · 合法</span>
+  <div style="font-family:'Noto Sans SC'; font-weight:900; font-size:48px; margin-top:10px;">只分析你有权分析的软件</div>
+</div>
+<div id="s08-w2" class="card" data-rot="1" style="left:80px; top:500px; width:1060px; padding:26px 34px; background:var(--pink);">
+  <span class="tag" style="background:#fff;">02 · 影响</span>
+  <div style="font-family:'Noto Sans SC'; font-weight:900; font-size:48px; margin-top:10px;">运行时捕获会真的执行目标程序</div>
+</div>
+<div id="s08-w3" class="card" data-rot="-1" style="left:80px; top:700px; width:1060px; padding:26px 34px; background:#fff;">
+  <span class="tag" style="background:var(--green);">03 · 授权</span>
+  <div style="font-family:'Noto Sans SC'; font-weight:900; font-size:48px; margin-top:10px;">IDA、Hopper 等商业工具需合法授权</div>
+</div>
+
+<div id="s08-close" class="card" data-rot="-2" style="left:90px; top:250px; width:1120px; height:640px; background:#000; color:#fff; border-color:#fff; box-shadow:12px 12px 0 var(--yellow); padding:56px 60px;">
+  <span class="pill" style="position:relative; background:var(--yellow); color:#000;">知识猫 · GeekCat</span>
+  <div style="font-weight:900; font-size:200px; line-height:1; letter-spacing:-0.04em; margin-top:40px;">REA</div>
+  <div style="font-weight:900; font-size:52px; text-transform:uppercase; letter-spacing:-0.01em; margin-top:8px;">Reverse Engineer Anything</div>
+  <div class="mono" style="font-size:36px; margin-top:34px; color:#F7CB46;">github.com/morluto/rea</div>
+  <div style="font-family:'Noto Sans SC'; font-weight:900; font-size:44px; margin-top:28px;">我们下期见</div>
+</div>
+<div class="pill counter">REA · 逆向一切 <b>08/08</b></div>
+<!--JS-->
+drift('#s08-ghost', { x: -60 }, 7);
+enter('#s08-head', T0 + 0.1, { x: -60, y: 0 });
+enter('#s08-w1', c(221.2), { x: -80, y: 0 });
+enter('#s08-w2', c(226.5), { x: -80, y: 0 });
+enter('#s08-w3', c(230.7), { x: -80, y: 0 });
+tl.to($('#s08-w1, #s08-w2, #s08-w3'), { opacity: 0, y: 40, duration: 0.35, ease: 'power2.in', stagger: 0.05 }, c(234.8));
+tl.fromTo($('#s08-close'), { opacity: 0, y: 700 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power4.out' }, c(235.0));
+// 片尾：最后一个场景允许退场，整体淡出到底色
+tl.to($('#s08-close, #s08-head, .pill, .ghost'), { opacity: 0, duration: 0.8, ease: 'power2.in' }, D - 0.9);

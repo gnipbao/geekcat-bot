@@ -176,6 +176,10 @@ node render/render.mjs hyperframes mascot/script.json -o compositions/mascot.htm
 - 剧本里的 `width` / `height` / `duration` 要和主合成一致；`lipsync` 指向旁白音频，嘴型会跟着说话。
 - 实战示例：一期 4 分钟的 REA 介绍视频，知识猫作为主讲人全程出场（BlockFrame 设计、豆包 TTS 旁白）。
 
+## 做一整期讲解视频（skill）
+
+用户要的不只是叠加素材，而是"让知识猫讲一期 XX"时，按 [`skills/ip-explainer-video/SKILL.md`](skills/ip-explainer-video/SKILL.md) 走：它负责调研、口播稿、豆包整段配音、HyperFrames 场景、知识猫图层（就是上面的 `hyperframes` 命令）、渲染和封面。完整样例在 `skills/ip-explainer-video/examples/rea/`。
+
 ## 直播 / OBS
 
 ```bash
@@ -198,5 +202,6 @@ render/script.schema.json 剧本 JSON Schema
 render/examples/          示例剧本和字幕
 render/fonts/             随仓库附带的中文字体（OFL）
 render/test/              测试
+skills/ip-explainer-video/                IP 主讲讲解视频的完整流程（skill）
 .claude/skills/geekcat-video/SKILL.md   Claude Code 技能入口
 ```

@@ -1,0 +1,8 @@
+{
+  "title": "<主题> — <IP 名>",
+  "width": 1920, "height": 1080,
+  "tail": 0.6,
+  "transitions": { "05": "vpush" },
+  "ip": { "id": "mascot", "src": "compositions/mascot.html" },
+  "narration": "narration/narration-full.mp3"
+}

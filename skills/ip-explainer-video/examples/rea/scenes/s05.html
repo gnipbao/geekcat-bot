@@ -1,0 +1,125 @@
+<div class="ground"></div>
+<div class="dots"></div>
+<div class="ghost" id="s05-ghost" style="left:-40px; bottom:-40px; font-size:300px;">DEMO</div>
+<div class="pill" style="left:60px; top:50px; background:var(--yellow);"><b>05</b>· 实测</div>
+
+<!-- Phase A：拿我自己开刀 -->
+<div id="s05-a" style="position:absolute; left:80px; top:170px; width:960px;">
+  <h2 class="h-xl" style="font-family:'Noto Sans SC','Inter',sans-serif; font-size:128px;">拿我自己开刀</h2>
+  <div class="chip" data-rot="-2" style="margin-top:30px; font-size:40px; background:var(--pink); font-family:'Noto Sans SC';">用 REA 逆向知识猫</div>
+  <div id="s05-tree" class="card" style="position:relative; margin-top:46px; width:620px; padding:26px 32px; background:#fff;">
+    <div class="mono" style="font-size:30px; font-weight:700;">prototype/</div>
+    <div class="mono s05-f" style="font-size:28px; margin-top:10px;">├─ cat-engine.js <span class="tag" style="font-size:15px; background:var(--green);">动画引擎</span></div>
+    <div class="mono s05-f" style="font-size:28px; margin-top:8px;">├─ cat-svg.js <span class="tag" style="font-size:15px; background:var(--blue);">绘制模块</span></div>
+    <div class="mono s05-f" style="font-size:28px; margin-top:8px;">├─ index.html</div>
+    <div class="mono s05-f" style="font-size:28px; margin-top:8px;">├─ live.html</div>
+    <div class="mono s05-f" style="font-size:28px; margin-top:8px;">└─ package.json</div>
+  </div>
+</div>
+
+<!-- Phase B：真实终端回放（内容全部来自 terminal/ledger.json） -->
+<div id="s05-termwrap" style="position:absolute; left:80px; top:150px; width:1760px; height:800px;">
+  <div class="terminal-window" style="position:absolute; inset:0; background:#101217; border:2px solid #343942; border-radius:14px; overflow:hidden;">
+    <div style="height:58px; background:#1a1d23; border-bottom:1px solid #30343c; display:flex; align-items:center; padding:0 22px; gap:10px;">
+      <span style="width:14px;height:14px;border-radius:50%;background:#ff5f57;display:inline-block"></span>
+      <span style="width:14px;height:14px;border-radius:50%;background:#febc2e;display:inline-block"></span>
+      <span style="width:14px;height:14px;border-radius:50%;background:#28c840;display:inline-block"></span>
+      <span style="flex:1; text-align:center; color:#aeb5bf; font-size:20px; font-family:'JetBrains Mono',monospace;">zhishimao — ~/geekcat-bot — bash — 118×28</span>
+    </div>
+    <div id="s05-screen" class="mono" style="padding:26px 30px; color:#e7e9ed; font-size:23px; line-height:1.3; white-space:pre; font-variant-ligatures:none;"></div>
+  </div>
+</div>
+<div id="s05-k1" class="chip" data-rot="-2" style="position:absolute; left:760px; top:52px; font-family:'Noto Sans SC'; font-size:30px; background:var(--pink);">6 秒 · 5 个文件 · 14,074 个语法树节点</div>
+<div id="s05-k2" class="chip" data-rot="2" style="position:absolute; left:760px; top:52px; font-family:'Noto Sans SC'; font-size:30px; background:var(--blue);">认出：动画引擎 + 绘制模块 + 2 个页面入口</div>
+<div id="s05-k3" class="chip" data-rot="-2" style="position:absolute; left:760px; top:52px; font-family:'Noto Sans SC'; font-size:30px; background:var(--yellow);">REA 主动标注的局限 ↓</div>
+
+<!-- Phase C：局限翻译 + 结论 -->
+<div id="s05-lim" class="card" style="left:1230px; top:150px; width:610px; padding:30px 34px; background:#fff;">
+  <div class="label">Limitations · REA 自述</div>
+  <div class="s05-li" style="font-family:'Noto Sans SC'; font-weight:700; font-size:32px; line-height:1.4; margin-top:18px; opacity:.45;">① 绑定关系只在给定的文件范围内解析</div>
+  <div class="s05-li" id="s05-l2" style="font-family:'Noto Sans SC'; font-weight:900; font-size:34px; line-height:1.4; margin-top:16px; padding:6px 10px; border:3px solid #000; background:var(--yellow);">② 代码只当作静态文本解析，从未执行</div>
+  <div class="s05-li" id="s05-l3" style="font-family:'Noto Sans SC'; font-weight:900; font-size:34px; line-height:1.4; margin-top:16px; padding:6px 10px; border:3px solid #000; background:var(--pink);">③ 静态导入关系 ≠ 运行时一定会走到</div>
+</div>
+<div id="s05-eq" style="position:absolute; left:80px; top:740px; display:flex; align-items:center; gap:20px;">
+  <span class="chip s05-e" style="font-family:'Noto Sans SC'; font-size:44px; background:#fff;">结论</span><span class="s05-e" style="font-weight:900; font-size:48px;">+</span>
+  <span class="chip s05-e" style="font-family:'Noto Sans SC'; font-size:44px; background:var(--blue);">证据</span><span class="s05-e" style="font-weight:900; font-size:48px;">+</span>
+  <span class="chip s05-e" style="font-family:'Noto Sans SC'; font-size:44px; background:var(--pink);">边界</span>
+</div>
+<div id="s05-eq2" class="chip" data-rot="-1.5" style="position:absolute; left:80px; top:860px; font-family:'Noto Sans SC'; font-size:46px; background:#000; color:#fff; box-shadow:8px 8px 0 var(--yellow); border-color:#000;">= 不把猜测当成事实</div>
+<div class="pill counter">REA · 逆向一切 <b>05/08</b></div>
+<!--JS-->
+var L = __LEDGER__, COLS = L.cols, VIEW_ROWS = 23;
+var screen = R.querySelector('#s05-screen');
+function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+// terminalState(t) = 折叠所有已开始的账本事件；进行中的事件按 reveal 显示前缀
+function stateAt(t) {
+  var lines = [[]], typing = false, started = false;
+  for (var i = 0; i < L.events.length; i++) {
+    var e = L.events[i];
+    if (e.presentationStart > t) break;
+    started = true;
+    if (!Array.isArray(e.payload)) continue;
+    var total = e.payload.reduce(function (a, s) { return a + Array.from(s.t).length; }, 0);
+    var p = e.presentationDuration > 0 ? Math.min(1, (t - e.presentationStart) / e.presentationDuration) : 1;
+    var n = e.reveal === 'typed-prefix' || e.reveal === 'stream-prefix' ? Math.round(p * total) : total;
+    if (e.type === 'input_chunk' && p < 1) typing = true;
+    for (var j = 0; j < e.payload.length && n > 0; j++) {
+      var s = e.payload[j], chars = Array.from(s.t).slice(0, n); n -= chars.length;
+      var parts = chars.join('').split('\n');
+      parts.forEach(function (part, k) {
+        if (k > 0) lines.push([]);
+        if (part) lines[lines.length - 1].push({ t: part, c: s.c, b: s.b });
+      });
+    }
+  }
+  return { lines: lines, typing: typing, started: started };
+}
+function render(t) {
+  var st = stateAt(t), rows = [];
+  if (!st.started) { screen.innerHTML = ''; return; }
+  st.lines.forEach(function (segs) { // 按 118 列折行
+    var row = [], w = 0;
+    segs.forEach(function (s) {
+      var chars = Array.from(s.t), k = 0;
+      while (k < chars.length) {
+        var take = Math.min(COLS - w, chars.length - k);
+        row.push({ t: chars.slice(k, k + take).join(''), c: s.c, b: s.b }); w += take; k += take;
+        if (w >= COLS && k < chars.length) { rows.push(row); row = []; w = 0; }
+      }
+    });
+    rows.push(row);
+  });
+  var vis = rows.slice(-VIEW_ROWS);
+  var cursorOn = st.typing || Math.floor(t * 2) % 2 === 0;
+  screen.innerHTML = vis.map(function (row, ri) {
+    var html = row.map(function (s) { return '<span style="color:' + (s.c || '#e7e9ed') + (s.b ? ';font-weight:700' : '') + '">' + esc(s.t) + '</span>'; }).join('');
+    if (ri === vis.length - 1 && cursorOn) html += '<span style="background:#65e5c2;color:#101217"> </span>';
+    return '<div>' + (html || ' ') + '</div>';
+  }).join('');
+}
+var proxy = { t: 0 };
+tl.fromTo(proxy, { t: 0 }, { t: D, duration: D, ease: 'none', onUpdate: function () { render(A + proxy.t); } }, 0);
+render(A);
+
+drift('#s05-ghost', { x: 60 }, 7);
+// Phase A
+enter('#s05-a h2', T0, { x: -80, y: 0 });
+enter('#s05-a .chip', c(111.6), { y: 30 });
+enter('#s05-tree', c(114.2), { y: 40 }); enter('.s05-f', c(114.6), { x: -20, y: 0 }, 0.12);
+// Phase B：终端推上来
+tl.to($('#s05-a'), { y: -900, opacity: 0, duration: 0.6, ease: 'power3.in' }, c(119.2));
+tl.fromTo($('#s05-termwrap'), { y: 1000 }, { y: 0, duration: 0.6, ease: 'power3.out' }, c(119.3));
+tl.fromTo($('#s05-k1'), { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(2)' }, c(126.6));
+tl.to($('#s05-k1'), { opacity: 0, y: -40, duration: 0.3 }, c(132.8));
+tl.fromTo($('#s05-k2'), { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(2)' }, c(135.6));
+tl.to($('#s05-k2'), { opacity: 0, y: -40, duration: 0.3 }, c(138.1));
+tl.fromTo($('#s05-k3'), { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(2)' }, c(138.4));
+// Phase C：终端缩到左上，局限翻译卡出现
+tl.to($('#s05-termwrap'), { scale: 0.64, transformOrigin: '0% 0%', duration: 0.7, ease: 'power3.inOut' }, c(143.1));
+tl.to($('#s05-k3'), { opacity: 0, duration: 0.3 }, c(143.1));
+tl.fromTo($('#s05-lim'), { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.55, ease: 'power3.out' }, c(143.5));
+enter('.s05-li', c(143.9), { x: 30, y: 0 }, 0.18);
+tl.fromTo($('#s05-l2'), { scale: 1 }, { scale: 1.05, duration: 0.25, yoyo: true, repeat: 1 }, c(144.6));
+tl.fromTo($('#s05-l3'), { scale: 1 }, { scale: 1.05, duration: 0.25, yoyo: true, repeat: 1 }, c(148.2));
+popIn('.s05-e', c(153.2), 0.22);
+tl.fromTo($('#s05-eq2'), { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'power4.in' }, c(156.8));

@@ -1,0 +1,9 @@
+{
+  "title": "REA · 逆向一切 — 知识猫",
+  "width": 1920, "height": 1080,
+  "total": 241.8,
+  "ground": { "01": "#FFDC8B", "02": "#F7CB46", "03": "#C0F7FE", "04": "#FE90E8", "05": "#99E885", "06": "#FFFDF5", "07": "#F7CB46", "08": "#C0F7FE" },
+  "transitions": { "05": "vpush", "08": "blur" },
+  "ip": { "id": "mascot", "src": "compositions/mascot.html" },
+  "narration": "narration/narration-full.mp3"
+}

@@ -1,0 +1,60 @@
+<div class="ground"></div>
+<div class="dots"></div>
+<div class="ghost" id="s06-ghost" style="right:-40px; top:80px; font-size:300px;">CASES</div>
+<div class="stripe" data-rot="6" style="left:1180px; top:48px; width:200px; height:64px;"></div>
+<div class="pill" style="left:60px; top:50px; background:var(--pink);"><b>06</b>· 官方案例</div>
+<h2 id="s06-head" class="h-lg" style="position:absolute; left:80px; top:140px; font-family:'Noto Sans SC','Inter',sans-serif;">官方案例，相当硬核</h2>
+
+<div id="s06-c1" class="card" data-rot="-2" style="left:80px; top:300px; width:420px; height:600px; background:var(--pink); padding:28px 30px;">
+  <span class="tag" style="background:#fff;">Native · x86</span>
+  <div style="font-weight:900; font-size:56px; margin-top:12px; letter-spacing:-0.02em;">DX-Ball</div>
+  <div style="font-family:'Noto Sans SC'; font-weight:700; font-size:26px; margin-top:6px;">声像计算函数</div>
+  <div style="display:flex; align-items:center; gap:14px; margin-top:26px;">
+    <div class="card-s s06-pc mono" style="position:relative; padding:12px 14px; font-size:20px; background:#fff;"><div>sub_4012A0()</div><div>…?</div></div>
+    <div class="s06-pc" style="font-weight:900; font-size:44px;">→</div>
+    <div class="card-s s06-pc mono" style="position:relative; padding:12px 18px; font-size:34px; font-weight:700; background:var(--yellow);">C</div>
+  </div>
+  <div style="margin-top:30px;"><span id="s06-n1" style="font-weight:900; font-size:76px; letter-spacing:-0.03em;">3,205</span></div>
+  <div style="font-family:'Noto Sans SC'; font-weight:700; font-size:26px;">个原始 x86 用例通过</div>
+  <div id="s06-b2" class="chip" style="margin-top:18px; font-size:34px; background:#000; color:#fff;"><span id="s06-n2">63</span>&nbsp;/ 63 字节一致</div>
+</div>
+
+<div id="s06-c2" class="card" data-rot="1.5" style="left:540px; top:320px; width:420px; height:580px; background:var(--blue); padding:28px 30px;">
+  <span class="tag" style="background:#fff;">Electron</span>
+  <div style="font-weight:900; font-size:56px; margin-top:12px; letter-spacing:-0.02em;">Notion</div>
+  <div style="font-family:'Noto Sans SC'; font-weight:700; font-size:26px; margin-top:6px;">剪贴板桥接</div>
+  <div style="display:flex; flex-direction:column; gap:6px; margin-top:18px;">
+    <div class="chip s06-st" style="font-family:'Noto Sans SC'; font-size:27px; padding:8px 18px; align-self:flex-start;">剪贴板接口</div>
+    <div class="s06-st" style="font-weight:900; font-size:24px; line-height:1; padding-left:26px;">↓</div>
+    <div class="chip s06-st" style="font-family:'Noto Sans SC'; font-size:27px; padding:8px 18px; align-self:flex-start;">预加载脚本</div>
+    <div class="s06-st" style="font-weight:900; font-size:24px; line-height:1; padding-left:26px;">↓</div>
+    <div class="chip s06-st" style="font-family:'Noto Sans SC'; font-size:27px; padding:8px 18px; align-self:flex-start;">进程间通信</div>
+    <div class="s06-st" style="font-weight:900; font-size:24px; line-height:1; padding-left:26px;">↓</div>
+    <div class="chip s06-st" style="font-family:'Noto Sans SC'; font-size:27px; padding:8px 18px; align-self:flex-start; background:var(--yellow);">主进程</div>
+  </div>
+</div>
+
+<div id="s06-c3" class="card" data-rot="-1.5" style="left:1000px; top:300px; width:420px; height:600px; background:var(--green); padding:28px 30px;">
+  <span class="tag" style="background:#fff;">16-bit DOS</span>
+  <div style="font-weight:900; font-size:56px; margin-top:12px; letter-spacing:-0.02em;">PC-98</div>
+  <div style="font-family:'Noto Sans SC'; font-weight:700; font-size:26px; margin-top:6px;">原版游戏 · 子弹环计算</div>
+  <div style="position:relative; width:300px; height:300px; margin:34px auto 0;">
+    <div id="s06-ring" style="position:absolute; inset:0;"></div>
+    <div style="position:absolute; left:120px; top:120px; width:60px; height:60px; background:#000; border:3px solid #000; box-shadow:4px 4px 0 #fff;"></div>
+  </div>
+</div>
+<div class="pill counter">REA · 逆向一切 <b>06/08</b></div>
+<!--JS-->
+var ring = R.querySelector('#s06-ring');
+for (var i = 0; i < 16; i++) { var a = i / 16 * Math.PI * 2, d = document.createElement('div'); d.className = 's06-b'; d.style.cssText = 'position:absolute;width:26px;height:26px;border-radius:50%;border:3px solid #000;background:' + (i % 2 ? '#fff' : '#F7CB46') + ';left:' + (137 + Math.cos(a) * 125) + 'px;top:' + (137 + Math.sin(a) * 125) + 'px;'; ring.appendChild(d); }
+drift('#s06-ghost', { x: -60 }, 7);
+enter('#s06-head', T0, { x: -60, y: 0 });
+// DX-Ball
+popIn('#s06-c1', c(164.5)); enter('.s06-pc', c(167.5), { x: -20, y: 0 }, 0.5);
+count('#s06-n1', c(174.2), 3205, 1.5);
+popIn('#s06-b2', c(177.6)); count('#s06-n2', c(177.7), 63, 0.9);
+// Notion
+popIn('#s06-c2', c(181.7)); enter('.s06-st', c(183.0), { y: -14 }, 0.62);
+// PC-98
+popIn('#s06-c3', c(190.2)); popIn('.s06-b', c(191.5), 0.06);
+tl.fromTo(ring, { rotation: 0 }, { rotation: 300, duration: D - c(192.5), ease: 'none' }, c(192.5));

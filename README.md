@@ -13,6 +13,14 @@
 - **可复现**：每一帧是时间的纯函数，任何机器渲染结果逐像素一致；字体随仓库附带，不依赖系统
 - **口型同步**：给一段配音，嘴巴按音量自动开合
 
+## 实战：知识猫主讲的 4 分钟讲解视频
+
+![REA 介绍视频高光](docs/rea-demo.gif)
+
+用仓库里的 [`ip-explainer-video`](skills/ip-explainer-video) skill 做的一期《REA：逆向一切》：豆包语音 2.0 旁白、HyperFrames 逐场景搭画面（BlockFrame 设计）、真实终端演示（用 REA 逆向知识猫自己的代码），知识猫作为原生图层全程主讲，嘴型跟着旁白走。1080p60，4 分 02 秒。
+
+<img src="docs/rea-cover.png" alt="REA 介绍视频封面" width="640" />
+
 ## 快速开始
 
 ```bash
@@ -57,8 +65,22 @@ node render/render.mjs auto --video main.mp4 --srt subs.srt --corner -o out/fina
 | `render -o x.mov` | 透明视频（.mov ProRes 4444 / .webm VP9 / .mp4 绿幕 / .gif / PNG 序列） |
 | `composite` | 把透明叠加层合成到主视频上 |
 | `auto` | 字幕 → 剧本 → 渲染 → 合成，一条命令 |
-| `hyperframes` | 生成 HyperFrames 子合成，知识猫作为原生图层挂进视频工程 |
+| `hyperframes` | 生成 HyperFrames 子合成，知识猫作为原生图层挂进视频工程（[实战](#实战知识猫主讲的-4-分钟讲解视频)） |
 | `live` | 直播 / OBS 浏览器源，HTTP 遥控 + 快捷键 |
+
+## Skill：让 IP 角色主讲一期讲解视频
+
+[`skills/ip-explainer-video`](skills/ip-explainer-video/SKILL.md) 把上面那期视频的做法沉淀成可复用的流程：调研 → 口播稿 → 豆包 2.0 **整段**配音（更像真人，支持克隆声音）→ HyperFrames 场景 → IP 角色图层 → 渲染 → 五比例封面。**主题、IP 角色、声音都可替换**：换角色只需要一份 `ip.json`（[接入约定](skills/ip-explainer-video/references/ip-contract.md)），默认是知识猫。
+
+安装（任选其一）：
+
+```bash
+npx skills add gnipbao/geekcat-bot --skill ip-explainer-video      # skills CLI
+ln -s "$PWD/skills/ip-explainer-video" ~/.claude/skills/            # Claude Code
+ln -s "$PWD/skills/ip-explainer-video" ~/.agents/skills/            # Codex 等读取 ~/.agents/skills 的 agent
+```
+
+依赖 [HyperFrames](https://www.hyperframes.dev)（`npx hyperframes doctor`）、ffmpeg、Python 3，以及环境变量 `DOUBAO_TTS_TOKEN`。skill 不在本仓库目录下使用时，设置 `GEEKCAT_REPO=/path/to/geekcat-bot`。然后对 agent 说："让知识猫做一期 XX 的介绍视频"。
 
 ## 在剪辑软件里用
 

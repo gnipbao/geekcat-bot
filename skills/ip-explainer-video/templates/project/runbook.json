@@ -1,0 +1,10 @@
+{
+  "cwd": "/abs/path/where/the/demo/runs",
+  "user": "zhishimao",
+  "path": "~/demo",
+  "cols": 118, "rows": 28,
+  "commands": ["npx -y <cli> <subcommand> <target> --json > ev.json", "jq .summary ev.json"],
+  "timeout": 180,
+  "cleanup": ["ev.json"],
+  "plan": [[0, 2.0, 2.4, 1.5], [5, 0.9, 6.0, 0.6]]
+}

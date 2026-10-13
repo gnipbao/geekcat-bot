@@ -1,0 +1,28 @@
+/* BlockFrame atoms (frame.md) — scoped to one scene root by build.mjs (SCOPE → #sN) */
+SCOPE {
+  position: absolute; inset: 0; overflow: hidden;
+  font-family: "Inter", "Noto Sans SC", sans-serif; color: #000;
+  --black: #000000; --white: #FFFFFF; --offwhite: #FFFDF5;
+  --pink: #FE90E8; --blue: #C0F7FE; --green: #99E885; --yellow: #F7CB46; --cream: #FFDC8B;
+}
+SCOPE .ground { position: absolute; inset: 0; }
+SCOPE .dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(0,0,0,.28) 1.6px, transparent 1.8px); background-size: 28px 28px; opacity: .55; }
+SCOPE .ghost { position: absolute; font-family: "Inter", "Noto Sans SC", sans-serif; font-weight: 900; letter-spacing: -0.04em; line-height: .8; color: rgba(0,0,0,.09); white-space: nowrap; text-transform: uppercase; }
+SCOPE .pill { position: absolute; display: inline-flex; align-items: center; gap: 12px; padding: 10px 22px; border: 3px solid #000; border-radius: 9999px; box-shadow: 4px 4px 0 #000; background: #fff;
+  font-family: "Space Grotesk", "Noto Sans SC", sans-serif; font-weight: 600; font-size: 22px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+SCOPE .pill b { font-weight: 700; }
+SCOPE .card { position: absolute; background: #fff; border: 4px solid #000; box-shadow: 8px 8px 0 #000; box-sizing: border-box; }
+SCOPE .card-s { position: absolute; background: #fff; border: 3px solid #000; box-shadow: 4px 4px 0 #000; box-sizing: border-box; }
+SCOPE .chip { display: inline-flex; align-items: center; padding: 10px 20px; border: 3px solid #000; box-shadow: 4px 4px 0 #000; background: #fff; font-weight: 700; font-size: 30px; white-space: nowrap; box-sizing: border-box; }
+SCOPE .stripe { position: absolute; border: 3px solid #000; background: repeating-linear-gradient(45deg, #000 0 10px, var(--pink) 10px 22px); }
+SCOPE .star { position: absolute; border: 3px solid #000; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+SCOPE .h-xl { font-weight: 900; font-size: 120px; line-height: .98; letter-spacing: -0.03em; text-transform: uppercase; margin: 0; }
+SCOPE .h-lg { font-weight: 900; font-size: 84px; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0; }
+SCOPE .h-md { font-weight: 900; font-size: 60px; line-height: 1.12; letter-spacing: -0.01em; margin: 0; }
+SCOPE .body { font-weight: 500; font-size: 30px; line-height: 1.5; }
+SCOPE .label { font-family: "Space Grotesk", "Noto Sans SC", sans-serif; font-weight: 600; font-size: 22px; letter-spacing: .08em; text-transform: uppercase; }
+SCOPE .mono { font-family: "JetBrains Mono", "Noto Sans SC", monospace; font-synthesis: none; }
+SCOPE .counter { position: absolute; left: 60px; bottom: 44px; }
+SCOPE .tag { display: inline-block; padding: 4px 12px; border: 3px solid #000; font-family: "Space Grotesk", "Noto Sans SC", sans-serif; font-weight: 700; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; }
+SCOPE .dot { width: 14px; height: 14px; border: 2px solid #000; border-radius: 50%; display: inline-block; }
+SCOPE svg.lines { position: absolute; inset: 0; overflow: visible; }

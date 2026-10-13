@@ -1,0 +1,9 @@
+{
+  "eyebrow": "<IP 名> · <栏目>",
+  "title": ["<主标题，2–5 个字符最好>", "<中文副标题>"],
+  "subtitle": "<一句卖点，≤ 14 字>",
+  "badge": "实测",
+  "ghost": "<背景大字，英文>",
+  "ground": "#FFDC8B",
+  "ip": { "do": "surprised", "at": 0.45, "accessories": ["glasses"] }
+}

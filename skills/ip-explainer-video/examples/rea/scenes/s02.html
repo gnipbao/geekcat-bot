@@ -1,0 +1,56 @@
+<div class="ground"></div>
+<div class="dots"></div>
+<div class="ghost" id="s02-ghost" style="right:-60px; top:120px; font-size:300px;">146K</div>
+<div class="stripe" data-rot="-6" style="right:140px; top:46px; width:200px; height:64px; background:repeating-linear-gradient(45deg,#000 0 10px,var(--blue) 10px 22px);"></div>
+<div class="pill" style="left:60px; top:50px; background:var(--pink);"><b>02</b>· 热度</div>
+
+<h2 id="s02-head" class="h-lg" style="position:absolute; left:80px; top:150px; font-family:'Noto Sans SC','Inter',sans-serif;">半年 · 十四万星</h2>
+
+<!-- 时间线：2026.04 → 2026.10 -->
+<div id="s02-track" style="position:absolute; left:80px; top:320px; width:1180px; height:110px;">
+  <div id="s02-bar" style="position:absolute; left:0; top:40px; width:1180px; height:18px; background:#000;"></div>
+  <div id="s02-fill" style="position:absolute; left:0; top:40px; width:1180px; height:18px; background:var(--pink); border:3px solid #000; box-sizing:border-box; transform-origin:left center;"></div>
+  <div class="tag" style="position:absolute; left:0; top:76px; background:#fff;">2026.04 开源</div>
+  <div class="tag" style="position:absolute; right:0; top:76px; background:var(--green);">2026.10 · v6.4.0</div>
+  <div id="s02-mark" class="star" style="position:absolute; left:-30px; top:12px; width:74px; height:74px; background:var(--yellow);"></div>
+</div>
+
+<div id="s02-c1" class="card" data-rot="-2" style="left:80px; top:500px; width:370px; height:270px; background:var(--pink); padding:28px 32px;">
+  <div class="label">GitHub Stars ★</div>
+  <div id="s02-n1" style="font-weight:900; font-size:84px; letter-spacing:-0.03em; margin-top:22px;">146,188</div>
+  <div class="body" style="font-size:26px; margin-top:6px;">颗星</div>
+</div>
+<div id="s02-c2" class="card" data-rot="2" style="left:490px; top:520px; width:370px; height:270px; background:var(--blue); padding:28px 32px;">
+  <div class="label">Forks · 复刻</div>
+  <div id="s02-n2" style="font-weight:900; font-size:84px; letter-spacing:-0.03em; margin-top:22px;">33,901</div>
+  <div class="body" style="font-size:26px; margin-top:6px;">次</div>
+</div>
+<div id="s02-c3" class="card" data-rot="-2" style="left:900px; top:500px; width:370px; height:270px; background:#fff; padding:28px 32px;">
+  <div class="label">Latest release</div>
+  <div style="font-weight:900; font-size:84px; letter-spacing:-0.03em; margin-top:22px;">v6.4.0</div>
+  <div class="body" style="font-size:26px; margin-top:6px;">10 月 11 日发布</div>
+</div>
+
+<div id="s02-commits" style="position:absolute; left:80px; top:850px; display:flex; align-items:center; gap:22px;">
+  <span class="chip" style="font-size:28px; background:#fff;">几乎每天都有新提交</span>
+  <div id="s02-grid" style="display:grid; grid-template-columns:repeat(15, 30px); grid-template-rows:repeat(2, 30px); gap:8px;"></div>
+</div>
+<div id="s02-mit" class="star" style="left:1180px; top:820px; width:190px; height:190px; background:var(--green); display:flex; align-items:center; justify-content:center;"><span style="font-weight:900; font-size:46px;">MIT</span></div>
+<div class="pill counter">REA · 逆向一切 <b>02/08</b></div>
+<!--JS-->
+// 提交格子：30 个，按固定"热度"表点亮（确定性，不用随机数）
+var heat = [3,1,2,3,2,0,3,1,3,2,3,3,1,2,3, 2,3,3,1,3,2,3,0,3,2,3,1,3,3,2];
+var g = R.querySelector('#s02-grid');
+heat.forEach(function (h) { var d = document.createElement('div'); d.className = 's02-cell'; d.style.cssText = 'width:30px;height:30px;border:3px solid #000;box-sizing:border-box;background:' + ['#fff','#d9f5cf','#99E885','#3fae2a'][h]; g.appendChild(d); });
+drift('#s02-ghost', { x: -50 }, 6);
+drift('#s02-mit', { rotation: 18 }, 2.6);
+enter('#s02-head', T0, { x: -60, y: 0 });
+tl.fromTo($('#s02-fill'), { scaleX: 0 }, { scaleX: 1, duration: 2.0, ease: 'power2.inOut' }, c(22.2));
+tl.fromTo($('#s02-mark'), { x: 0, rotation: 0 }, { x: 1180, rotation: 360, duration: 2.0, ease: 'power2.inOut' }, c(22.2));
+enter('#s02-track .tag', c(22.0), { y: 20 });
+popIn('#s02-c1', c(24.4)); count('#s02-n1', c(24.6), 146188, 1.6);
+popIn('#s02-c2', c(27.0)); count('#s02-n2', c(27.2), 33901, 1.4);
+popIn('#s02-c3', c(29.9));
+enter('#s02-commits .chip', c(31.6), { x: -40, y: 0 });
+popIn('.s02-cell', c(31.9), 0.035);
+tl.fromTo($('#s02-mit'), { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'power4.in' }, c(34.4));

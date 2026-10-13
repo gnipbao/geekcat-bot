@@ -1,0 +1,63 @@
+<div class="ground"></div>
+<div class="dots"></div>
+<div class="ghost" id="s01-ghost" style="left:-40px; bottom:-30px; font-size:330px;">REVERSE</div>
+<div class="stripe" data-rot="8" style="right:120px; top:44px; width:230px; height:70px;"></div>
+<div class="star" id="s01-star" style="left:960px; top:250px; width:120px; height:120px; background:var(--pink);"></div>
+<div class="pill" style="left:60px; top:50px; background:var(--blue);"><b>01</b>· 开场</div>
+
+<!-- Phase A: 别人软件里的好功能 -->
+<div id="s01-app" class="card" style="left:80px; top:200px; width:880px; height:600px; background:#fff;">
+  <div style="height:64px; border-bottom:4px solid #000; display:flex; align-items:center; gap:14px; padding:0 24px; background:var(--offwhite);">
+    <span style="width:22px;height:22px;border:3px solid #000;background:var(--pink)"></span>
+    <span style="width:22px;height:22px;border:3px solid #000;background:var(--yellow)"></span>
+    <span style="width:22px;height:22px;border:3px solid #000;background:var(--green)"></span>
+    <span class="label" style="margin-left:18px;">别人家的 App</span>
+  </div>
+  <div style="display:flex; height:532px;">
+    <div style="width:230px; border-right:4px solid #000; padding:28px 22px; display:flex; flex-direction:column; gap:18px; box-sizing:border-box;">
+      <div style="height:22px; background:#000; opacity:.85; width:80%"></div>
+      <div style="height:22px; background:#000; opacity:.2; width:65%"></div>
+      <div style="height:22px; background:#000; opacity:.2; width:75%"></div>
+      <div style="height:22px; background:#000; opacity:.2; width:55%"></div>
+    </div>
+    <div style="flex:1; padding:40px; display:flex; flex-direction:column; gap:22px; box-sizing:border-box;">
+      <div style="height:30px; background:#000; opacity:.18; width:90%"></div>
+      <div style="height:30px; background:#000; opacity:.18; width:70%"></div>
+      <div style="height:30px; background:#000; opacity:.18; width:82%"></div>
+      <div id="s01-feature" class="chip" style="align-self:flex-start; margin-top:30px; font-size:40px; padding:22px 34px; background:var(--pink); box-shadow:8px 8px 0 #000; border-width:4px;">✦ 一键智能整理</div>
+    </div>
+  </div>
+</div>
+<svg id="s01-cursor" class="lines" style="left:0; top:0; width:1920px; height:1080px;"><g transform="translate(700 640)"><path d="M0 0 L0 54 L14 41 L25 66 L35 61 L24 37 L42 37 Z" fill="#fff" stroke="#000" stroke-width="4" stroke-linejoin="round"/></g></svg>
+<div id="s01-ask" class="card-s" style="left:560px; top:250px; padding:18px 26px; background:var(--blue);"><span class="h-md" style="font-size:50px;">它是怎么做的？</span></div>
+<div id="s01-stamp" class="tag" data-rot="-10" data-layout-allow-overlap data-layout-allow-occlusion style="position:absolute; left:250px; top:470px; font-size:72px; padding:14px 34px; background:var(--yellow); border-width:5px; box-shadow:8px 8px 0 #000; font-family:'Noto Sans SC',sans-serif; font-weight:900; letter-spacing:.04em;">没有源代码</div>
+
+<!-- Phase B: REA 标题卡 -->
+<div id="s01-title" style="position:absolute; left:80px; top:220px; width:1000px;">
+  <div id="s01-t1" class="card" data-rot="-3" style="position:relative; display:inline-block; padding:4px 40px 18px; background:var(--pink);"><span style="font-weight:900; font-size:260px; line-height:1; letter-spacing:-0.04em;">REA</span></div>
+  <div style="height:34px"></div>
+  <div id="s01-t2" class="card" data-rot="2" style="position:relative; display:inline-block; padding:16px 30px; background:var(--blue);"><span style="font-weight:900; font-size:58px; letter-spacing:-0.01em; text-transform:uppercase;">Reverse Engineer Anything</span></div>
+  <div style="height:30px"></div>
+  <div id="s01-t3" class="card" data-rot="-2" style="position:relative; display:inline-block; padding:12px 34px; background:var(--yellow);"><span style="font-family:'Noto Sans SC',sans-serif; font-weight:900; font-size:92px;">逆向一切</span></div>
+</div>
+<div id="s01-repo" class="pill" style="left:80px; top:850px;">GITHUB · MORLUTO/REA</div>
+<div class="pill counter">REA · 逆向一切 <b>01/08</b></div>
+<!--JS-->
+drift('#s01-ghost', { x: 60 }, 7);
+drift('#s01-star', { rotation: 25, scale: 1.12 }, 3.2);
+// Phase A：App 窗口 → 光标点功能 → 问题 → 印章
+enter('#s01-app', 0.3, { y: 60, rotation: -2 });
+tl.fromTo($('#s01-cursor path'), { x: 520, y: 340, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.4, ease: 'power3.inOut' }, 3.4);
+tl.to($('#s01-feature'), { scale: 0.94, duration: 0.12, yoyo: true, repeat: 1, ease: 'power2.inOut' }, 4.9);
+tl.fromTo($('#s01-feature'), { boxShadow: '8px 8px 0 #000' }, { boxShadow: '14px 14px 0 #000', duration: 0.6, ease: 'sine.inOut', yoyo: true, repeat: 7 }, 5.2);
+popIn('#s01-ask', 7.6);
+tl.fromTo($('#s01-stamp'), { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'power4.in' }, 10.6);
+tl.to($('#s01-app'), { x: 8, duration: 0.05, yoyo: true, repeat: 5, ease: 'none' }, 10.95);
+// Phase B：标题卡（15.75 "它叫 REA"）
+tl.to($('#s01-app, #s01-ask, #s01-stamp, #s01-cursor'), { opacity: 0, x: -120, duration: 0.45, ease: 'power3.in', stagger: 0.04 }, 15.3);
+tl.set($('#s01-title'), { opacity: 1 }, 0);
+tl.fromTo($('#s01-t1'), { opacity: 0, scale: 0.3, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(2)' }, 15.85);
+tl.fromTo($('#s01-t2'), { opacity: 0, x: -160 }, { opacity: 1, x: 0, duration: 0.55, ease: 'power4.out' }, 17.0);
+tl.fromTo($('#s01-t3'), { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power4.in' }, 19.3);
+enter('#s01-repo', 19.9, { x: -40, y: 0 });
+drift('#s01-t1', { y: -10 }, 2.4);

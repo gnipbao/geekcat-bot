@@ -1,0 +1,54 @@
+<div class="ground"></div>
+<div class="dots"></div>
+<div class="ghost" id="s04-ghost" style="right:-40px; top:90px; font-size:300px;">ANYTHING</div>
+<div class="stripe" data-rot="-8" style="left:1480px; top:46px; width:200px; height:64px; background:repeating-linear-gradient(45deg,#000 0 10px,var(--green) 10px 22px);"></div>
+<div class="pill" style="left:60px; top:50px; background:var(--green);"><b>04</b>· 能分析什么</div>
+<h2 id="s04-head" class="h-lg" style="position:absolute; left:80px; top:140px; font-family:'Noto Sans SC','Inter',sans-serif;">覆盖范围，有点夸张</h2>
+
+<div id="s04-a" class="card" data-rot="-1.5" style="left:80px; top:300px; width:660px; height:310px; background:#fff; padding:28px 34px;">
+  <span class="tag" style="background:var(--yellow);">Native</span>
+  <div style="font-family:'Noto Sans SC'; font-weight:900; font-size:52px; margin-top:12px;">原生二进制</div>
+  <div style="display:flex; gap:14px; margin-top:20px;">
+    <span class="chip s04-p" style="font-size:26px; background:var(--blue);">Hopper</span>
+    <span class="chip s04-p" style="font-size:26px; background:var(--green);">Ghidra</span>
+    <span class="chip s04-p" style="font-size:26px; background:var(--cream);">IDA</span>
+  </div>
+  <div style="display:flex; gap:12px; margin-top:22px; font-family:'Noto Sans SC'; font-weight:700; font-size:30px;">
+    <span class="s04-ao">伪代码</span><span class="s04-ao">·</span><span class="s04-ao">汇编</span><span class="s04-ao">·</span><span class="s04-ao">字符串</span><span class="s04-ao">·</span><span class="s04-ao">调用关系</span>
+  </div>
+</div>
+<div id="s04-b" class="card" data-rot="1.5" style="left:790px; top:300px; width:660px; height:310px; background:var(--yellow); padding:28px 34px;">
+  <span class="tag" style="background:#fff;">App</span>
+  <div style="font-weight:900; font-size:52px; margin-top:12px; letter-spacing:-0.01em;">JavaScript / Electron</div>
+  <div style="display:flex; gap:12px; margin-top:96px; font-family:'Noto Sans SC'; font-weight:700; font-size:30px;">
+    <span class="s04-bo">模块</span><span class="s04-bo">·</span><span class="s04-bo">导入关系</span><span class="s04-bo">·</span><span class="s04-bo">进程间通信</span>
+  </div>
+</div>
+<div id="s04-sticker" class="star" style="left:1400px; top:150px; width:230px; height:230px; background:var(--green); display:flex; align-items:center; justify-content:center; text-align:center;"><span style="font-family:'Noto Sans SC'; font-weight:900; font-size:30px; line-height:1.15; width:120px;">无需原生引擎</span></div>
+
+<div id="s04-grid" style="position:absolute; left:80px; top:680px; width:1380px; display:flex; flex-wrap:wrap; gap:22px 22px;">
+  <span class="chip s04-c" style="font-family:'Noto Sans SC';">网站</span>
+  <span class="chip s04-c" style="font-family:'Noto Sans SC';">抓包文件 HAR</span>
+  <span class="chip s04-c" id="s04-net" style="font-family:'Noto Sans SC';">.NET 程序集</span>
+  <span class="chip s04-c" style="font-family:'Noto Sans SC';">安卓 APK</span>
+  <span class="chip s04-c" style="font-family:'Noto Sans SC';">安卓真机</span>
+  <span class="chip s04-c">Go</span>
+  <span class="chip s04-c">WebAssembly</span>
+  <span class="chip s04-c" style="font-family:'Noto Sans SC';">EVM 字节码</span>
+  <span class="chip s04-c" style="font-family:'Noto Sans SC';">固件</span>
+  <span class="chip s04-c">Flutter</span>
+</div>
+<div class="pill counter">REA · 逆向一切 <b>04/08</b></div>
+<!--JS-->
+drift('#s04-ghost', { x: -60 }, 7);
+enter('#s04-head', T0, { x: -60, y: 0 });
+// 原生二进制
+popIn('#s04-a', c(77.2)); popIn('.s04-p', c(78.4), 0.35); enter('.s04-ao', c(80.6), { y: 16 }, 0.3);
+// JavaScript / Electron
+popIn('#s04-b', c(85.3)); enter('.s04-bo', c(87.4), { y: 16 }, 0.35);
+// 其余目标按旁白节奏逐个出现
+popIn('.s04-c', c(92.3), 0.98);
+// 静态 JS / .NET 不需要原生引擎
+tl.fromTo($('#s04-sticker'), { opacity: 0, scale: 2.4, rotation: -30 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.4, ease: 'power4.in' }, c(103.6));
+tl.to($('#s04-net, #s04-b'), { backgroundColor: '#C0F7FE', duration: 0.3 }, c(105.0));
+tl.fromTo($('#s04-net'), { scale: 1 }, { scale: 1.12, duration: 0.3, yoyo: true, repeat: 1, ease: 'power2.inOut' }, c(105.0));

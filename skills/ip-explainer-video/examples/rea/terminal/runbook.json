@@ -1,0 +1,15 @@
+{
+  "cwd": "/path/to/geekcat-bot",
+  "user": "zhishimao",
+  "path": "~/geekcat-bot",
+  "cols": 118, "rows": 28,
+  "commands": [
+    "npx -y rea-agents analyze-javascript-application ./prototype --json 2>&1 >ev.json | jq -rR 'fromjson?|.rea_progress.message'",
+    "jq .normalized_result.statistics ev.json",
+    "jq -r '.normalized_result.graph.nodes[] | select(.kind|test(\"module|renderer\")) | .kind+\"  \"+.observations[0].label' ev.json",
+    "jq -r '.normalized_result.limitations[:3][]' ev.json"
+  ],
+  "timeout": 180,
+  "cleanup": ["ev.json"],
+  "plan": [[120.2, 2.0, 122.5, 2.3], [125.3, 0.9, 126.4, 0.6], [133.0, 2.0, 135.2, 0.6], [138.5, 1.2, 139.9, 0.6]]
+}

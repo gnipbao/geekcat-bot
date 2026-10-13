@@ -1,0 +1,39 @@
+<div class="ground"></div>
+<div class="dots"></div>
+<div class="ghost" id="s07-ghost" style="left:-30px; bottom:-40px; font-size:300px;">SETUP</div>
+<div class="stripe" data-rot="-7" style="left:1180px; top:48px; width:200px; height:64px; background:repeating-linear-gradient(45deg,#000 0 10px,var(--pink) 10px 22px);"></div>
+<div class="pill" style="left:60px; top:50px; background:var(--blue);"><b>07</b>· 上手</div>
+<h2 id="s07-head" class="h-lg" style="position:absolute; left:80px; top:140px; font-family:'Noto Sans SC','Inter',sans-serif;">三步上手</h2>
+
+<div id="s07-r1" style="position:absolute; left:80px; top:290px; display:flex; align-items:center; gap:22px;">
+  <span class="chip" style="font-size:44px; background:#000; color:#fff; padding:6px 22px;">1</span>
+  <div class="card-s" style="position:relative; padding:16px 26px; background:#fff;"><span style="font-family:'Noto Sans SC'; font-weight:900; font-size:40px;">安装 Node 22 以上</span> <span class="tag" style="background:var(--green); margin-left:10px;">22.19+ · 24.11+ · 26+</span></div>
+</div>
+<div id="s07-r2" style="position:absolute; left:80px; top:420px; display:flex; align-items:center; gap:22px;">
+  <span class="chip" style="font-size:44px; background:#000; color:#fff; padding:6px 22px;">2</span>
+  <div class="card" style="position:relative; padding:24px 34px; background:#101217; min-width:820px;">
+    <span class="mono" style="color:#df5ac8; font-size:46px;">❯ </span><span id="s07-cmd" class="mono" style="color:#f4f4f5; font-size:46px; font-weight:700;" data-text="npx rea-agents setup">npx rea-agents setup</span>
+  </div>
+</div>
+<div id="s07-r3" style="position:absolute; left:80px; top:600px; display:flex; align-items:center; gap:22px;">
+  <span class="chip" style="font-size:44px; background:#000; color:#fff; padding:6px 22px;">3</span>
+  <div style="display:flex; gap:16px; flex-wrap:wrap; width:1100px;">
+    <span class="chip s07-ag" style="background:var(--cream);">Claude Code</span>
+    <span class="chip s07-ag" style="background:var(--blue);">Codex</span>
+    <span class="chip s07-ag" style="background:var(--pink);">Cursor</span>
+    <span class="chip s07-ag" style="background:var(--green);">Gemini CLI</span>
+  </div>
+</div>
+<div id="s07-confirm" class="chip" style="position:absolute; left:186px; top:700px; font-family:'Noto Sans SC'; font-size:32px; background:#fff;">确认改动 → 重启智能体</div>
+<div id="s07-local" class="star" style="left:1060px; top:690px; width:250px; height:250px; background:var(--blue); display:flex; align-items:center; justify-content:center; text-align:center;"><span style="font-family:'Noto Sans SC'; font-weight:900; font-size:30px; line-height:1.2; width:130px;">本地运行 不上传</span></div>
+<div class="pill counter">REA · 逆向一切 <b>07/08</b></div>
+<!--JS-->
+drift('#s07-ghost', { x: 60 }, 7);
+enter('#s07-head', T0, { x: -60, y: 0 });
+enter('#s07-r1', c(199.7), { x: -50, y: 0 });
+enter('#s07-r2', c(201.8), { x: -50, y: 0 }); type('#s07-cmd', c(202.5), 1.3);
+tl.fromTo($('#s07-r2 .card'), { boxShadow: '8px 8px 0 #000' }, { boxShadow: '14px 14px 0 #000', duration: 0.5, yoyo: true, repeat: 3, ease: 'sine.inOut' }, c(204.0));
+enter('#s07-r3', c(205.3), { x: -50, y: 0 }); popIn('.s07-ag', c(206.5), 0.55);
+enter('#s07-confirm', c(211.4), { y: 20 });
+tl.fromTo($('#s07-local'), { opacity: 0, scale: 2.2, rotation: -30 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.4, ease: 'power4.in' }, c(214.6));
+drift('#s07-local', { rotation: 12 }, 2.4);
