@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// 五比例封面：cover.json → covers/cover-{16x9,16x10,4x3,3x4,9x16}.png（BlockFrame 海报 + IP 角色定格图）
+// 五比例封面：cover.json → covers/cover-{16x9,16x10,4x3,3x4,9x16}.png + covers/youtube-1280x720.png
+// 两种版式："style": "blockframe"（默认，视频同款海报 + IP 角色定格图）· "swiss"（瑞士极简频道版式，可用品牌照片代替角色）
 // 用法：node <skill>/scripts/covers.mjs [projectDir]
 import fs from 'node:fs'
 import path from 'node:path'
@@ -12,11 +13,17 @@ const ROOT = path.resolve(process.argv[2] || '.')
 const c = JSON.parse(fs.readFileSync(path.join(ROOT, 'cover.json'), 'utf8'))
 const OUT = path.join(ROOT, 'covers'); fs.mkdirSync(path.join(OUT, 'ip'), { recursive: true })
 const RATIOS = [['16x9', 1920, 1080], ['16x10', 1920, 1200], ['4x3', 1600, 1200], ['3x4', 1200, 1600], ['9x16', 1080, 1920]]
+const OUTS = [...RATIOS.map(([n, W, H]) => [`cover-${n}`, W, H]), ['youtube-1280x720', 1280, 720]]   // YouTube 缩略图：1280×720，≤ 2MB
+const STYLE = c.style || 'blockframe'
+if (!['blockframe', 'swiss'].includes(STYLE)) { console.error(`✗ 未知 style "${STYLE}"，可用：blockframe、swiss`); process.exit(1) }
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]))
 
 // 1) IP 角色定格图（透明 PNG）：通过 ip.json 的 still 命令生成，任何 IP 都一样
 let ipPng = null
-if (c.ip) {
+const brand = c.brand || {}
+const photo = brand.photo ? path.resolve(ROOT, brand.photo) : null
+if (photo && !fs.existsSync(photo)) { console.error(`✗ 找不到 brand.photo：${photo}`); process.exit(1) }
+if (c.ip && !(STYLE === 'swiss' && photo)) {
   const tmp = path.join(OUT, 'ip', 'cover-pose.json')
   fs.writeFileSync(tmp, JSON.stringify({ width: 1200, height: 1200, fps: 30, background: 'transparent', cat: { x: 0.5, y: 0.99, scale: c.ip.scale || 1.22, flip: !!c.ip.flip },
     timeline: [{ at: 0, do: c.ip.do || 'happy', scene: c.ip.scene || null, accessories: c.ip.accessories || [], ...(c.ip.text ? { text: c.ip.text } : {}) }], duration: 5 }))
@@ -25,11 +32,12 @@ if (c.ip) {
 }
 
 // 2) 每个比例一张 HTML 海报
-const fontDir = path.join(ROOT, 'assets/fonts')
-const face = (fam, file, w) => fs.existsSync(path.join(fontDir, file)) ? `@font-face{font-family:"${fam}";src:url("file://${path.join(fontDir, file)}");font-weight:${w}}` : ''
+// 字体：先找工程 assets/fonts，再找 init-project.sh 的本机缓存
+const fontDirs = [path.join(ROOT, 'assets/fonts'), process.env.IP_EXPLAINER_FONT_CACHE || path.join(os.homedir(), '.cache/ip-explainer-video/fonts')]
+const face = (fam, file, w) => { const d = fontDirs.find(d => fs.existsSync(path.join(d, file))); return d ? `@font-face{font-family:"${fam}";src:url("file://${path.join(d, file)}");font-weight:${w}}` : '' }
 const C = { black: '#000', white: '#fff', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', yellow: '#F7CB46', cream: '#FFDC8B' }
 const chipColors = c.chipColors || [C.pink, C.yellow, C.blue]
-function html(name, W, H) {
+function blockframe(W, H) {
   const portrait = H > W, u0 = Math.min(W, H) / 100
   // 横版越接近方形，字越小；竖版里猫用剩下的高度
   const f = portrait ? Math.min(1, (H / W) / 1.78) : Math.min(1, (W / H) / 1.78), u = u0 * f
@@ -66,6 +74,55 @@ ${ipPng ? `<img class="ip" src="file://${ipPng}">` : ''}</div>
 </body></html>`
 }
 
+// 瑞士极简：大号英文名 + 一句中文钩子（*…* 标红）+ 细线 + 一行数据；照片（或角色）贴底边站在右侧 / 下方
+const em = s => [...String(s)].reduce((w, ch) => w + (/[\u2e80-\u9fff\uf900-\ufaff\uff00-\uffef]/.test(ch) ? 1 : /[A-Z0-9]/.test(ch) ? 0.66 : /\s/.test(ch) ? 0.28 : 0.55), 0) || 1
+const mark = s => esc(s).replace(/\*([^*]+)\*/g, '<span class="hl">$1</span>')
+const plain = s => String(s).replace(/\*/g, '')
+function swiss(W, H) {
+  const B = { ground: brand.ground || '#F2F0EC', ink: brand.ink || '#141414', soft: brand.soft || '#6B6B68', accent: brand.accent || '#E30613' }
+  const portrait = H > W, u = Math.min(W, H) / 100, pad = 8 * u
+  const fig = photo || ipPng, aspect = photo ? (brand.photoAspect || 0.735) : 1
+  const [t1, ...hooks] = c.title
+  const label = [brand.label, c.eyebrow].filter(Boolean).join(' · ')
+  const fit = (s, w, cap) => Math.min(cap, w / em(s))
+  let figH, availW
+  if (portrait) {
+    availW = W - 2 * pad
+  } else {
+    figH = H * 0.96
+    availW = W - figH * aspect - pad - 2 * u
+  }
+  const capT = portrait ? 0.2 * H : 0.405 * H, capH = portrait ? 0.075 * H : 0.128 * H, capS = portrait ? 0.028 * H : 0.047 * H
+  const fT = fit(t1, availW, capT), fH = Math.min(...hooks.map(h => fit(plain(h), availW, capH)), capH), fS = c.subtitle ? fit(c.subtitle, availW, capS) : 0
+  const fE = Math.max(16, (portrait ? 0.016 : 0.028) * H)
+  const textH = pad + fE * 1.4 + 0.036 * H + fT * 0.86 + hooks.length * (fH * 1.05 + 0.025 * H) + 0.04 * H + (fS ? fS * 1.5 + 0.03 * H : 0)
+  if (portrait) figH = Math.max(0.36 * H, Math.min(0.62 * H, H - textH))
+  const figW = figH * aspect
+  const dots = Array.from({ length: 9 }, (_, i) => `<circle cx="${(i % 3) * 3.6 * u + 0.55 * u}" cy="${Math.floor(i / 3) * 3.6 * u + 0.55 * u}" r="${0.55 * u}" fill="${i === 8 ? B.accent : B.ink}" opacity="${i === 8 ? 1 : 0.8}"/>`).join('')
+  return `<!doctype html><html><head><meta charset="utf-8"><style>
+${face('Noto Sans SC', 'NotoSansSC-Black.otf', 900)}${face('Noto Sans SC', 'NotoSansSC-Bold.otf', 700)}${face('Inter Tight', 'InterTight-Variable.ttf', '100 900')}${face('JetBrains Mono', 'JetBrainsMono-Variable.ttf', '100 800')}${face('Space Grotesk', 'SpaceGrotesk-Variable.ttf', '300 700')}
+html,body{margin:0;width:${W}px;height:${H}px;overflow:hidden}
+body{background:${B.ground};color:${B.ink};font-family:"Inter Tight","Space Grotesk","Noto Sans SC",sans-serif;position:relative}
+.text{position:absolute;left:${pad}px;top:${(portrait ? pad : 0.078 * H)}px;width:${availW}px}
+.eyebrow{font-family:"JetBrains Mono","Noto Sans SC",monospace;font-weight:600;letter-spacing:.08em;font-size:${fE}px;display:flex;align-items:center;gap:${fE * 0.6}px;white-space:nowrap}
+.sq{display:inline-block;background:${B.accent};width:${fE * 0.7}px;height:${fE * 0.7}px;flex:none}
+.t1{font-family:"Inter Tight","Space Grotesk","Noto Sans SC",sans-serif;font-weight:900;font-size:${fT}px;line-height:.86;letter-spacing:-.045em;margin-top:${0.036 * H}px;white-space:nowrap}
+.hook{font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:${fH}px;line-height:1.05;margin-top:${0.025 * H}px;white-space:nowrap}
+.hl{color:${B.accent}}
+.rule{display:flex;align-items:center;margin-top:${0.04 * H}px;width:${Math.min(availW, portrait ? availW : 0.82 * availW)}px}
+.rule i{display:block;background:${B.accent};width:${0.05 * Math.min(W, H)}px;height:${0.0125 * Math.min(W, H)}px}.rule b{display:block;flex:1;height:${Math.max(2, 0.0028 * H)}px;background:${B.ink}}
+.sub{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:${fS}px;margin-top:${0.028 * H}px;white-space:nowrap}
+.fig{position:absolute;right:0;bottom:0;height:${figH}px;width:${figW}px}
+.photo{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 5%),linear-gradient(to bottom,transparent 0,#000 4%);-webkit-mask-composite:source-in;mask-composite:intersect}
+</style></head><body>
+<svg style="position:absolute;right:${pad - 0.5 * u}px;top:${5.5 * u}px" width="${8.3 * u}" height="${8.3 * u}">${dots}</svg>
+${fig ? `<img class="fig${photo ? ' photo' : ''}" src="file://${fig}">` : ''}
+<div class="text">${label ? `<div class="eyebrow"><span class="sq"></span>${esc(label)}</div>` : ''}<div class="t1">${esc(t1)}</div>
+${hooks.map(h => `<div class="hook">${mark(h)}</div>`).join('')}<div class="rule"><i></i><b></b></div>${c.subtitle ? `<div class="sub">${esc(c.subtitle)}</div>` : ''}</div>
+</body></html>`
+}
+const html = STYLE === 'swiss' ? swiss : blockframe
+
 // 3) Chrome 无头截图
 // 优先 HyperFrames / puppeteer 自带的 chrome-headless-shell（专为截图，不会卡在首次运行），其次系统 Chrome
 function findShell() {
@@ -82,9 +139,9 @@ function findShell() {
 const chrome = process.env.CHROME || findShell() || ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser'].find(p => fs.existsSync(p))
 if (!chrome) { console.error('✗ 找不到 Chrome；设置环境变量 CHROME=/path/to/chrome'); process.exit(1) }
 const files = []
-for (const [name, W, H] of RATIOS) {
-  const htmlPath = path.join(OUT, `cover-${name}.html`), png = path.join(OUT, `cover-${name}.png`)
-  fs.writeFileSync(htmlPath, html(name, W, H))
+for (const [name, W, H] of OUTS) {
+  const htmlPath = path.join(OUT, `${name}.html`), png = path.join(OUT, `${name}.png`)
+  fs.writeFileSync(htmlPath, html(W, H))
   fs.rmSync(png, { force: true })
   const shell = /headless-shell/.test(chrome)
   try {
@@ -92,4 +149,6 @@ for (const [name, W, H] of RATIOS) {
   } catch (e) { if (!fs.existsSync(png)) throw e }   // 截图已写出就算成功（个别 Chrome 截完不退出）
   files.push(png)
 }
-console.log(JSON.stringify({ ok: true, files, ip: ipPng }))
+const yt = path.join(OUT, 'youtube-1280x720.png'), warn = fs.statSync(yt).size > 2 * 1024 * 1024 ? 'youtube-1280x720.png 超过 2MB，YouTube 会拒收：转成 JPG 再上传' : null
+if (warn) console.error('! ' + warn)
+console.log(JSON.stringify({ ok: true, style: STYLE, files, ip: ipPng, photo, ...(warn ? { warn } : {}) }))

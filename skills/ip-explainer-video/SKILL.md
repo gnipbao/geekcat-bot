@@ -90,7 +90,7 @@ node $SK/scripts/ip.mjs layer --script mascot/script.json --out compositions/mas
 ```
 retime 要求场景里所有时间都写成 `c(<秒>)`（包括第 1 场）。
 
-**10. 封面。** 改 `cover.json`，`node $SK/scripts/covers.mjs .` → 五比例 PNG。规则见 `references/covers.md`。
+**10. 封面。** 改 `cover.json`，`node $SK/scripts/covers.mjs .` → 五比例 PNG + YouTube 缩略图（1280×720）。版式 `blockframe`（默认）或 `swiss`（频道统一版式，可用品牌照片），规则见 `references/covers.md`。
 
 ## 交付
 

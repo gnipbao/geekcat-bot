@@ -10,12 +10,15 @@ mkdir -p "$DIR"
 mkdir -p "$P"/{build/scenes,narration,mascot,terminal,assets/fonts,covers,renders}
 cp "$SKILL/templates/project/video.json" "$SKILL/templates/project/cover.json" "$P/"
 cp "$IP" "$P/ip.json"
-# 字体：Noto Sans SC 400/700/900 + Space Grotesk（OFL），渲染不依赖系统字体和网络。先查本机缓存，只下载一次
+# 字体：Noto Sans SC 400/700/900 + Space Grotesk + Inter Tight + JetBrains Mono（OFL），渲染不依赖系统字体和网络。先查本机缓存，只下载一次
 F="$P/assets/fonts"; CACHE="${IP_EXPLAINER_FONT_CACHE:-$HOME/.cache/ip-explainer-video/fonts}"; CDN="https://cdn.jsdelivr.net/gh"
 mkdir -p "$CACHE"
 fetch() { [ -s "$CACHE/$1" ] || curl -sSL --fail --retry 4 --retry-all-errors --retry-delay 2 -o "$CACHE/$1" "$2" || { rm -f "$CACHE/$1"; echo "! 字体下载失败：$1（稍后重跑 init-project.sh 或手动放进 $CACHE）" >&2; return 0; }; }
 for w in Regular Bold Black; do fetch "NotoSansSC-$w.otf" "$CDN/notofonts/noto-cjk@main/Sans/SubsetOTF/SC/NotoSansSC-$w.otf"; done
 fetch "SpaceGrotesk-Variable.ttf" "$CDN/google/fonts@main/ofl/spacegrotesk/SpaceGrotesk%5Bwght%5D.ttf"
+# 封面 swiss 版式用：Inter Tight（大号英文名）+ JetBrains Mono（眉题），均为 OFL
+fetch "InterTight-Variable.ttf" "$CDN/google/fonts@main/ofl/intertight/InterTight%5Bwght%5D.ttf"
+fetch "JetBrainsMono-Variable.ttf" "$CDN/google/fonts@main/ofl/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf"
 fetch "OFL.txt" "$CDN/notofonts/noto-cjk@main/Sans/LICENSE"
 cp "$CACHE"/* "$F"/ 2>/dev/null || true
 # IP 角色依赖（首次使用时安装）
