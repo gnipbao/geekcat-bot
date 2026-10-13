@@ -57,6 +57,7 @@ node render/render.mjs auto --video main.mp4 --srt subs.srt --corner -o out/fina
 | `render -o x.mov` | 透明视频（.mov ProRes 4444 / .webm VP9 / .mp4 绿幕 / .gif / PNG 序列） |
 | `composite` | 把透明叠加层合成到主视频上 |
 | `auto` | 字幕 → 剧本 → 渲染 → 合成，一条命令 |
+| `hyperframes` | 生成 HyperFrames 子合成，知识猫作为原生图层挂进视频工程 |
 | `live` | 直播 / OBS 浏览器源，HTTP 遥控 + 快捷键 |
 
 ## 在剪辑软件里用

@@ -10,6 +10,7 @@
  *   node render.mjs schema                                     剧本的 JSON Schema（动作 / 场景 / 配饰枚举从引擎生成）
  *   node render.mjs composite --video main.mp4 --overlay cat.mov [--start 0] -o final.mp4   叠到主视频上
  *   node render.mjs auto --video main.mp4 --srt subs.srt [--corner] -o final.mp4           一条命令出成片
+ *   node render.mjs hyperframes <剧本.json> -o compositions/mascot.html [--id mascot]      生成 HyperFrames 子合成（原生图层）
  *
  * 输出格式由扩展名决定：.mov = ProRes 4444 带透明 · .webm = VP9 带透明 · .mp4 = H.264（不透明）
  *                     .gif · 目录或 *.png = PNG 序列
@@ -43,7 +44,8 @@ function loadScript(file, fpsOverride) {
     s, schedule, base: path.dirname(path.resolve(file)),
     width: s.width || 1920, height: s.height || 1080, fps: +(fpsOverride || s.fps || 60),
     duration: s.duration || last + 3,
-    view: { width: s.width || 1920, height: s.height || 1080, x: cat.x, y: cat.y, scale: cat.scale, flip: !!cat.flip, background: s.background || 'transparent' }
+    view: { width: s.width || 1920, height: s.height || 1080, background: s.background || 'transparent' },
+    viewAt: SV.viewTrack({ x: cat.x, y: cat.y, scale: cat.scale, flip: !!cat.flip }, s.timeline)
   }
 }
 
@@ -104,7 +106,7 @@ if (!isMainThread) {
   const raster = makeRasterizer(fontDir), mouthAt = mouthFrom(env, job.fps)
   parentPort.on('message', ({ i, t }) => {
     // resvg 返回的 Buffer 指向外部内存，不能直接转移，先拷到普通 ArrayBuffer
-    const png = new Uint8Array(raster(SV.frameSVG(GC.frameAt(job.schedule, t, { mouthAt }), job.view)))
+    const png = new Uint8Array(raster(SV.frameSVG(GC.frameAt(job.schedule, t, { mouthAt }), Object.assign({}, job.view, job.viewAt(t)))))
     parentPort.postMessage({ i, png }, [png.buffer])
   })
 }
@@ -127,6 +129,7 @@ async function main() {
     else if (cmd === 'draft') draft(need(argv[1]), outArg)
     else if (cmd === 'live') live(+(opt('port') || 5199))
     else if (cmd === 'schema') console.log(JSON.stringify(schema(), null, 2))
+    else if (cmd === 'hyperframes') hyperframesLayer(need(argv[1]), outArg)
     else { console.log('用法：node render/render.mjs list | schema | draft <字幕.srt> | validate <剧本> | still <剧本> --at 1,2.5 -o 目录 | render <剧本> -o out.mov | composite --video v.mp4 --overlay cat.mov -o final.mp4 | auto --video v.mp4 --srt s.srt -o final.mp4 | live'); process.exit(cmd ? 1 : 0) }
   } catch (e) { die(e.message || String(e.stack || e)) }
 
@@ -164,12 +167,71 @@ async function main() {
         lipsync: { type: 'string', description: '配音文件路径（相对剧本），嘴型按音量自动驱动' },
         timeline: { type: 'array', minItems: 1, items: { type: 'object', required: ['at'], additionalProperties: false, properties: {
           at: { type: 'number', minimum: 0, description: '秒' },
+          cat: { type: 'object', additionalProperties: false, description: '从这一刻起把猫平滑移动到新位置', properties: { x: { type: 'number' }, y: { type: 'number' }, scale: { type: 'number' }, flip: { type: 'boolean' }, duration: { type: 'number', minimum: 0, default: 0.8 } } },
           do: { type: 'string', enum: actions, description: '动作；不写 = 保持当前动作' },
           scene: list(scenes, '粘性；null 清空；大姿势一次只能一个'),
           accessories: { type: 'array', items: { type: 'string', enum: accs }, uniqueItems: true, description: '粘性；[] 清空' },
           text: { description: '粘性；只对 sign / bubble 生效', oneOf: [{ type: 'string', maxLength: 40 }, { type: 'object', properties: { sign: { type: 'string' }, bubble: { type: 'string' } }, additionalProperties: false }] } } } }
       }
     }
+  }
+
+  // 把剧本变成一个 HyperFrames 子合成：引擎、绘制、时间表、位置轨道、口型包络全部内联，
+  // 用一个 seek-safe 的代理补间按时间重绘，可以直接挂到任何 HyperFrames 工程的最上层轨道。
+  function hyperframesLayer(file, out) {
+    if (!out) throw new Error('用 -o 指定输出，比如 -o compositions/mascot.html')
+    const job = loadScript(file)
+    const id = opt('id', 'mascot'), fps = +(opt('fps') || 30)
+    const audio = job.s.lipsync ? path.resolve(job.base, job.s.lipsync) : null
+    const env = audio ? lipsyncEnvelope(audio, fps) : null
+    const src = f => fs.readFileSync(path.join(HERE, '../prototype', f), 'utf8').replace(/<\/script/gi, '<\\/script')
+    const data = { schedule: job.schedule, timeline: job.s.timeline, cat: job.s.cat || {}, env, fps, width: job.width, height: job.height, duration: job.duration }
+    const html = `<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /><title>GeekCat layer · ${id}</title></head>
+  <body>
+    <template>
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        #${id}-stage { position: absolute; inset: 0; }
+        #${id}-stage svg { display: block; width: 100%; height: 100%; }
+      </style>
+      <div id="root" data-composition-id="${id}" data-width="${job.width}" data-height="${job.height}" data-duration="${job.duration}">
+        <div id="${id}-stage" data-layout-ignore aria-hidden="true"></div>
+      </div>
+      <script>
+${src('cat-engine.js')}
+      </script>
+      <script>
+${src('cat-svg.js')}
+      </script>
+      <script>
+        (function () {
+          // 由 geekcat-bot 生成：node render/render.mjs hyperframes ${path.basename(file)}（请勿手改，改剧本后重新生成）
+          var D = ${JSON.stringify(data)};
+          var stage = document.getElementById('${id}-stage');
+          var viewAt = GeekCatSVG.viewTrack(D.cat, D.timeline);
+          var mouthAt = D.env ? function (t) { var i = Math.floor(t * D.fps); return D.env[Math.max(0, Math.min(D.env.length - 1, i))] || 0; } : null;
+          function draw(t) {
+            var F = GeekCat.frameAt(D.schedule, t, { mouthAt: mouthAt });
+            var v = viewAt(t);
+            stage.innerHTML = GeekCatSVG.frameSVG(F, { width: D.width, height: D.height, background: 'transparent', uid: '${id}', x: v.x, y: v.y, scale: v.scale, flip: v.flip });
+          }
+          var proxy = { t: 0 };
+          var tl = gsap.timeline({ paused: true });
+          tl.fromTo(proxy, { t: 0 }, { t: D.duration, duration: D.duration, ease: 'none', onUpdate: function () { draw(proxy.t); } }, 0);
+          draw(0);
+          window.__timelines['${id}'] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
+`
+    fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true })
+    fs.writeFileSync(out, html)
+    console.log(JSON.stringify({ ok: true, output: path.resolve(out), id, duration: job.duration, lipsync: !!env, bytes: html.length,
+      host: `<div id="el-${id}" data-composition-id="${id}" data-composition-src="${path.basename(path.dirname(out))}/${path.basename(out)}" data-start="0" data-duration="${job.duration}" data-track-index="20" data-width="${job.width}" data-height="${job.height}"></div>` }))
   }
 
   function encoderArgs(out, fps, audio) {
@@ -266,7 +328,7 @@ async function main() {
     const raster = makeRasterizer(opt('font-dir'))
     const files = ats.map(t => {
       const f = path.resolve(dir, `still_${t.toFixed(2)}s.png`)
-      fs.writeFileSync(f, raster(SV.frameSVG(GC.frameAt(job.schedule, t, { mouthAt }), job.view))); return f
+      fs.writeFileSync(f, raster(SV.frameSVG(GC.frameAt(job.schedule, t, { mouthAt }), Object.assign({}, job.view, job.viewAt(t))))); return f
     })
     console.log(JSON.stringify({ ok: true, files }))
   }

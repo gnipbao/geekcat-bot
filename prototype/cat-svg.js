@@ -311,7 +311,30 @@
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${bg}<g transform="translate(${n(ax)} ${n(ay)}) scale(${o.flip ? -n3(s) : n3(s)} ${n3(s)}) translate(${-CX} ${-G})">${catSVG(F, o)}</g></svg>`
   }
 
-  const api = { catSVG, frameSVG }
+  /* ---------------------------------------------------------- 位置轨道 */
+  // 剧本里某条 timeline 写了 "cat": {x, y, scale, flip, duration}，猫就从当时的位置平滑移过去。
+  // 每段移动从"那一刻屏幕上的实际位置"出发，所以移动中途再改位置也不会跳。返回 t → {x, y, scale, flip}
+  function viewTrack(base, timeline) {
+    const lerp = (a, b, u) => a + (b - a) * u
+    const keys = [{ t: -Infinity, from: null, to: Object.assign({ x: 0.82, y: 0.95, scale: 0.6, flip: false }, base || {}), d: 0 }]
+    const at = t => {
+      let i = 0
+      while (i + 1 < keys.length && keys[i + 1].t <= t) i++
+      const k = keys[i]
+      if (!k.from || t - k.t >= k.d) return k.to
+      const u = (t - k.t) / k.d, s = u * u * u * (u * (u * 6 - 15) + 10)
+      return { x: lerp(k.from.x, k.to.x, s), y: lerp(k.from.y, k.to.y, s), scale: lerp(k.from.scale, k.to.scale, s), flip: s < 0.5 ? k.from.flip : k.to.flip }
+    }
+    for (const e of [...(timeline || [])].sort((a, b) => (a.at || 0) - (b.at || 0))) {
+      if (!e.cat) continue
+      const t = e.at || 0, from = at(t), prev = keys[keys.length - 1].to
+      const { duration, ...pos } = e.cat
+      keys.push({ t, from, to: Object.assign({}, prev, pos), d: duration == null ? 0.8 : Math.max(0.001, duration) })
+    }
+    return at
+  }
+
+  const api = { catSVG, frameSVG, viewTrack }
   global.GeekCatSVG = api
   if (typeof module !== 'undefined' && module.exports) module.exports = api
 })(typeof window !== 'undefined' ? window : globalThis)

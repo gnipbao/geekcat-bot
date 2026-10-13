@@ -146,6 +146,30 @@
             "minimum": 0,
             "description": "秒"
           },
+          "cat": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "从这一刻起把猫平滑移动到新位置",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "scale": {
+                "type": "number"
+              },
+              "flip": {
+                "type": "boolean"
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 0,
+                "default": 0.8
+              }
+            }
+          },
           "do": {
             "type": "string",
             "enum": [

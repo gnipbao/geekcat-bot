@@ -34,6 +34,7 @@ npm test             # 7 项测试：所有动作/场景/配饰可渲染、纯�
 | `node render/render.mjs render work/script.json -o work/overlay.mov` | 渲染透明叠加层（多核并行） |
 | `node render/render.mjs composite --video main.mp4 --overlay work/overlay.mov -o final.mp4 [--start 0]` | 叠到主视频上，出成片（音轨保留） |
 | `node render/render.mjs auto --video main.mp4 --srt subs.srt -o final.mp4 [--corner]` | 一条命令：草稿 → 抽帧 → 渲染 → 合成。中间文件在 `final.geekcat/` |
+| `node render/render.mjs hyperframes script.json -o compositions/mascot.html [--id mascot]` | 生成 HyperFrames 子合成：知识猫作为原生图层挂进任何 HyperFrames 工程，见下文 |
 | `node render/render.mjs live [--port 5199]` | 直播 / OBS 模式，见文末 |
 
 `render` 的输出格式由扩展名决定：
@@ -108,6 +109,7 @@ npm test             # 7 项测试：所有动作/场景/配饰可渲染、纯�
 - `text` 只对 `sign`、`bubble` 生效；两个都有时写 `{"sign": "…", "bubble": "…"}`；`\n` 换行。
 - `cat.x / cat.y`：猫落地点（底部中心）在画面中的比例位置。角落探头用 `y: 1.0`。`scale`：猫高占画面高的比例，常用 0.5–0.75。
 - `cat.flip`：猫默认朝画面左侧看；放在画面左边时设 `true`。
+- 时间轴条目里也可以写 `"cat": {"x":0.9, "y":1.0, "scale":0.45, "duration":0.8}`：从这一刻起把猫平滑移动到新位置（例如讲概念时退到角落、实测时回到中间）。移动中途再改位置也不会跳。
 - `lipsync`：配音文件（相对剧本路径），嘴型由音量驱动，提前 40ms。
 - `background`：`transparent`（默认）、`green`、`dots`（品牌点阵）、`#RRGGBB`。
 
@@ -159,6 +161,20 @@ npm test             # 7 项测试：所有动作/场景/配饰可渲染、纯�
 - 不要在 `prototype` 里引入构建工具或框架：引擎必须同时能被浏览器 `<script>` 和 Node `require` 加载。
 - 不要提交 `render/out/`、`work/`、用户的视频和参考图（`.gitignore` 已排除）。
 - 改了引擎或绘制后，必须跑 `npm test`；新增动作 / 场景后再跑 `npm run schema` 更新 schema。
+
+## 接入 HyperFrames（原生图层）
+
+做 HyperFrames 视频时，不用先渲染透明视频再叠加，可以把知识猫直接生成为一个子合成：
+
+```bash
+node render/render.mjs hyperframes mascot/script.json -o compositions/mascot.html --id mascot
+```
+
+- 引擎、绘制、时间表、位置轨道、口型包络（剧本里有 `lipsync` 时）全部内联，渲染时不访问网络。
+- 输出的最后一行 JSON 里有 `host` 字段，是可以直接粘进 `index.html` 的挂载节点；放在 DOM 最后并给它更高的 `z-index`，猫就在最上层。
+- 它用一个代理补间按 HyperFrames 时间重绘，seek-safe，`hyperframes check` 可以通过；图层带 `data-layout-ignore`，探头时身体出画不会被判溢出。
+- 剧本里的 `width` / `height` / `duration` 要和主合成一致；`lipsync` 指向旁白音频，嘴型会跟着说话。
+- 实战示例：一期 4 分钟的 REA 介绍视频，知识猫作为主讲人全程出场（BlockFrame 设计、豆包 TTS 旁白）。
 
 ## 直播 / OBS
 

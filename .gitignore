@@ -15,3 +15,6 @@ prototype/ref.png
 *.wav
 *.aiff
 !docs/*.gif
+
+# 视频工程（素材大、含用户音频）
+videos/

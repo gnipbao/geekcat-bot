@@ -86,3 +86,18 @@ test('导出构图：透明背景不画底色，绿幕和点阵画底色，镜�
   assert.ok(SV.frameSVG(F, { background: 'green' }).includes('#00B140'))
   assert.ok(SV.frameSVG(F, { flip: true }).includes('scale(-1 1)'))
 })
+
+test('位置轨道：移动连续、能到达目标，中途改位置也不跳', () => {
+  const tl = [{ at: 0, do: 'idle' }, { at: 1, cat: { x: 0.2, y: 1, scale: 0.4, duration: 1 } }, { at: 1.5, cat: { x: 0.9, scale: 0.8, duration: 0.6 } }]
+  const at = SV.viewTrack({ x: 0.8, y: 0.95, scale: 0.6 }, tl)
+  assert.deepEqual(at(0.5), { x: 0.8, y: 0.95, scale: 0.6, flip: false })
+  let prev = at(0), worst = 0
+  for (let t = 1 / 60; t < 3; t += 1 / 60) {
+    const v = at(t)
+    worst = Math.max(worst, Math.abs(v.x - prev.x), Math.abs(v.scale - prev.scale))
+    prev = v
+  }
+  assert.ok(worst < 0.05, `单帧最大位移 ${worst.toFixed(3)}`)
+  const end = at(3)
+  assert.equal(end.x, 0.9); assert.equal(end.scale, 0.8); assert.equal(end.y, 1)
+})
