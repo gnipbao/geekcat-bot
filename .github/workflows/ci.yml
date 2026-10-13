@@ -20,7 +20,7 @@ jobs:
       - run: node render/render.mjs render render/examples/preview.json --to 3 -o work/preview.webm
       - run: node render/render.mjs render render/examples/corner.json --to 2 --fps 30 -o work/corner.mov
       # skill：脚本语法 + 用示例工程跑一次构建和 IP 适配层
-      - run: python3 -m py_compile skills/ip-explainer-video/scripts/tts.py skills/ip-explainer-video/scripts/pty_capture.py skills/ip-explainer-video/scripts/terminal_ledger.py
+      - run: python3 -m py_compile skills/ip-explainer-video/scripts/tts.py skills/ip-explainer-video/scripts/pty_capture.py skills/ip-explainer-video/scripts/terminal_ledger.py skills/ip-explainer-video/scripts/retime.py
       - run: node --check skills/ip-explainer-video/scripts/build.mjs && node --check skills/ip-explainer-video/scripts/covers.mjs && node --check skills/ip-explainer-video/scripts/ip.mjs
       - shell: bash
         run: |

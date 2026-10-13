@@ -78,6 +78,16 @@ npx hyperframes render --fps 60 --quality high --resolution landscape -o renders
 ```
 用户要预览就先 `npx hyperframes preview --background`；用户说"成片先给我"就直接渲染。渲染后从 MP4 抽帧检查 + `ffmpeg -af volumedetect` 确认有声。4K：`--resolution landscape-4k`（时间约 3–4 倍）。
 
+**换声音 / 重新配音（不改场景）。** 口播文字不变、只换音色或语气时，不需要重写场景：
+```bash
+mkdir -p narration/v1 && mv narration/narration-full.mp3 narration/narration.srt narration/scenes.json narration/v1/
+DOUBAO_TTS_TOKEN=... python3 $SK/scripts/tts.py narration/narration.txt narration/ --voice <新音色或 S_ID>
+python3 $SK/scripts/retime.py . --old-srt narration/v1/narration.srt      # 场景 c()、角色剧本、终端计划全部搬到新时间轴
+python3 $SK/scripts/terminal_ledger.py terminal/runbook.json terminal/capture.json terminal/ledger.json   # 有演示时
+node $SK/scripts/ip.mjs layer --script mascot/script.json --out compositions/mascot.html && node $SK/scripts/build.mjs .
+```
+retime 要求场景里所有时间都写成 `c(<秒>)`（包括第 1 场）。
+
 **10. 封面。** 改 `cover.json`，`node $SK/scripts/covers.mjs .` → 五比例 PNG。规则见 `references/covers.md`。
 
 ## 交付

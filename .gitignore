@@ -18,3 +18,4 @@ prototype/ref.png
 
 # 视频工程（素材大、含用户音频）
 videos/
+__pycache__/

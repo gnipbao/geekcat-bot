@@ -46,18 +46,18 @@
 drift('#s01-ghost', { x: 60 }, 7);
 drift('#s01-star', { rotation: 25, scale: 1.12 }, 3.2);
 // Phase A：App 窗口 → 光标点功能 → 问题 → 印章
-enter('#s01-app', 0.3, { y: 60, rotation: -2 });
-tl.fromTo($('#s01-cursor path'), { x: 520, y: 340, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.4, ease: 'power3.inOut' }, 3.4);
-tl.to($('#s01-feature'), { scale: 0.94, duration: 0.12, yoyo: true, repeat: 1, ease: 'power2.inOut' }, 4.9);
-tl.fromTo($('#s01-feature'), { boxShadow: '8px 8px 0 #000' }, { boxShadow: '14px 14px 0 #000', duration: 0.6, ease: 'sine.inOut', yoyo: true, repeat: 7 }, 5.2);
-popIn('#s01-ask', 7.6);
-tl.fromTo($('#s01-stamp'), { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'power4.in' }, 10.6);
-tl.to($('#s01-app'), { x: 8, duration: 0.05, yoyo: true, repeat: 5, ease: 'none' }, 10.95);
+enter('#s01-app', c(0.3), { y: 60, rotation: -2 });
+tl.fromTo($('#s01-cursor path'), { x: 520, y: 340, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.4, ease: 'power3.inOut' }, c(3.4));
+tl.to($('#s01-feature'), { scale: 0.94, duration: 0.12, yoyo: true, repeat: 1, ease: 'power2.inOut' }, c(4.9));
+tl.fromTo($('#s01-feature'), { boxShadow: '8px 8px 0 #000' }, { boxShadow: '14px 14px 0 #000', duration: 0.6, ease: 'sine.inOut', yoyo: true, repeat: 7 }, c(5.2));
+popIn('#s01-ask', c(7.6));
+tl.fromTo($('#s01-stamp'), { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'power4.in' }, c(10.6));
+tl.to($('#s01-app'), { x: 8, duration: 0.05, yoyo: true, repeat: 5, ease: 'none' }, c(10.95));
 // Phase B：标题卡（15.75 "它叫 REA"）
-tl.to($('#s01-app, #s01-ask, #s01-stamp, #s01-cursor'), { opacity: 0, x: -120, duration: 0.45, ease: 'power3.in', stagger: 0.04 }, 15.3);
+tl.to($('#s01-app, #s01-ask, #s01-stamp, #s01-cursor'), { opacity: 0, x: -120, duration: 0.45, ease: 'power3.in', stagger: 0.04 }, c(15.3));
 tl.set($('#s01-title'), { opacity: 1 }, 0);
-tl.fromTo($('#s01-t1'), { opacity: 0, scale: 0.3, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(2)' }, 15.85);
-tl.fromTo($('#s01-t2'), { opacity: 0, x: -160 }, { opacity: 1, x: 0, duration: 0.55, ease: 'power4.out' }, 17.0);
-tl.fromTo($('#s01-t3'), { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power4.in' }, 19.3);
-enter('#s01-repo', 19.9, { x: -40, y: 0 });
+tl.fromTo($('#s01-t1'), { opacity: 0, scale: 0.3, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(2)' }, c(15.85));
+tl.fromTo($('#s01-t2'), { opacity: 0, x: -160 }, { opacity: 1, x: 0, duration: 0.55, ease: 'power4.out' }, c(17.0));
+tl.fromTo($('#s01-t3'), { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power4.in' }, c(19.3));
+enter('#s01-repo', c(19.9), { x: -40, y: 0 });
 drift('#s01-t1', { y: -10 }, 2.4);
