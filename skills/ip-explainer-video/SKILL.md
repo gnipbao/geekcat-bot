@@ -62,6 +62,8 @@ node $SK/scripts/ip.mjs validate --script mascot/script.json
 node $SK/scripts/ip.mjs layer --script mascot/script.json --out compositions/mascot.html
 ```
 
+**底部字幕（国内平台需要）。** `python3 $SK/scripts/captions.py .` → `narration/captions.json`（每屏 ≤ 18 字，逐字时间）+ `captions.srt`（YouTube CC 用）。之后 `build.mjs` 会自动加上 BlockFrame 卡拉 OK 字幕图层（正在念的字黄色色块），并隐藏页码牌；场景内容要留在 y ≤ 950。YouTube 发不烧字幕的版本：`video.json` 写 `"captions": false` 再构建一次，上传 `captions.srt`。
+
 **8. 构建与自检。**
 ```bash
 node $SK/scripts/build.mjs .                 # → compositions/sNN.html + index.html（场景、IP 图层、旁白音轨）
@@ -78,7 +80,7 @@ npx hyperframes render --fps 60 --quality high --resolution landscape -o renders
 ```
 用户要预览就先 `npx hyperframes preview --background`；用户说"成片先给我"就直接渲染。渲染后从 MP4 抽帧检查 + `ffmpeg -af volumedetect` 确认有声。4K：`--resolution landscape-4k`（时间约 3–4 倍）。
 
-**换声音 / 重新配音（不改场景）。** 口播文字不变、只换音色或语气时，不需要重写场景：
+**换声音 / 重新配音（不改场景）。** 换完声音记得重跑 `captions.py`。 口播文字不变、只换音色或语气时，不需要重写场景：
 ```bash
 mkdir -p narration/v1 && mv narration/narration-full.mp3 narration/narration.srt narration/scenes.json narration/v1/
 DOUBAO_TTS_TOKEN=... python3 $SK/scripts/tts.py narration/narration.txt narration/ --voice <新音色或 S_ID>
