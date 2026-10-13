@@ -24,7 +24,7 @@
 import argparse, base64, json, os, re, shutil, subprocess, sys, tempfile, time, uuid, urllib.error, urllib.request
 
 API = os.environ.get('DOUBAO_API_URL', 'https://openspeech.bytedance.com/api/v3/tts/unidirectional')
-SCENE_GAP = 0.8        # 场景之间的静音（秒）
+SCENE_GAP = 0.6        # 场景之间的静音（秒）
 MAX_CHARS = 280        # 单次请求的文本上限；超过按句号切开（仍按段落语气合成）
 
 
@@ -119,7 +119,8 @@ def main():
     ap.add_argument('--voice', default=os.environ.get('DOUBAO_VOICE', 'zh_male_yuanboxiaoshu_uranus_bigtts'))
     ap.add_argument('--resource', default=os.environ.get('DOUBAO_RESOURCE_ID'))
     ap.add_argument('--style', default=os.environ.get('DOUBAO_STYLE', '像跟懂技术的朋友聊天一样，轻松自然，有好奇心，句子之间有呼吸感，不要播音腔'))
-    ap.add_argument('--speed', type=float, default=1.0)
+    ap.add_argument('--speed', type=float, default=1.0, help='语速倍率，模型原生调节（1.15 = 快 15%%）。克隆声音偏慢时常用 1.1–1.2')
+    ap.add_argument('--lufs', type=float, default=-16.0, help='响度标准化目标（LUFS），0 = 不处理。YouTube 约 -14，默认 -16')
     ap.add_argument('--lead', type=float, default=0.6, help='片头静音（秒）')
     a = ap.parse_args()
     token = os.environ.get('DOUBAO_TTS_TOKEN') or os.environ.get('DOUBAO_API_KEY') or os.environ.get('VOLCENGINE_ACCESS_TOKEN')
@@ -137,7 +138,7 @@ def main():
         ff('-f', 'lavfi', '-i', 'anullsrc=r=24000:cl=mono', '-t', f'{sec:.3f}', p)
         pieces.append(p); t += sec
 
-    print(f'[TTS] 音色 {a.voice} · 资源 {resource} · {len(scenes)} 个场景 · 语气：{a.style or "（无）"}')
+    print(f'[TTS] 音色 {a.voice} · 资源 {resource} · 语速 {a.speed}x · 响度 {a.lufs or "不处理"} LUFS · {len(scenes)} 个场景 · 语气：{a.style or "（无）"}')
     silence(a.lead)
     cues, words_all, scene_out = [], [], []
     for si, sc in enumerate(scenes):
@@ -165,7 +166,8 @@ def main():
     lst = os.path.join(tmp, 'list.txt')
     open(lst, 'w').write(''.join(f"file '{p}'\n" for p in pieces))
     full = os.path.join(a.outdir, 'narration-full.mp3')
-    ff('-f', 'concat', '-safe', '0', '-i', lst, '-c:a', 'libmp3lame', '-b:a', '192k', full)
+    norm = ['-af', f'loudnorm=I={a.lufs}:TP=-1.5:LRA=11', '-ar', '48000'] if a.lufs else []  # 只改音量，不改时间轴
+    ff('-f', 'concat', '-safe', '0', '-i', lst, *norm, '-c:a', 'libmp3lame', '-b:a', '192k', full)
     with open(os.path.join(a.outdir, 'narration.srt'), 'w', encoding='utf-8') as f:
         for i, c in enumerate(cues, 1): f.write(f"{i}\n{ts(c['t'])} --> {ts(c['e'])}\n{c['text']}\n\n")
     json.dump(words_all, open(os.path.join(a.outdir, 'words.json'), 'w'), ensure_ascii=False)

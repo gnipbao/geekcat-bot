@@ -66,16 +66,36 @@ def main():
     r3 = lambda v: round(v, 2)
     changes = {}
 
+    def slope(t, span):
+        span = max(span, 0.8)
+        return max(0.5, min(1.6, (warp(t + span) - warp(t)) / span))
+
+    # 依赖旁白节奏的动画：时长 / 间隔按该处的局部语速同比缩放（打字、逐个弹出、描线、数字滚动、擦出）
+    # 形如 helper(sel, c(T), <num>) 或 helper(sel, c(T), {…}, <num>) 或 count(sel, c(T), to, <num>)
+    RHYTHM = re.compile(r"\b(type|popIn|draw|wipe|enter)\((\s*['\"][^'\"]+['\"]\s*),\s*c\((\d+(?:\.\d+)?)\)(\s*,\s*(?:\{[^}]*\}\s*,\s*)?)(\d+(?:\.\d+)?)")
+    COUNT = re.compile(r"\bcount\((\s*['\"][^'\"]+['\"]\s*),\s*c\((\d+(?:\.\d+)?)\)(\s*,\s*[\d.]+\s*,\s*)(\d+(?:\.\d+)?)")
+    def scale_rhythm(src):
+        n = [0]
+        def r1(m):
+            T, v = float(m.group(3)), float(m.group(5)); n[0] += 1
+            span = v * (8 if m.group(1) in ('popIn', 'enter') else 1)   # 间隔 × 约 8 个元素 ≈ 这段节奏的长度
+            return f"{m.group(1)}({m.group(2)}, c({m.group(3)}){m.group(4)}{round(v * slope(T, span), 3)}"
+        def r2(m):
+            T, v = float(m.group(2)), float(m.group(4)); n[0] += 1
+            return f"count({m.group(1)}, c({m.group(2)}){m.group(3)}{round(v * slope(T, v), 3)}"
+        return COUNT.sub(r2, RHYTHM.sub(r1, src)), n[0]
+
     # 场景源：c(<秒>)
     sdir = os.path.join(P, 'build/scenes')
     for f in sorted(os.listdir(sdir)) if os.path.isdir(sdir) else []:
         if not f.endswith('.html'): continue
         p = os.path.join(sdir, f); s = open(p, encoding='utf-8').read()
+        s, k = scale_rhythm(s)   # 先按旧时间计算局部语速，再搬时间
         n = [0]
         def rep(m):
             n[0] += 1; return f'c({r3(warp(float(m.group(1))))})'
         s2 = re.sub(r'\bc\((\d+(?:\.\d+)?)\)', rep, s)
-        changes[f'build/scenes/{f}'] = n[0]
+        changes[f'build/scenes/{f}'] = f'{n[0]} 个时间点 · {k} 处节奏缩放'
         if not a.dry_run: open(p, 'w', encoding='utf-8').write(s2)
 
     total_new = round(scenes_new[-1]['end'] + 0.6, 3)
