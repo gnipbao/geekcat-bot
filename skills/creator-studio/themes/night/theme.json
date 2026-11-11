@@ -1,0 +1,53 @@
+{
+  "name": "night",
+  "label": "夜间终端",
+  "description": "近黑 #0E0F11、暖白字、黄色强调、终端绿；圆角细边、柔和投影、等宽标题。录屏和代码在深色底上最清楚，教程默认用它。",
+  "bestFor": [
+    "tutorial",
+    "explainer"
+  ],
+  "grounds": [
+    "#0E0F11"
+  ],
+  "named": {
+    "cream": "#0E0F11",
+    "offwhite": "#0E0F11",
+    "yellow": "#13120E",
+    "blue": "#0D1215",
+    "pink": "#130E12",
+    "green": "#0D1310",
+    "white": "#17191D",
+    "black": "#0E0F11",
+    "surface": "#17191D",
+    "deep": "#08090B"
+  },
+  "palette": {
+    "ground": "#0E0F11",
+    "ink": "#EDEBE6",
+    "accent": "#F7CB46",
+    "mark": "#3DDC84",
+    "surface": "#17191D"
+  },
+  "captions": {
+    "card": "padding:12px 32px 16px; background:rgba(14,15,17,.9); border:1.5px solid #383C44; border-radius:14px; box-shadow:0 14px 40px rgba(0,0,0,.5); color:#EDEBE6; font-family:\"Noto Sans SC\",\"Inter\",sans-serif; font-weight:900;",
+    "dim": "color:rgba(237,235,230,.7);",
+    "spoken": "color:#EDEBE6;",
+    "active": "color:#0E0F11; background:#F7CB46; box-shadow:0 0 0 3px #F7CB46; border-radius:3px;",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#F7CB46"
+    }
+  },
+  "presenter": {
+    "frame": "border:2px solid #383C44; box-shadow:0 24px 60px rgba(0,0,0,.55); background:#000;",
+    "pipRadius": "28px",
+    "radius": "18px",
+    "bw": 2,
+    "stage": "radial-gradient(70% 80% at 50% 32%, #FFFDF6 0%, #F3EAD3 60%, #DCCFAE 100%)"
+  },
+  "cover": "night",
+  "transition": "push",
+  "mascotFilter": "drop-shadow(0 0 1.6px rgba(237,235,230,.95)) drop-shadow(0 0 26px rgba(247,203,70,.28))",
+  "tilt": 0
+}

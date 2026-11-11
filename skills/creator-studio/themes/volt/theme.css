@@ -1,0 +1,58 @@
+/* volt · 电光：纯黑底 + 荧光绿、得意黑斜体大标题、等宽小标签、卡片四角的取景框角标、条码装饰。
+   "网感"最强的一套：短视频、热点快评、工具速览；黑绿撞色在信息流里一眼能认出来。 */
+SCOPE {
+  --hua: #C8FF2E;
+  --ground: #0A0A0A; --surface: #151515; --ink: #F4F4F0; --border: #303030; --muted: #8A8A84; --line: #303030;
+  --accent: #C8FF2E; --on-accent: #0A0A0A; --accent-text: #C8FF2E;
+  --hl: #C8FF2E; --on-hl: #0A0A0A; --mark: #C8FF2E;
+  --code-bg: #050505; --code-ink: #E8E8E2;
+  --texture: radial-gradient(rgba(255,255,255,.11) 1px, transparent 1.3px); --texture-size: 26px 26px; --texture-opacity: 1;
+  --ghost: transparent; --dim: rgba(0,0,0,.72);
+  --black: #0A0A0A; --white: #1E1E1E; --offwhite: #101010;
+  --pink: #25161D; --blue: #121D28; --green: #1B2610; --yellow: #272B0E; --cream: #171717;
+  --bw: 1.5px; --bw-s: 1px; --radius: 4px; --radius-s: 3px; --radius-pill: 3px;
+  --shadow: none; --shadow-s: none; --shadow-hl: none;
+  --font-body: "Noto Sans SC", "Inter", sans-serif;
+  --font-display: "Smiley Sans", "Inter Tight", "Noto Sans SC", sans-serif;
+  --font-cjk-display: "Smiley Sans", "Noto Sans SC", sans-serif;
+  --font-label: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-hand: "Smiley Sans", "Noto Sans SC", sans-serif;
+  --display-case: none;
+  font-synthesis: none;
+}
+SCOPE .ghost { -webkit-text-stroke: 1.5px rgba(200,255,46,.17); letter-spacing: -0.02em; }
+SCOPE .h-xl, SCOPE .h-lg, SCOPE .h-md { font-weight: 400; letter-spacing: 0; }
+/* 取景框角标 */
+SCOPE .card::before, SCOPE .card::after { content: ""; position: absolute; width: 20px; height: 20px; pointer-events: none; }
+SCOPE .card::before { left: -1.5px; top: -1.5px; border-left: 3px solid var(--accent); border-top: 3px solid var(--accent); }
+SCOPE .card::after { right: -1.5px; bottom: -1.5px; border-right: 3px solid var(--accent); border-bottom: 3px solid var(--accent); }
+SCOPE .label { color: var(--accent); letter-spacing: .12em; }
+SCOPE .pill { background: #0A0A0A; color: var(--ink); letter-spacing: .1em; }
+SCOPE .pill::before { content: "//"; color: var(--accent); font-weight: 700; }
+SCOPE .tag { border-color: #444; letter-spacing: .06em; }
+SCOPE .chip { font-weight: 700; }
+SCOPE .hl {
+  background: var(--hl) !important; color: var(--on-hl) !important; border: none !important; box-shadow: none !important; padding: 0 .2em !important; border-radius: 3px !important; }
+SCOPE .stripe { border: none; opacity: .95; background: repeating-linear-gradient(90deg, var(--accent) 0 3px, transparent 3px 7px, var(--accent) 7px 8px, transparent 8px 14px, var(--accent) 14px 19px, transparent 19px 23px) !important; }
+SCOPE .star { clip-path: none; border-radius: 50%; border: 2px dashed var(--accent); background: transparent !important; color: var(--accent); }
+SCOPE .kw { background: #0A0A0A; color: var(--accent); border: 1.5px solid var(--accent); font-family: var(--font-cjk-display); font-weight: 400; padding: 8px 26px 12px; }
+SCOPE .lt-name { background: #0A0A0A; border-color: var(--accent); font-family: var(--font-cjk-display); font-weight: 400; }
+SCOPE .lt-role { background: #0A0A0A; color: var(--accent); }
+/* 花字 = 两块黑底标签：演播背景是荧光绿，描边字会糊，色块最清楚 */
+SCOPE .hua { gap: 8px; }
+SCOPE .hua .ctx, SCOPE .hua .key, SCOPE .hua.xl .key { background: #0A0A0A; -webkit-text-stroke: 0; padding: .04em .24em .1em; border-radius: 3px; }
+SCOPE .hua .ctx { color: #F4F4F0; font-family: "Noto Sans SC", sans-serif; }
+SCOPE .hua .key { color: var(--accent); }
+SCOPE .callout > .callout-label { border-radius: 2px; }
+SCOPE .keycap { border-color: #444; border-radius: 6px; box-shadow: 0 6px 0 #000; }
+SCOPE .step > b { border-radius: 2px; }
+SCOPE .speed { background: var(--accent); color: #0A0A0A; }
+SCOPE .window-bar { background: #0F0F0F; }
+/* 反白：整屏荧光绿、黑字 */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #C8FF2E; --surface: #DDFF7A; --ink: #0A0A0A; --border: #0A0A0A; --muted: #2E3A0A; --line: #0A0A0A;
+  --accent: #0A0A0A; --on-accent: #C8FF2E; --accent-text: #0A0A0A; --hl: #0A0A0A; --on-hl: #C8FF2E; --mark: #0A0A0A;
+  --texture: radial-gradient(rgba(0,0,0,.16) 1px, transparent 1.3px);
+  --pink: #DDFF7A; --blue: #DDFF7A; --green: #DDFF7A; --yellow: #EFFFB8; --cream: #DDFF7A; --white: #EFFFB8;
+}
+SCOPE.tone-invert .ghost, SCOPE .tone-invert .ghost { -webkit-text-stroke-color: rgba(0,0,0,.14); }

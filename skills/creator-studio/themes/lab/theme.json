@@ -1,0 +1,52 @@
+{
+  "name": "lab",
+  "label": "实验室",
+  "description": "品牌默认：纸色 #F2F0EC、墨黑 #141414、红 #E30613、黄 #F7CB46（墨墨眼镜）。瑞士网格、方角、少量硬阴影。和 swiss 封面同一种语言，讲解 / 教程 / 口播都能用。",
+  "bestFor": [
+    "explainer",
+    "tutorial",
+    "talk"
+  ],
+  "grounds": [
+    "#F2F0EC"
+  ],
+  "named": {
+    "cream": "#F2F0EC",
+    "offwhite": "#F2F0EC",
+    "yellow": "#F4F0E2",
+    "blue": "#EBEEF0",
+    "pink": "#F5ECEA",
+    "green": "#ECEFE8",
+    "white": "#FFFFFF",
+    "paper": "#F2F0EC",
+    "paper2": "#E8E5DE"
+  },
+  "palette": {
+    "ground": "#F2F0EC",
+    "ink": "#141414",
+    "accent": "#E30613",
+    "mark": "#F7CB46",
+    "surface": "#FFFFFF"
+  },
+  "captions": {
+    "card": "padding:12px 34px 16px; background:#141414; color:#F2F0EC; font-family:\"Noto Sans SC\",\"Inter Tight\",sans-serif; font-weight:900;",
+    "dim": "color:rgba(242,240,236,.72);",
+    "spoken": "color:#F2F0EC;",
+    "active": "color:#FFFFFF; background:#E30613; box-shadow:0 0 0 3px #E30613;",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#F7CB46"
+    }
+  },
+  "presenter": {
+    "frame": "border:3px solid #141414; box-shadow:6px 6px 0 #141414; background:#141414;",
+    "pipRadius": "0px",
+    "radius": "0px",
+    "bw": 3,
+    "stage": "linear-gradient(rgba(20,20,20,.06) 1px, transparent 1px) 0 0/60px 60px, linear-gradient(90deg, rgba(20,20,20,.06) 1px, transparent 1px) 0 0/60px 60px, radial-gradient(60% 70% at 50% 40%, #FFFFFF, #E9E5DC)"
+  },
+  "cover": "lab",
+  "transition": "push",
+  "tilt": 0.5
+}

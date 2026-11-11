@@ -1,0 +1,9 @@
+/* pop · 糖果：原 BlockFrame。所有变量沿用 kit/base.css 的默认值（粗黑边、硬阴影、糖果色、点阵）。
+   tone-invert：黑底白字黄阴影（收尾 / 金句场景）。 */
+SCOPE { --hua: #FE90E8; }
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #000000; --surface: #111111; --ink: #FFFFFF; --border: #FFFFFF; --muted: rgba(255,255,255,.65);
+  --texture: radial-gradient(rgba(255,255,255,.22) 1.6px, transparent 1.8px); --ghost: rgba(255,255,255,.08);
+  --shadow: 8px 8px 0 #F7CB46; --shadow-s: 4px 4px 0 #F7CB46; --shadow-hl: 6px 6px 0 #F7CB46;
+  --pink: #5A2350; --blue: #1E4A50; --green: #24461D; --cream: #3A2F14;
+}

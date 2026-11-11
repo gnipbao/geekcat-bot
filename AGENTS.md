@@ -176,9 +176,9 @@ node render/render.mjs hyperframes mascot/script.json -o compositions/mascot.htm
 - 剧本里的 `width` / `height` / `duration` 要和主合成一致；`lipsync` 指向旁白音频，嘴型会跟着说话。
 - 实战示例：一期 4 分钟的 REA 介绍视频，知识猫作为主讲人全程出场（BlockFrame 设计、豆包 TTS 旁白）。
 
-## 做一整期讲解视频（skill）
+## 做一整期视频（skill）
 
-用户要的不只是叠加素材，而是"让知识猫讲一期 XX"时，按 [`skills/ip-explainer-video/SKILL.md`](skills/ip-explainer-video/SKILL.md) 走：它负责调研、口播稿、豆包整段配音、HyperFrames 场景、知识猫图层（就是上面的 `hyperframes` 命令）、渲染和封面。完整样例在 `skills/ip-explainer-video/examples/rea/`。
+用户要的不只是叠加素材，而是"让知识猫讲一期 XX""把录屏做成教程""出抖音竖版"时，按 [`skills/creator-studio/SKILL.md`](skills/creator-studio/SKILL.md) 走：讲解 / 录屏教程 / 口播三种形式，主讲可以是知识猫（就是上面的 `hyperframes` 命令）、摄像头真人、数字人或纯配音，七套主题，按平台出横版 / 去字幕版 / 竖版和封面，FrameVelo 渲染。样例：`skills/creator-studio/examples/rea/`（讲解）、`skills/creator-studio/examples/tutorial-demo/`（教程）。
 
 ## 直播 / OBS
 
@@ -202,6 +202,6 @@ render/script.schema.json 剧本 JSON Schema
 render/examples/          示例剧本和字幕
 render/fonts/             随仓库附带的中文字体（OFL）
 render/test/              测试
-skills/ip-explainer-video/                IP 主讲讲解视频的完整流程（skill）
+skills/creator-studio/                视频工作室：讲解 / 教程 / 口播 × 主讲 × 主题 × 平台（skill）
 .claude/skills/geekcat-video/SKILL.md   Claude Code 技能入口
 ```

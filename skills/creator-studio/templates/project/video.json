@@ -1,0 +1,16 @@
+{
+  "title": "<主题> — <主讲名>",
+  "format": "explainer",
+  "theme": "lab",
+  "platforms": [
+    "bilibili",
+    "youtube",
+    "douyin"
+  ],
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "transitions": {},
+  "ground": {},
+  "narration": "narration/narration-full.mp3"
+}

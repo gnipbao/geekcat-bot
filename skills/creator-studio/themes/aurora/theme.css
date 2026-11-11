@@ -1,0 +1,62 @@
+/* aurora · 极光：近黑底 + 紫蓝青极光、发丝细边、玻璃质感卡片、渐变字高亮、描边大字。
+   Linear / Vercel 一路的深色科技感：安静、精密、有光。讲解和教程都合适，是深色里最"贵"的一套。 */
+SCOPE {
+  --hua: #9CF1FF;
+  --ground: #07080B; --surface: #11131A; --ink: #EEF0F6; --border: rgba(255,255,255,.12); --muted: #8D92A6; --line: rgba(255,255,255,.16);
+  --accent: #8B7CFF; --on-accent: #07080B; --accent-text: #A99CFF;
+  --hl: #8B7CFF; --on-hl: #FFFFFF; --mark: #5CE1E6;
+  --grad: linear-gradient(92deg, #A78BFF 0%, #6CA8FF 50%, #5CE1E6 100%);
+  --code-bg: #0A0B10; --code-ink: #E6E8F0;
+  --ghost: transparent; --dim: rgba(3,4,8,.68);
+  --black: #07080B; --white: #181B25; --offwhite: #0D0F15;
+  --pink: #281B3D; --blue: #14253F; --green: #102B2D; --yellow: #2A2545; --cream: #151822;
+  --bw: 1px; --bw-s: 1px; --radius: 22px; --radius-s: 12px; --radius-pill: 999px;
+  --shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 30px 80px rgba(0,0,0,.55); --shadow-s: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.4); --shadow-hl: none;
+  --font-body: "Noto Sans SC", "Geist", sans-serif;
+  --font-display: "Geist", "Inter Tight", "Noto Sans SC", sans-serif;
+  --font-cjk-display: "Noto Sans SC", "Geist", sans-serif;
+  --font-label: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-hand: "JetBrains Mono", "Noto Sans SC", monospace;
+  --display-case: none;
+}
+SCOPE .dots { opacity: 1; background:
+  radial-gradient(52% 48% at 84% -4%, rgba(124,92,255,.36), transparent 72%),
+  radial-gradient(42% 40% at -2% 104%, rgba(40,170,255,.22), transparent 72%),
+  radial-gradient(30% 28% at 58% 112%, rgba(92,225,230,.12), transparent 70%); }
+SCOPE .dots::after { content: ""; position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 78% 68% at 50% 32%, #000 8%, transparent 78%); mask-image: radial-gradient(ellipse 78% 68% at 50% 32%, #000 8%, transparent 78%); }
+SCOPE .ghost { -webkit-text-stroke: 2px rgba(255,255,255,.075); letter-spacing: -0.05em; }
+SCOPE .h-xl, SCOPE .h-lg, SCOPE .h-md { font-weight: 700; letter-spacing: -0.035em; }
+SCOPE .card, SCOPE .card-s { background: linear-gradient(180deg, #171A24 0%, #0E1017 100%); }
+SCOPE .chip { background: #161922; box-shadow: none; font-weight: 600; }
+SCOPE .tag { border-radius: 7px; color: var(--ink); letter-spacing: .06em; }
+SCOPE .label { color: var(--muted); letter-spacing: .12em; }
+SCOPE .pill { background: rgba(13,15,21,.86); box-shadow: none; color: #C9CCDA; letter-spacing: .1em; }
+SCOPE .pill b { color: var(--ink); }
+SCOPE .pill::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 12px #7C8CFF; flex: none; }
+/* 高亮 = 渐变字，不是色块 */
+SCOPE .hl {
+  background: var(--grad) !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent !important; -webkit-text-fill-color: transparent;
+  border: none !important; box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
+SCOPE .stripe { height: 3px !important; border: none; border-radius: 3px; background: var(--grad) !important; box-shadow: 0 0 22px rgba(108,168,255,.7); }
+SCOPE .star { clip-path: none; border-radius: 50%; border: 1px solid rgba(255,255,255,.2); box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 0 60px rgba(139,124,255,.5); }
+SCOPE .kw { background: rgba(15,17,24,.94); color: var(--ink); border-color: rgba(255,255,255,.16); border-radius: 18px; box-shadow: 0 0 0 1px rgba(139,124,255,.4), 0 18px 60px rgba(108,168,255,.3); font-weight: 700; }
+SCOPE .kw .em, SCOPE .hl .em { text-decoration: none; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+SCOPE .lt-name { background: rgba(15,17,24,.92); border-radius: 16px; font-weight: 700; }
+SCOPE .lt-role { background: var(--grad); color: #07080B; border-radius: 999px; }
+SCOPE .callout { border-width: 2px; box-shadow: 0 0 0 6px rgba(139,124,255,.16), 0 0 50px rgba(108,168,255,.4); }
+SCOPE .callout > .callout-label { background: var(--grad); color: #07080B; border-radius: 8px; }
+SCOPE .step { background: #161922; box-shadow: none; }
+SCOPE .step > b { background: var(--grad); color: #07080B; }
+SCOPE .keycap { background: linear-gradient(180deg, #1D2130, #12141C); box-shadow: 0 6px 0 #04050A; }
+SCOPE .speed { background: rgba(255,255,255,.12); color: var(--ink); }
+SCOPE .window-bar { background: #0E1017; }
+/* 反白：整屏渐变（章节卡、金句、片尾） */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: linear-gradient(128deg, #4A35E8 0%, #2F6DF0 52%, #14B8C9 100%); --surface: rgba(255,255,255,.14); --ink: #FFFFFF; --border: rgba(255,255,255,.32); --muted: rgba(255,255,255,.8); --line: rgba(255,255,255,.4);
+  --accent: #FFFFFF; --on-accent: #2A1FB5; --accent-text: #FFFFFF; --grad: linear-gradient(#FFFFFF, #FFFFFF);
+  --pink: rgba(255,255,255,.16); --blue: rgba(255,255,255,.16); --green: rgba(255,255,255,.16); --yellow: rgba(255,255,255,.16); --cream: rgba(255,255,255,.1); --white: rgba(255,255,255,.2);
+}
+SCOPE.tone-invert .dots { display: none; }
+SCOPE.tone-invert .card, SCOPE.tone-invert .card-s, SCOPE .tone-invert .card, SCOPE .tone-invert .card-s { background: rgba(255,255,255,.14); }

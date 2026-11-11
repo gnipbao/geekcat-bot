@@ -1,0 +1,6 @@
+[
+  { "at": 0, "mode": "full" },
+  { "at": 6.9, "mode": "pip" },
+  { "at": 24.1, "mode": "side" },
+  { "at": 34.9, "mode": "full" }
+]

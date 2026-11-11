@@ -19,15 +19,18 @@ jobs:
       - run: node render/render.mjs still render/examples/demo.json --at 4.5,9.5 -o work/shots
       - run: node render/render.mjs render render/examples/preview.json --to 3 -o work/preview.webm
       - run: node render/render.mjs render render/examples/corner.json --to 2 --fps 30 -o work/corner.mov
-      # skill：脚本语法 + 用示例工程跑一次构建和 IP 适配层
-      - run: python3 -m py_compile skills/ip-explainer-video/scripts/tts.py skills/ip-explainer-video/scripts/pty_capture.py skills/ip-explainer-video/scripts/terminal_ledger.py skills/ip-explainer-video/scripts/retime.py skills/ip-explainer-video/scripts/captions.py
-      - run: node --check skills/ip-explainer-video/scripts/build.mjs && node --check skills/ip-explainer-video/scripts/covers.mjs && node --check skills/ip-explainer-video/scripts/ip.mjs
+      # skill：脚本语法 + 用示例工程跑一次构建（主版本 + 去字幕版 + 竖版）和 IP 适配层
+      - run: python3 -m py_compile skills/creator-studio/scripts/tts.py skills/creator-studio/scripts/pty_capture.py skills/creator-studio/scripts/terminal_ledger.py skills/creator-studio/scripts/retime.py skills/creator-studio/scripts/captions.py skills/creator-studio/scripts/ingest.py skills/creator-studio/scripts/footage/asr.py skills/creator-studio/scripts/tighten.py
+      - shell: bash
+        run: for f in skills/creator-studio/scripts/*.mjs skills/creator-studio/scripts/lib/*.mjs; do node --check "$f" || exit 1; done && bash -n skills/creator-studio/scripts/sfx.sh && bash -n skills/creator-studio/scripts/new.sh
       - shell: bash
         run: |
-          E=skills/ip-explainer-video/examples/rea
+          E=skills/creator-studio/examples/rea
           mkdir -p work/skill/build && cp -r $E/scenes work/skill/build/scenes && cp -r $E/narration $E/mascot work/skill/ && cp $E/video.json $E/ip.json work/skill/
-          node skills/ip-explainer-video/scripts/build.mjs work/skill
-          cd work/skill && node ../../skills/ip-explainer-video/scripts/ip.mjs info > /dev/null
+          node skills/creator-studio/scripts/build.mjs work/skill --variants all
+          test -f work/skill/index.html && test -f work/skill/variants/clean/index.html && test -f work/skill/variants/vertical/index.html
+          for t in $(ls skills/creator-studio/themes); do node -e "const f='work/skill/video.json',v=JSON.parse(require('fs').readFileSync(f));v.theme='$t';require('fs').writeFileSync(f,JSON.stringify(v))" && node skills/creator-studio/scripts/build.mjs work/skill --variants none > /dev/null || exit 1; done
+          cd work/skill && node ../../skills/creator-studio/scripts/ip.mjs info > /dev/null
       - uses: actions/upload-artifact@v4
         with:
           name: shots-${{ matrix.os }}

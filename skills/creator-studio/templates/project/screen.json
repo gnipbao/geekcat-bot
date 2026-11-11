@@ -1,0 +1,30 @@
+{
+  "src": "footage/screen.cut.mp4",
+  "frame": "window",
+  "title": "<窗口标题，如 Claude Code — 我的项目>",
+  "focus": [
+    {
+      "at": 10.0,
+      "box": [
+        0,
+        0,
+        960,
+        540
+      ],
+      "until": 14.0
+    }
+  ],
+  "marks": [
+    {
+      "at": 10.5,
+      "until": 13.5,
+      "box": [
+        100,
+        80,
+        600,
+        60
+      ],
+      "label": "① 这里输入"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "title": "REA · 逆向一切 — 知识猫",
+  "format": "explainer",
+  "theme": "pop",
+  "platforms": [
+    "bilibili",
+    "youtube",
+    "douyin",
+    "x"
+  ],
+  "width": 1920,
+  "height": 1080,
+  "total": 241.8,
+  "ground": {
+    "01": "cream",
+    "02": "yellow",
+    "03": "blue",
+    "04": "pink",
+    "05": "green",
+    "06": "offwhite",
+    "07": "yellow",
+    "08": "blue"
+  },
+  "transitions": {
+    "05": "vpush",
+    "08": "blur"
+  },
+  "ip": {
+    "id": "mascot",
+    "src": "compositions/mascot.html"
+  },
+  "narration": "narration/narration-full.mp3"
+}

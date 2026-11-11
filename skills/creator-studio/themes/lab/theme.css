@@ -1,0 +1,37 @@
+/* lab · 实验室（默认，品牌）：纸色底、墨黑、红色强调、黄色（墨墨的眼镜）点缀。
+   瑞士网格：细网格底、方角、3px 黑边、只有大卡片有硬阴影、标签前一个红方块。和 swiss 封面同一种语言。 */
+SCOPE {
+  --hua: #F7CB46;
+  --ground: #F2F0EC; --surface: #FFFFFF; --ink: #141414; --border: #141414; --muted: #6B6B68; --line: #141414;
+  --accent: #E30613; --on-accent: #FFFFFF; --accent-text: #E30613;
+  --hl: #E30613; --on-hl: #FFFFFF; --mark: #F7CB46;
+  --code-bg: #141414; --code-ink: #F2F0EC;
+  --texture: linear-gradient(rgba(20,20,20,.065) 1px, transparent 1px), linear-gradient(90deg, rgba(20,20,20,.065) 1px, transparent 1px);
+  --texture-size: 60px 60px; --texture-opacity: 1;
+  --ghost: rgba(20,20,20,.05); --dim: rgba(20,20,20,.5);
+  --black: #141414; --white: #FFFFFF; --offwhite: #FAF9F6;
+  --pink: #F3CAC5; --blue: #D9E1E7; --green: #D7E3CD; --yellow: #F7CB46; --cream: #E8E4DA;
+  --bw: 3px; --bw-s: 2px; --radius: 0px; --radius-s: 0px; --radius-pill: 0px;
+  --shadow: 6px 6px 0 var(--ink); --shadow-s: none; --shadow-hl: none;
+  --font-body: "Noto Sans SC", "Inter Tight", sans-serif;
+  --font-display: "Inter Tight", "Noto Sans SC", sans-serif;
+  --font-cjk-display: "Noto Sans SC", "Inter Tight", sans-serif;
+  --font-label: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-hand: "JetBrains Mono", "Noto Sans SC", monospace;
+  --display-case: none;
+}
+SCOPE .pill::before { content: ""; width: 12px; height: 12px; background: var(--accent); flex: none; }
+SCOPE .ghost { letter-spacing: -0.05em; }
+SCOPE .stripe { border-width: 2px; background: repeating-linear-gradient(45deg, var(--ink) 0 2px, transparent 2px 11px) !important; }
+SCOPE .label, SCOPE .tag, SCOPE .pill { letter-spacing: .05em; }
+SCOPE .step { border-radius: 0; }
+SCOPE .step > b { border-radius: 0; }
+SCOPE .keycap { border-radius: 6px; }
+SCOPE .speed { border-radius: 0; background: var(--accent); color: #FFFFFF; }
+/* 反白：墨黑底、纸色字、红色阴影（章节卡、金句） */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #141414; --surface: #1E1E1E; --ink: #F2F0EC; --border: #F2F0EC; --muted: #A3A19C; --line: #F2F0EC;
+  --texture: linear-gradient(rgba(242,240,236,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(242,240,236,.06) 1px, transparent 1px);
+  --ghost: rgba(242,240,236,.06); --shadow: 6px 6px 0 var(--accent);
+  --pink: #4A201C; --blue: #222A30; --green: #253021; --cream: #2A2926; --white: #1E1E1E;
+}

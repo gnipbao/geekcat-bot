@@ -1,0 +1,50 @@
+{
+  "name": "paper",
+  "label": "手账",
+  "description": "米白纸 + 点阵（墨墨线稿原图同款底）、黑色线稿、黄色记号笔高亮、红笔批注、手写标签（Caveat / 龙藏体）。适合想法、观点、方法论。",
+  "bestFor": [
+    "explainer",
+    "talk"
+  ],
+  "grounds": [
+    "#FBF8F1"
+  ],
+  "named": {
+    "cream": "#FBF8F1",
+    "offwhite": "#FFFDF8",
+    "yellow": "#FFF8DE",
+    "blue": "#F1F6FC",
+    "pink": "#FCF2F4",
+    "green": "#F2F8EC",
+    "white": "#FFFFFF",
+    "paper": "#FBF8F1"
+  },
+  "palette": {
+    "ground": "#FBF8F1",
+    "ink": "#222222",
+    "accent": "#E8590C",
+    "mark": "#FFE066",
+    "surface": "#FFFFFF"
+  },
+  "captions": {
+    "card": "padding:10px 30px 14px; background:#FFFDF8; border:2.5px solid #222; border-radius:16px 6px 14px 8px / 8px 14px 6px 16px; box-shadow:3px 4px 0 #222; color:#222; font-family:\"Noto Sans SC\",sans-serif; font-weight:900;",
+    "dim": "color:rgba(34,34,34,.72);",
+    "spoken": "color:#222;",
+    "active": "color:#222; background:linear-gradient(transparent 45%, #FFE066 45%, #FFE066 92%, transparent 92%);",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#FFE066"
+    }
+  },
+  "presenter": {
+    "frame": "border:2.5px solid #222; box-shadow:4px 5px 0 #222; background:#222;",
+    "pipRadius": "50%",
+    "radius": "18px 7px 15px 9px / 9px 15px 7px 18px",
+    "bw": 2.5,
+    "stage": "radial-gradient(rgba(0,0,0,.22) 1.4px, transparent 1.6px) 0 0/32px 32px, #FBF8F1"
+  },
+  "cover": "paper",
+  "transition": "push",
+  "tilt": 1
+}

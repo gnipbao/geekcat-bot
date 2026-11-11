@@ -1,0 +1,41 @@
+[
+  {
+    "at": 0,
+    "mode": "full",
+    "shift": [
+      0.17,
+      0
+    ]
+  },
+  {
+    "at": 3.0,
+    "zoom": 1.12,
+    "cut": true,
+    "shift": [
+      0.17,
+      0
+    ]
+  },
+  {
+    "at": 7.0,
+    "zoom": 1,
+    "cut": true,
+    "shift": [
+      0.17,
+      0
+    ]
+  },
+  {
+    "at": 20.0,
+    "mode": "pip",
+    "corner": "br"
+  },
+  {
+    "at": 60.0,
+    "mode": "side"
+  },
+  {
+    "at": 120.0,
+    "mode": "full"
+  }
+]

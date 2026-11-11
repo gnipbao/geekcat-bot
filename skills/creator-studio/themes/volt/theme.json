@@ -1,0 +1,51 @@
+{
+  "name": "volt",
+  "label": "电光",
+  "description": "纯黑底 + 荧光绿、得意黑斜体大标题、等宽小标签、卡片四角的取景框角标、条码装饰。\"网感\"最强：短视频、热点快评、工具速览，黑绿撞色在信息流里一眼认得出。",
+  "bestFor": [
+    "talk",
+    "explainer",
+    "tutorial"
+  ],
+  "tilt": 0,
+  "grounds": [
+    "#0A0A0A"
+  ],
+  "named": {
+    "cream": "#0A0A0A",
+    "offwhite": "#0D0D0D",
+    "yellow": "#0E0F08",
+    "blue": "#0A0D10",
+    "pink": "#100B0D",
+    "green": "#0B0F08",
+    "white": "#151515"
+  },
+  "palette": {
+    "ground": "#0A0A0A",
+    "ink": "#F4F4F0",
+    "accent": "#C8FF2E",
+    "mark": "#C8FF2E",
+    "surface": "#151515"
+  },
+  "captions": {
+    "card": "padding:10px 30px 14px; background:#0A0A0A; border:1.5px solid #303030; border-radius:4px; color:#F4F4F0; font-family:\"Noto Sans SC\",\"Inter\",sans-serif; font-weight:900;",
+    "dim": "color:rgba(244,244,240,.62);",
+    "spoken": "color:#F4F4F0;",
+    "active": "color:#0A0A0A; background:#C8FF2E; box-shadow:0 0 0 3px #C8FF2E;",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#C8FF2E"
+    }
+  },
+  "presenter": {
+    "frame": "border:1.5px solid #C8FF2E; box-shadow:none; background:#000;",
+    "pipRadius": "6px",
+    "radius": "4px",
+    "bw": 1.5,
+    "stage": "radial-gradient(rgba(0,0,0,.2) 2px, transparent 2.4px) 0 0/30px 30px, #C8FF2E"
+  },
+  "mascotFilter": "drop-shadow(0 0 1.4px rgba(244,244,240,.95)) drop-shadow(0 0 22px rgba(200,255,46,.28))",
+  "cover": "volt",
+  "transition": "push"
+}

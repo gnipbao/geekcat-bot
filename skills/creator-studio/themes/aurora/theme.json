@@ -1,0 +1,50 @@
+{
+  "name": "aurora",
+  "label": "极光",
+  "description": "近黑底 + 紫蓝青极光、发丝细边、玻璃质感卡片、渐变字高亮、描边大字。Linear / Vercel 一路的深色科技感，安静、精密、有光；深色里最\"贵\"的一套。",
+  "bestFor": [
+    "explainer",
+    "tutorial"
+  ],
+  "tilt": 0,
+  "grounds": [
+    "#07080B"
+  ],
+  "named": {
+    "cream": "#07080B",
+    "offwhite": "#090A0F",
+    "yellow": "#0A0913",
+    "blue": "#060A12",
+    "pink": "#0C0811",
+    "green": "#060B0D",
+    "white": "#11131A"
+  },
+  "palette": {
+    "ground": "#07080B",
+    "ink": "#EEF0F6",
+    "accent": "#8B7CFF",
+    "mark": "#5CE1E6",
+    "surface": "#11131A"
+  },
+  "captions": {
+    "card": "padding:12px 34px 16px; background:rgba(13,15,21,.9); border:1px solid rgba(255,255,255,.14); border-radius:18px; box-shadow:0 18px 50px rgba(0,0,0,.55), 0 0 0 1px rgba(139,124,255,.2); color:#EEF0F6; font-family:\"Noto Sans SC\",\"Geist\",sans-serif; font-weight:700;",
+    "dim": "color:rgba(238,240,246,.62);",
+    "spoken": "color:#FFFFFF;",
+    "active": "color:#07080B; background:linear-gradient(92deg,#A78BFF,#5CE1E6); border-radius:6px; box-shadow:0 0 18px rgba(124,150,255,.75);",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#9CF1FF"
+    }
+  },
+  "presenter": {
+    "frame": "border:1px solid rgba(255,255,255,.16); box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(139,124,255,.28), 0 0 70px rgba(108,168,255,.2); background:#000;",
+    "pipRadius": "50%",
+    "radius": "26px",
+    "bw": 1,
+    "stage": "radial-gradient(70% 80% at 50% 30%, #F6F3FF 0%, #D2CBFF 48%, #9189F2 100%)"
+  },
+  "mascotFilter": "drop-shadow(0 0 1.6px rgba(238,240,246,.9)) drop-shadow(0 0 18px rgba(139,124,255,.55))",
+  "cover": "aurora",
+  "transition": "fade"
+}

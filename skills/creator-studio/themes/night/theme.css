@@ -1,0 +1,37 @@
+/* night · 夜间终端：近黑底、暖白字、黄色强调、终端绿表示成功。圆角、细边、柔和投影，等宽字做标题。
+   录屏和代码放在深色底上最清楚，教程默认用它。 */
+SCOPE {
+  --hua: #F7CB46;
+  --ground: #0E0F11; --surface: #17191D; --ink: #EDEBE6; --border: #383C44; --muted: #8E929B; --line: #383C44;
+  --accent: #F7CB46; --on-accent: #0E0F11; --accent-text: #F7CB46;
+  --hl: #F7CB46; --on-hl: #0E0F11; --mark: #3DDC84;
+  --code-bg: #08090B; --code-ink: #E6E6E6;
+  --texture: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  --texture-size: 48px 48px; --texture-opacity: 1;
+  --ghost: rgba(255,255,255,.04); --dim: rgba(0,0,0,.62);
+  --black: #0E0F11; --white: #17191D; --offwhite: #1B1D21;
+  --pink: #3A2230; --blue: #1C2E39; --green: #1A3326; --yellow: #3A321C; --cream: #22252B;
+  --bw: 2px; --bw-s: 1.5px; --radius: 18px; --radius-s: 10px; --radius-pill: 999px;
+  --shadow: 0 24px 60px rgba(0,0,0,.55); --shadow-s: 0 8px 22px rgba(0,0,0,.45); --shadow-hl: 0 0 0 6px rgba(247,203,70,.18);
+  --font-body: "Noto Sans SC", "Inter", sans-serif;
+  --font-display: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-cjk-display: "Noto Sans SC", "JetBrains Mono", sans-serif;
+  --font-label: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-hand: "JetBrains Mono", "Noto Sans SC", monospace;
+  --display-case: none;
+}
+SCOPE .stripe { border-color: var(--border); background: repeating-linear-gradient(45deg, var(--accent) 0 7px, transparent 7px 18px) !important; opacity: .75; }
+SCOPE .star { filter: drop-shadow(0 0 18px rgba(247,203,70,.35)); }
+SCOPE .pill { background: rgba(23,25,29,.92); }
+SCOPE .pill::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--mark); box-shadow: 0 0 10px var(--mark); flex: none; }
+SCOPE .h-xl, SCOPE .h-lg { letter-spacing: -0.04em; }
+SCOPE .keycap { box-shadow: 0 7px 0 #000; }
+SCOPE .callout { box-shadow: 0 0 0 6px rgba(247,203,70,.15), 0 0 40px rgba(247,203,70,.25); }
+/* 反白：浅色底（对比段落、片尾） */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #EDEBE6; --surface: #FFFFFF; --ink: #0E0F11; --border: #0E0F11; --muted: #5C6068; --line: #0E0F11;
+  --accent: #0E0F11; --on-accent: #F7CB46; --accent-text: #B8860B;
+  --texture: linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px);
+  --ghost: rgba(0,0,0,.05); --shadow: 0 18px 40px rgba(0,0,0,.18);
+  --pink: #F6D6E4; --blue: #D3E7F2; --green: #D3EEDC; --yellow: #F7E3A1; --cream: #E3E1DB;
+}

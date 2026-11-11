@@ -1,0 +1,18 @@
+{
+  "brand": {
+    "label": "知识猫AI实验室"
+  },
+  "eyebrow": "<栏目，如 开源实测>",
+  "title": [
+    "<英文名，≤ 5 个字符最好>",
+    "<中文钩子，*强调*>"
+  ],
+  "subtitle": "<一句卖点或数据，≤ 14 字>",
+  "ip": {
+    "do": "surprised",
+    "at": 0.45,
+    "accessories": [
+      "glasses"
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+/* bento · 便当格：浅灰底、纯白大圆角卡片、柔和投影、彩色渐变字、灵动岛式的黑色关键词胶囊。
+   苹果发布会 / 小红书"苹果风"那一路：干净、明亮、数字和产品说话。讲解、评测、口播都合适。 */
+SCOPE {
+  --hua: #FFD60A;
+  --ground: #F5F5F7; --surface: #FFFFFF; --ink: #1D1D1F; --border: rgba(0,0,0,.07); --muted: #6E6E73; --line: rgba(0,0,0,.14);
+  --accent: #0071E3; --on-accent: #FFFFFF; --accent-text: #0071E3;
+  --hl: #1D1D1F; --on-hl: #FFFFFF; --mark: #FF9F0A;
+  --grad: linear-gradient(92deg, #0A84FF 0%, #7D5CFF 52%, #FF4F9A 100%);
+  --code-bg: #1D1D1F; --code-ink: #F5F5F7;
+  --ghost: rgba(0,0,0,.04); --dim: rgba(0,0,0,.45);
+  --black: #1D1D1F; --white: #FFFFFF; --offwhite: #FBFBFD;
+  --pink: #FFE3EE; --blue: #DDEEFF; --green: #DDF6E4; --yellow: #FFF1C9; --cream: #FFFFFF;
+  --bw: 1px; --bw-s: 1px; --radius: 34px; --radius-s: 16px; --radius-pill: 999px;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 24px 60px rgba(0,0,0,.09); --shadow-s: 0 1px 2px rgba(0,0,0,.05), 0 8px 22px rgba(0,0,0,.06); --shadow-hl: none;
+  --font-body: "Noto Sans SC", "Geist", sans-serif;
+  --font-display: "Geist", "Inter Tight", "Noto Sans SC", sans-serif;
+  --font-cjk-display: "Noto Sans SC", "Geist", sans-serif;
+  --font-label: "Geist", "Noto Sans SC", sans-serif;
+  --font-hand: "Geist", "Noto Sans SC", sans-serif;
+  --display-case: none;
+}
+SCOPE .dots { opacity: 1; background:
+  radial-gradient(58% 50% at 88% -12%, rgba(10,132,255,.13), transparent 70%),
+  radial-gradient(50% 46% at -4% 112%, rgba(255,79,154,.10), transparent 70%); }
+SCOPE .ghost { letter-spacing: -0.05em; }
+SCOPE .h-xl, SCOPE .h-lg, SCOPE .h-md { font-weight: 700; letter-spacing: -0.035em; }
+SCOPE .label { color: var(--muted); text-transform: none; letter-spacing: .01em; font-weight: 600; }
+SCOPE .pill { border: none; box-shadow: var(--shadow-s); color: var(--muted); text-transform: none; letter-spacing: .01em; font-weight: 600; }
+SCOPE .pill b { color: var(--ink); }
+SCOPE .tag { border: none; border-radius: 999px; background: #EFEFF2; text-transform: none; letter-spacing: 0; font-weight: 600; padding: 6px 14px; }
+SCOPE .chip { border-radius: 999px; box-shadow: none; font-weight: 600; }
+SCOPE .hl {
+  background: var(--grad) !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent !important; -webkit-text-fill-color: transparent;
+  border: none !important; box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
+SCOPE .stripe { height: 10px !important; border: none; border-radius: 999px; background: var(--grad) !important; }
+SCOPE .star { clip-path: none; border-radius: 50%; border: none; box-shadow: var(--shadow-s); }
+/* 关键词 = 灵动岛：黑色大圆角胶囊、白字 */
+SCOPE .kw { background: #1D1D1F; color: #FFFFFF; border: none; border-radius: 30px; padding: 14px 32px; box-shadow: 0 20px 50px rgba(0,0,0,.25); font-weight: 700; }
+SCOPE .kw .em { text-decoration: none; background: linear-gradient(92deg, #64D2FF, #BF9BFF, #FF8FB8); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+SCOPE .lt-name { border: none; border-radius: 22px; font-weight: 700; }
+SCOPE .lt-role { border-radius: 999px; }
+SCOPE .callout { border-radius: 18px; box-shadow: 0 0 0 8px rgba(0,113,227,.14); }
+SCOPE .callout > .callout-label { border-radius: 999px; }
+SCOPE .keycap { border-color: rgba(0,0,0,.1); border-radius: 16px; box-shadow: 0 5px 0 rgba(0,0,0,.14); }
+SCOPE .step { border: none; }
+SCOPE .step > b { background: var(--ink); color: #FFFFFF; }
+SCOPE .speed { background: var(--ink); color: #FFFFFF; }
+SCOPE .window { border-color: rgba(0,0,0,.08); }
+SCOPE .window-bar { background: #FAFAFC; border-bottom-color: rgba(0,0,0,.07); }
+SCOPE .window-bar i { border: none; background: #FF5F57; }
+SCOPE .window-bar i:nth-child(2) { background: #FEBC2E; }
+SCOPE .window-bar i:nth-child(3) { background: #28C840; }
+/* 反白：纯黑发布会 */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #000000; --surface: #1C1C1E; --ink: #F5F5F7; --border: rgba(255,255,255,.12); --muted: #A1A1A6; --line: rgba(255,255,255,.2);
+  --accent: #2997FF; --accent-text: #2997FF; --hl: #F5F5F7; --on-hl: #000000; --ghost: rgba(255,255,255,.05);
+  --grad: linear-gradient(92deg, #64D2FF 0%, #BF9BFF 52%, #FF8FB8 100%);
+  --pink: #3A1F2B; --blue: #14283F; --green: #15301D; --yellow: #3A300F; --cream: #1C1C1E; --white: #2C2C2E;
+  --shadow: none; --shadow-s: none;
+}
+SCOPE.tone-invert .dots { display: none; }

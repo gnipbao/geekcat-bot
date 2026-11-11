@@ -1,0 +1,50 @@
+{
+  "name": "bento",
+  "label": "便当格",
+  "description": "浅灰底、纯白大圆角卡片、柔和投影、蓝紫粉渐变字、灵动岛式的黑色关键词胶囊。苹果发布会 / 小红书\"苹果风\"一路：干净、明亮，让数字和产品说话。",
+  "bestFor": [
+    "explainer",
+    "talk",
+    "tutorial"
+  ],
+  "tilt": 0,
+  "grounds": [
+    "#F5F5F7"
+  ],
+  "named": {
+    "cream": "#F5F5F7",
+    "offwhite": "#FBFBFD",
+    "yellow": "#F7F5EE",
+    "blue": "#EEF3F9",
+    "pink": "#F8F0F4",
+    "green": "#EFF6F1",
+    "white": "#FFFFFF"
+  },
+  "palette": {
+    "ground": "#F5F5F7",
+    "ink": "#1D1D1F",
+    "accent": "#0071E3",
+    "mark": "#FF9F0A",
+    "surface": "#FFFFFF"
+  },
+  "captions": {
+    "card": "padding:12px 38px 16px; background:#1D1D1F; border-radius:999px; box-shadow:0 18px 44px rgba(0,0,0,.22); color:#FFFFFF; font-family:\"Noto Sans SC\",\"Geist\",sans-serif; font-weight:700;",
+    "dim": "color:rgba(255,255,255,.6);",
+    "spoken": "color:#FFFFFF;",
+    "active": "color:#64D2FF;",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#FFD60A"
+    }
+  },
+  "presenter": {
+    "frame": "border:0 solid transparent; box-shadow:0 2px 4px rgba(0,0,0,.05), 0 30px 70px rgba(0,0,0,.16); background:#000;",
+    "pipRadius": "40px",
+    "radius": "36px",
+    "bw": 0,
+    "stage": "radial-gradient(70% 80% at 50% 30%, #FFFFFF 0%, #EEF1F7 60%, #DCE3F0 100%)"
+  },
+  "cover": "bento",
+  "transition": "fade"
+}

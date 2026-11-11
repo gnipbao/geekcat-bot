@@ -1,0 +1,9 @@
+{
+  "kind": "avatar",
+  "name": "<数字人名字>",
+  "selfName": "<口播里的自称>",
+  "persona": "<性格一句话>",
+  "src": "presenter/avatar.mp4",
+  "face": null,
+  "note": "稿子先行：用 narration/narration-full.mp3 在数字人平台驱动生成，时长和音频一致，放到 presenter/avatar.mp4。见 references/presenters.md"
+}

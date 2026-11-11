@@ -1,0 +1,79 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "background": "transparent",
+  "cat": {
+    "x": 0.5,
+    "y": 1.2,
+    "scale": 1.5,
+    "flip": false
+  },
+  "lipsync": "../narration/narration-full.mp3",
+  "timeline": [
+    {
+      "at": 0,
+      "do": "idle",
+      "accessories": [
+        "glasses"
+      ]
+    },
+    {
+      "at": 0.74,
+      "do": "wave"
+    },
+    {
+      "at": 2.59,
+      "do": "curious"
+    },
+    {
+      "at": 3.94,
+      "do": "talk"
+    },
+    {
+      "at": 7.21,
+      "do": "talk"
+    },
+    {
+      "at": 9.17,
+      "do": "talk"
+    },
+    {
+      "at": 11.07,
+      "do": "nod"
+    },
+    {
+      "at": 12.42,
+      "do": "talk"
+    },
+    {
+      "at": 14.48,
+      "do": "talk"
+    },
+    {
+      "at": 19.63,
+      "do": "idle"
+    },
+    {
+      "at": 20.34,
+      "do": "talk"
+    },
+    {
+      "at": 22.34,
+      "do": "nod"
+    },
+    {
+      "at": 23.69,
+      "do": "talk"
+    },
+    {
+      "at": 27.36,
+      "do": "talk"
+    },
+    {
+      "at": 33.19,
+      "do": "idle"
+    }
+  ],
+  "duration": 33.7
+}

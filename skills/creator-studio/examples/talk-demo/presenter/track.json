@@ -1,0 +1,10 @@
+[
+  { "at": 0, "mode": "full", "shift": [0.17, 0] },
+  { "at": 2.66, "zoom": 1.12, "cut": true, "shift": [0.17, 0] },
+  { "at": 7.29, "zoom": 1, "cut": true, "shift": [0.17, 0] },
+  { "at": 9.24, "zoom": 1.22, "shift": [0.17, 0] },
+  { "at": 11.14, "zoom": 1, "cut": true, "shift": [0.17, 0] },
+  { "at": 14.55, "zoom": 1.12, "cut": true, "shift": [0.2, 0] },
+  { "at": 20.0, "mode": "pip", "corner": "br" },
+  { "at": 27.3, "mode": "side" }
+]

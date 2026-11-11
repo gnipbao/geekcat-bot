@@ -1,0 +1,14 @@
+{
+  "src": "footage/screen.cut.mp4",
+  "frame": "window",
+  "title": "Location Scout — 纽约时代广场",
+  "focus": [
+    { "at": 9.0, "box": [905, 120, 290, 290], "until": 13.2 },
+    { "at": 25.6, "box": [30, 36, 860, 120], "until": 28.0 },
+    { "at": 30.0, "box": [25, 80, 850, 590], "until": 33.4 }
+  ],
+  "marks": [
+    { "at": 9.6, "until": 13.0, "box": [905, 120, 290, 290], "label": "① 真实街区地图" },
+    { "at": 26.0, "until": 27.9, "box": [30, 36, 860, 40], "label": "② 输入地名或坐标", "style": "spot" }
+  ]
+}

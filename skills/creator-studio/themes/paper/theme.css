@@ -1,0 +1,39 @@
+/* paper · 手账：米白纸 + 点阵（和墨墨的线稿原图同一种底）、黑色线稿、黄色记号笔高亮、红笔批注、手写标签。
+   卡片是手绘感的不规则圆角 + 小偏移阴影；适合想法、观点、方法论类讲解。 */
+SCOPE {
+  --hua: #FFE066;
+  --ground: #FBF8F1; --surface: #FFFFFF; --ink: #222222; --border: #222222; --muted: #6E6A63; --line: #222222;
+  --accent: #E8590C; --on-accent: #FFFFFF; --accent-text: #E8590C;
+  --hl: #FFE066; --on-hl: #222222; --mark: #FFE066;
+  --code-bg: #2B2B2B; --code-ink: #F8F5EE;
+  --texture: radial-gradient(rgba(0,0,0,.24) 1.4px, transparent 1.6px); --texture-size: 32px 32px; --texture-opacity: .8;
+  --ghost: rgba(0,0,0,.045); --dim: rgba(34,34,34,.45);
+  --black: #222222; --white: #FFFFFF; --offwhite: #FFFDF8;
+  --pink: #FFD6E2; --blue: #D3E8FF; --green: #D9F2CB; --yellow: #FFE58F; --cream: #F8EFDC;
+  --bw: 2.5px; --bw-s: 2px; --radius: 18px 7px 15px 9px / 9px 15px 7px 18px; --radius-s: 12px 4px 10px 5px / 5px 10px 4px 12px; --radius-pill: 999px;
+  --shadow: 4px 5px 0 var(--ink); --shadow-s: 2px 3px 0 var(--ink); --shadow-hl: none;
+  --font-body: "Noto Sans SC", sans-serif;
+  --font-display: "Noto Sans SC", sans-serif;
+  --font-cjk-display: "Noto Sans SC", sans-serif;
+  --font-label: "Caveat", "Long Cang", "Noto Sans SC", cursive;
+  --font-hand: "Caveat", "Long Cang", cursive;
+  --display-case: none;
+}
+/* 高亮 = 记号笔划过的下半截，不是色块 */
+SCOPE .hl {
+  background: linear-gradient(transparent 48%, var(--mark) 48%, var(--mark) 90%, transparent 90%) !important; color: var(--ink) !important;
+  border: none !important; box-shadow: none !important; padding: 0 8px !important; border-radius: 0 !important; }
+SCOPE .kw { background: linear-gradient(transparent 40%, var(--mark) 40%, var(--mark) 92%, transparent 92%), var(--surface); }
+SCOPE .label, SCOPE .tag, SCOPE .pill { font-size: 30px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+SCOPE .pill { padding: 6px 22px; }
+SCOPE .stripe { border: none; opacity: .9; background: repeating-linear-gradient(90deg, rgba(255,214,90,.9) 0 14px, rgba(255,236,170,.9) 14px 28px) !important; }
+SCOPE .ghost { font-family: "Caveat", "Long Cang", cursive; font-weight: 700; letter-spacing: 0; }
+SCOPE .callout { border-style: dashed; }
+SCOPE .speed { background: var(--accent); color: #FFFFFF; }
+/* 反白：黑板（深绿底、粉笔白字） */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #233129; --surface: #2C3B32; --ink: #F4F1E8; --border: #F4F1E8; --muted: #B8BDB0; --line: #F4F1E8;
+  --texture: radial-gradient(rgba(255,255,255,.12) 1.4px, transparent 1.6px); --ghost: rgba(255,255,255,.05);
+  --shadow: 4px 5px 0 rgba(0,0,0,.45); --shadow-s: 2px 3px 0 rgba(0,0,0,.45);
+  --pink: #5A3A44; --blue: #34475A; --green: #3A5A40; --yellow: #6B5A20; --cream: #36443A;
+}

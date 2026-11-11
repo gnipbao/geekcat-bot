@@ -1,0 +1,26 @@
+<div id="s01-hook" class="hua xl" style="left:110px; top:250px;"><div class="ctx">没有源代码</div><div class="key">也能拆开看？</div></div>
+<div id="s01-lt" class="lower-third" style="left:110px; bottom:200px;"><div class="lt-name">知识猫</div><div class="lt-role">AI 工具实测 · 开源项目拆解</div></div>
+<div id="s01-a" class="hua" style="left:110px; top:300px;"><div class="ctx">别人的软件里</div><div class="key">特别好用的功能</div></div>
+<div id="s01-b" class="hua" style="left:110px; top:300px;"><div class="ctx">可手里根本</div><div class="key strike">没有源代码</div></div>
+<div id="s01-c" class="kw" style="position:absolute; left:110px; top:380px;">专门干<span class="em">这件事</span></div>
+<div id="s01-d" class="hua xl" style="left:110px; top:230px;"><div class="ctx">它叫</div><div class="key">REA</div></div>
+<div id="s01-e" class="chip" style="position:absolute; left:116px; top:560px; font-family:var(--font-mono); font-size:34px;">Reverse Engineer Anything</div>
+<div id="s01-f" class="kw" style="position:absolute; left:116px; top:660px;">逆向一切</div>
+<!--JS-->
+slam('#s01-hook > *', c(0.15), 0.12);
+out('#s01-hook', c(2.5));
+enter('#s01-lt > *', c(0.9), { x: -60, y: 0 }, 0.12);
+out('#s01-lt', c(2.6));
+enter('#s01-a .ctx', c(2.9), { y: 30 });
+slam('#s01-a .key', c(4.9));
+out('#s01-a', c(7.2));
+enter('#s01-b .ctx', c(9.3), { y: 30 });
+slam('#s01-b .key', c(9.75));
+strike('#s01-b .key', c(10.25));
+out('#s01-b', c(11.1));
+popIn('#s01-c', c(12.5));
+out('#s01-c', c(14.4));
+enter('#s01-d .ctx', c(14.65), { y: 30 });
+slam('#s01-d .key', c(15.05));
+enter('#s01-e', c(16.1), { x: -40, y: 0 });
+popIn('#s01-f', c(18.3));

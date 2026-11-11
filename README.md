@@ -17,7 +17,7 @@
 
 ![REA 介绍视频高光](docs/rea-demo.gif)
 
-用仓库里的 [`ip-explainer-video`](skills/ip-explainer-video) skill 做的一期《REA：逆向一切》：豆包语音 2.0 旁白、HyperFrames 逐场景搭画面（BlockFrame 设计）、真实终端演示（用 REA 逆向知识猫自己的代码），知识猫作为原生图层全程主讲，嘴型跟着旁白走。1080p60，4 分 02 秒。
+用仓库里的 [`creator-studio`](skills/creator-studio) skill 做的一期《REA：逆向一切》：豆包语音 2.0 旁白、HyperFrames 逐场景搭画面（BlockFrame 设计）、真实终端演示（用 REA 逆向知识猫自己的代码），知识猫作为原生图层全程主讲，嘴型跟着旁白走。1080p60，4 分 02 秒。
 
 <img src="docs/rea-cover.png" alt="REA 介绍视频封面" width="640" />
 
@@ -68,19 +68,25 @@ node render/render.mjs auto --video main.mp4 --srt subs.srt --corner -o out/fina
 | `hyperframes` | 生成 HyperFrames 子合成，知识猫作为原生图层挂进视频工程（[实战](#实战知识猫主讲的-4-分钟讲解视频)） |
 | `live` | 直播 / OBS 浏览器源，HTTP 遥控 + 快捷键 |
 
-## Skill：让 IP 角色主讲一期讲解视频
+## Skill：creator-studio（AI 博主的视频工作室）
 
-[`skills/ip-explainer-video`](skills/ip-explainer-video/SKILL.md) 把上面那期视频的做法沉淀成可复用的流程：调研 → 口播稿 → 豆包 2.0 **整段**配音（更像真人，支持克隆声音）→ HyperFrames 场景 → IP 角色图层 → 渲染 → 五比例封面。**主题、IP 角色、声音都可替换**：换角色只需要一份 `ip.json`（[接入约定](skills/ip-explainer-video/references/ip-contract.md)），默认是知识猫。
+[`skills/creator-studio`](skills/creator-studio/SKILL.md) 把上面那期视频的做法扩成一整套可复用的流程，一期视频 = **形式 × 主讲 × 主题 × 平台**：
+
+- **形式**：讲解（稿子先行：调研 → 口播稿 → 豆包 2.0 整段配音）、录屏教程、真人口播（素材先行：录屏 / 摄像头自动对齐、转写、删重说、压停顿、长空档加速）。
+- **主讲**：IP 角色（默认知识猫，换角色只需一份 `ip.json`，[接入约定](skills/creator-studio/references/presenters.md)）、摄像头真人、数字人视频、纯配音；全屏 / 侧栏 / 小窗按时间轴切换，人脸自动居中。
+- **主题**：lab 实验室（品牌默认）、aurora 极光、bento 便当格、volt 电光、night 夜间终端、paper 手账、pop 糖果（原 BlockFrame），场景、字幕、录屏窗口、封面一起换（[主题说明](skills/creator-studio/references/themes.md)）。
+- **平台**：一次构建出 B站 / X 横版烧字幕、YouTube 横版不烧字幕 + SRT、抖音竖版，封面五比例 + YouTube 缩略图。
+- **渲染**：[FrameVelo](https://github.com/gnipbao/framevelo)（硬件编码，1080p 约快 2 倍），没装时自动回退 HyperFrames。
 
 安装（任选其一）：
 
 ```bash
-npx skills add gnipbao/geekcat-bot --skill ip-explainer-video      # skills CLI
-ln -s "$PWD/skills/ip-explainer-video" ~/.claude/skills/            # Claude Code
-ln -s "$PWD/skills/ip-explainer-video" ~/.agents/skills/            # Codex 等读取 ~/.agents/skills 的 agent
+npx skills add gnipbao/geekcat-bot --skill creator-studio      # skills CLI
+ln -s "$PWD/skills/creator-studio" ~/.claude/skills/            # Claude Code
+ln -s "$PWD/skills/creator-studio" ~/.agents/skills/            # Codex 等读取 ~/.agents/skills 的 agent
 ```
 
-依赖 [HyperFrames](https://www.hyperframes.dev)（`npx hyperframes doctor`）、ffmpeg、Python 3，以及环境变量 `DOUBAO_TTS_TOKEN`。skill 不在本仓库目录下使用时，设置 `GEEKCAT_REPO=/path/to/geekcat-bot`。然后对 agent 说："让知识猫做一期 XX 的介绍视频"。
+依赖 [HyperFrames](https://www.hyperframes.dev)（`npx hyperframes doctor`）、ffmpeg、Python 3；推荐装 [FrameVelo](https://github.com/gnipbao/framevelo)；稿子先行要环境变量 `DOUBAO_TTS_TOKEN`，素材先行要 `whisper-cli` 和模型。skill 不在本仓库目录下使用时，设置 `GEEKCAT_REPO=/path/to/geekcat-bot`。然后对 agent 说："让知识猫做一期 XX 的介绍视频"、"把这段录屏和摄像头素材做成教程，出 B站和抖音版"。
 
 ## 在剪辑软件里用
 

@@ -1,0 +1,95 @@
+/* creator-studio 场景原子。结构写在这里，颜色 / 线宽 / 阴影 / 圆角 / 字体全部走 CSS 变量；
+   主题（themes/<name>/theme.css）只改变量和少量覆盖。build.mjs 把作用域占位符换成图层根节点（#s03、#screen、#presenter…）。
+   变量默认值 = pop 主题（原 BlockFrame），旧工程不写 theme 时画面和以前逐像素一致。 */
+SCOPE {
+  position: absolute; inset: 0; overflow: hidden;
+  /* 颜色：语义 token */
+  --ground: #FFDC8B; --surface: #FFFFFF; --ink: #000000; --border: var(--ink); --muted: rgba(0,0,0,.6); --line: var(--ink);
+  --accent: #FE90E8; --on-accent: #000000; --accent-text: var(--ink);
+  --hl: #FE90E8; --on-hl: #000000; --mark: #F7CB46;
+  --code-bg: #101217; --code-ink: #E7E9ED;
+  --texture: radial-gradient(rgba(0,0,0,.28) 1.6px, transparent 1.8px); --texture-size: 28px 28px; --texture-opacity: .55;
+  --ghost: rgba(0,0,0,.09); --dim: rgba(0,0,0,.55);
+  --hua: #FFD700; --hua-ink: #FFFFFF; --hua-stroke: #000000;   /* 花字：关键词色 / 语境字色 / 描边 */
+  /* 旧名（BlockFrame 色板）。每个主题都把它们映射到自己的色板，所以旧场景里的 var(--pink) 换主题也成立 */
+  --black: #000000; --white: #FFFFFF; --offwhite: #FFFDF5;
+  --pink: #FE90E8; --blue: #C0F7FE; --green: #99E885; --yellow: #F7CB46; --cream: #FFDC8B;
+  /* 形状 */
+  --bw: 4px; --bw-s: 3px; --radius: 0px; --radius-s: 0px; --radius-pill: 9999px;
+  --shadow: 8px 8px 0 var(--ink); --shadow-s: 4px 4px 0 var(--ink); --shadow-hl: 6px 6px 0 var(--ink);
+  /* 字体 */
+  --font-body: "Inter", "Noto Sans SC", sans-serif;
+  --font-display: "Inter", "Noto Sans SC", sans-serif;
+  --font-cjk-display: "Noto Sans SC", "Inter", sans-serif;
+  --font-label: "Space Grotesk", "Noto Sans SC", sans-serif;
+  --font-mono: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-hand: var(--font-label);
+  --display-case: uppercase;
+  font-family: var(--font-body); color: var(--ink);
+}
+SCOPE .tone-invert { color: var(--ink); }   /* 局部反白（章节卡等）：变量由主题的 .tone-invert 规则换掉，文字颜色跟着换 */
+SCOPE .ground { position: absolute; inset: 0; background: var(--ground); }
+SCOPE .dots { position: absolute; inset: 0; background-image: var(--texture); background-size: var(--texture-size); opacity: var(--texture-opacity); }
+SCOPE .ghost { position: absolute; font-family: var(--font-display); font-weight: 900; letter-spacing: -0.04em; line-height: .8; color: var(--ghost); white-space: nowrap; text-transform: uppercase; }
+SCOPE .pill { position: absolute; display: inline-flex; align-items: center; gap: 12px; padding: 10px 22px; border: var(--bw-s) solid var(--border); border-radius: var(--radius-pill); box-shadow: var(--shadow-s); background: var(--surface);
+  font-family: var(--font-label); font-weight: 600; font-size: 22px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+SCOPE .pill b { font-weight: 700; }
+SCOPE .card { position: absolute; background: var(--surface); border: var(--bw) solid var(--border); box-shadow: var(--shadow); border-radius: var(--radius); box-sizing: border-box; }
+SCOPE .card-s { position: absolute; background: var(--surface); border: var(--bw-s) solid var(--border); box-shadow: var(--shadow-s); border-radius: var(--radius-s); box-sizing: border-box; }
+SCOPE .chip { display: inline-flex; align-items: center; padding: 10px 20px; border: var(--bw-s) solid var(--border); box-shadow: var(--shadow-s); border-radius: var(--radius-s); background: var(--surface); font-weight: 700; font-size: 30px; white-space: nowrap; box-sizing: border-box; }
+/* 标题里的高亮色块。必须是行内块：行内 span 的背景和边框按字体高度画、不撑开行高，会盖住上一行 / 下一行。
+   line-height: normal 让色块和原来的行内写法一样高。旧场景里直接写行内样式、且上面紧挨着另一行标题的色块（真正会压字的情况），
+   由 build 在构建时打上 data-hl 标记来兜底；单行标题不动，免得旧场景整体下移。（不用 [style*=…] 选择器：HyperFrames lint 不允许。） */
+SCOPE .hl, SCOPE span[data-hl] { display: inline-block; line-height: normal; }
+SCOPE .hl { padding: 2px 14px; border: var(--bw) solid var(--border); box-shadow: var(--shadow-hl); border-radius: var(--radius-s); background: var(--hl); color: var(--on-hl); }
+SCOPE .em { color: var(--accent-text); }
+SCOPE .kw .em, SCOPE .hl .em { color: inherit; text-decoration: underline; text-decoration-thickness: .1em; text-underline-offset: .14em; }   /* 色块里的强调：同色会看不见，改下划线 */
+SCOPE .stripe { position: absolute; border: var(--bw-s) solid var(--border); background: repeating-linear-gradient(45deg, var(--ink) 0 10px, var(--pink) 10px 22px); }
+SCOPE .star { position: absolute; border: var(--bw-s) solid var(--border); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+SCOPE .h-xl { font-family: var(--font-display); font-weight: 900; font-size: 120px; line-height: .98; letter-spacing: -0.03em; text-transform: var(--display-case); margin: 0; }
+SCOPE .h-lg { font-family: var(--font-display); font-weight: 900; font-size: 84px; line-height: 1.05; letter-spacing: -0.02em; text-transform: var(--display-case); margin: 0; }
+SCOPE .h-md { font-family: var(--font-display); font-weight: 900; font-size: 60px; line-height: 1.12; letter-spacing: -0.01em; margin: 0; }
+SCOPE .body { font-weight: 500; font-size: 30px; line-height: 1.5; }
+SCOPE .muted { color: var(--muted); }
+SCOPE .label { font-family: var(--font-label); font-weight: 600; font-size: 22px; letter-spacing: .08em; text-transform: uppercase; }
+SCOPE .mono { font-family: var(--font-mono); font-synthesis: none; }
+SCOPE .counter { position: absolute; left: 60px; bottom: 44px; }
+SCOPE .tag { display: inline-block; padding: 4px 12px; border: var(--bw-s) solid var(--border); border-radius: var(--radius-s); font-family: var(--font-label); font-weight: 700; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; }
+SCOPE .dot { width: 14px; height: 14px; border: 2px solid var(--border); border-radius: 50%; display: inline-block; }
+SCOPE .rule { height: var(--bw-s); background: var(--line); }
+SCOPE .code { background: var(--code-bg); color: var(--code-ink); font-family: var(--font-mono); border-radius: var(--radius-s); }
+SCOPE svg.lines { position: absolute; inset: 0; overflow: visible; }
+
+/* —— 叠加组件：放在录屏 / 真人画面上方（透明底场景，video.json 里该场景 ground 为 "none"） —— */
+SCOPE .kw { display: inline-flex; align-items: center; gap: 14px; padding: 12px 26px; background: var(--hl); color: var(--on-hl); border: var(--bw) solid var(--border); box-shadow: var(--shadow-hl); border-radius: var(--radius-s);
+  font-family: var(--font-cjk-display); font-weight: 900; font-size: 52px; line-height: 1.15; white-space: nowrap; }
+SCOPE .lower-third { position: absolute; left: 80px; bottom: 170px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+SCOPE .lt-name { padding: 10px 26px; background: var(--surface); color: var(--ink); border: var(--bw) solid var(--border); box-shadow: var(--shadow); border-radius: var(--radius-s); font-family: var(--font-cjk-display); font-weight: 900; font-size: 50px; white-space: nowrap; }
+SCOPE .lt-role { padding: 8px 20px; background: var(--accent); color: var(--on-accent); border-radius: var(--radius-s); font-family: var(--font-label); font-weight: 600; font-size: 30px; letter-spacing: .04em; white-space: nowrap; }
+SCOPE .callout { position: absolute; box-sizing: border-box; border: calc(var(--bw) + 2px) solid var(--accent); border-radius: var(--radius-s); }
+SCOPE .callout > .callout-label { position: absolute; left: calc(-1 * var(--bw) - 2px); bottom: 100%; margin-bottom: 10px; padding: 6px 16px; background: var(--accent); color: var(--on-accent); border-radius: var(--radius-s);
+  font-family: var(--font-label); font-weight: 700; font-size: 26px; white-space: nowrap; }
+SCOPE .spot { position: absolute; border-radius: var(--radius-s); box-shadow: 0 0 0 4000px var(--dim); }
+SCOPE .keys { display: inline-flex; align-items: center; gap: 14px; font-family: var(--font-mono); font-weight: 700; font-size: 34px; color: var(--ink); }
+SCOPE .keycap { display: inline-flex; align-items: center; justify-content: center; min-width: 76px; height: 76px; padding: 0 20px; box-sizing: border-box; background: var(--surface); color: var(--ink);
+  border: var(--bw-s) solid var(--border); border-radius: 14px; box-shadow: 0 8px 0 var(--border); font-family: var(--font-mono); font-weight: 700; font-size: 34px; }
+SCOPE .step { display: inline-flex; align-items: center; gap: 16px; padding: 10px 26px 10px 10px; background: var(--surface); color: var(--ink); border: var(--bw-s) solid var(--border); box-shadow: var(--shadow-s); border-radius: var(--radius-pill);
+  font-weight: 700; font-size: 32px; white-space: nowrap; }
+SCOPE .step > b { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-family: var(--font-mono); font-size: 28px; flex: none; }
+SCOPE .note { font-family: var(--font-hand); font-size: 44px; line-height: 1.2; color: var(--accent-text); }
+SCOPE .speed { display: inline-flex; align-items: center; gap: 10px; padding: 8px 20px; background: var(--ink); color: var(--ground); border-radius: var(--radius-pill); font-family: var(--font-mono); font-weight: 700; font-size: 28px; white-space: nowrap; }
+/* 双层花字（压在人像 / 录屏上）：.ctx 语境（白、小）+ .key 关键词（主题花字色、约 1.6 倍）。粗黑描边保证在任何画面上都读得清 */
+SCOPE .hua { position: absolute; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; font-family: var(--font-cjk-display); white-space: nowrap; }
+SCOPE .hua.center { align-items: center; text-align: center; }
+SCOPE .hua .ctx { font-weight: 900; font-size: 56px; line-height: 1.2; color: var(--hua-ink); -webkit-text-stroke: 12px var(--hua-stroke); paint-order: stroke fill; }
+SCOPE .hua .key { font-weight: 900; font-size: 104px; line-height: 1.12; color: var(--hua); -webkit-text-stroke: 18px var(--hua-stroke); paint-order: stroke fill; }
+SCOPE .hua.xl .ctx { font-size: 72px; } SCOPE .hua.xl .key { font-size: 150px; -webkit-text-stroke-width: 24px; }
+/* 划掉（否定、纠错）：配合 prelude 的 strike() */
+SCOPE .strike { position: relative; }
+SCOPE .strike::after { content: ""; position: absolute; left: -4%; right: -4%; top: 54%; height: .13em; background: var(--accent); border-radius: 99px; transform: scaleX(var(--strike, 0)); transform-origin: left center; }
+/* 录屏窗口（compositions/screen.html 和场景里都能用） */
+SCOPE .window { position: absolute; box-sizing: border-box; background: var(--surface); border: var(--bw) solid var(--border); box-shadow: var(--shadow); border-radius: var(--radius); overflow: hidden; }
+SCOPE .window-bar { position: absolute; left: 0; right: 0; top: 0; height: 52px; box-sizing: border-box; display: flex; align-items: center; gap: 10px; padding: 0 20px; border-bottom: var(--bw-s) solid var(--border); background: var(--surface);
+  font-family: var(--font-label); font-size: 20px; color: var(--muted); white-space: nowrap; overflow: hidden; }
+SCOPE .window-bar i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); flex: none; }
+SCOPE .window-bar span { margin-left: 10px; }
