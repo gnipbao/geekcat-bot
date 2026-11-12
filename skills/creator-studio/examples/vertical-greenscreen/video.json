@@ -1,0 +1,19 @@
+{
+  "title": "手绘视频 Skill — 知识猫",
+  "format": "talk",
+  "theme": "greenscreen",
+  "platforms": [
+    "douyin",
+    "xiaohongshu"
+  ],
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "chapters": false,
+  "tail": 1.6,
+  "narration": "narration/narration-full.mp3",
+  "ip": {
+    "id": "mascot",
+    "src": "compositions/mascot.html"
+  }
+}

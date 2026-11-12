@@ -1,0 +1,72 @@
+/* terminal · 终端：GitHub 深色底、终端绿、白色粗标题带光标、等宽小字。给 AI / 开发者内容用，竖版专用版式是"命令行标题 + 终端窗口"。
+   横版沿用 night 的结构（圆角、细边、柔和投影），只换成这套配色。 */
+SCOPE {
+  --hua: #3FB950;
+  --ground: #010409; --surface: #0D1117; --ink: #F0F6FC; --border: #30363D; --muted: #8B949E; --line: #30363D;
+  --accent: #3FB950; --on-accent: #010409; --accent-text: #3FB950;
+  --hl: #3FB950; --on-hl: #010409; --mark: #3FB950;
+  --code-bg: #010409; --code-ink: #E6EDF3;
+  --texture: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  --texture-size: 48px 48px; --texture-opacity: 1;
+  --ghost: rgba(255,255,255,.04); --dim: rgba(0,0,0,.62);
+  --black: #010409; --white: #161B22; --offwhite: #161B22;
+  --pink: #3A2230; --blue: #132A45; --green: #12301C; --yellow: #33300F; --cream: #161B22;
+  --bw: 2px; --bw-s: 1.5px; --radius: 18px; --radius-s: 10px; --radius-pill: 999px;
+  --shadow: 0 24px 60px rgba(0,0,0,.6); --shadow-s: 0 8px 22px rgba(0,0,0,.5); --shadow-hl: 0 0 0 6px rgba(63,185,80,.18);
+  --font-body: "Noto Sans SC", "Inter", sans-serif;
+  --font-display: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-cjk-display: "Noto Sans SC", "JetBrains Mono", sans-serif;
+  --font-label: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-hand: "JetBrains Mono", "Noto Sans SC", monospace;
+  --display-case: none;
+}
+SCOPE .stripe { border-color: var(--border); background: repeating-linear-gradient(45deg, var(--accent) 0 7px, transparent 7px 18px) !important; opacity: .75; }
+SCOPE .star { filter: drop-shadow(0 0 18px rgba(63,185,80,.35)); }
+SCOPE .pill { background: rgba(13,17,23,.92); }
+SCOPE .pill::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); flex: none; }
+SCOPE .h-xl, SCOPE .h-lg { letter-spacing: -0.04em; }
+SCOPE .keycap { box-shadow: 0 7px 0 #000; }
+SCOPE .callout { box-shadow: 0 0 0 6px rgba(63,185,80,.15), 0 0 40px rgba(63,185,80,.25); }
+SCOPE .kw { background: #0D1117; color: var(--accent); border: 2px solid var(--accent); border-radius: 12px; box-shadow: 0 0 30px rgba(63,185,80,.25); font-weight: 800; }
+SCOPE .kw .em { color: var(--ink); text-decoration: none; }
+/* 反白：浅色底（对比段落、片尾） */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #F0F6FC; --surface: #FFFFFF; --ink: #010409; --border: #010409; --muted: #57606A; --line: #010409;
+  --accent: #1A7F37; --on-accent: #FFFFFF; --accent-text: #1A7F37;
+  --texture: linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px);
+  --ghost: rgba(0,0,0,.05); --shadow: 0 18px 40px rgba(0,0,0,.18);
+  --pink: #F6D6E4; --blue: #D3E7F2; --green: #D3EEDC; --yellow: #F7E3A1; --cream: #E6EDF3;
+}
+
+/* —— 竖版专用原子（video.json 的 width < height）。场景里只写这些类名，位置和外观都在这里 ——
+   .v-title > .ctx + .key      上方标题：命令行提示符小字 + 白色粗体大字带光标（.m / .s 给长一点的标题降字号）
+   .v-media[data-title] > .v-body   终端窗口：标题栏由主题画，素材放进 .v-body（1000×1228；.light 是白底）
+   .v-stk > b + span           窗口右上角的数字贴纸（.sm 给长数字；.mini 是单行小条，用 style 改 top）
+   .v-log                      窗口里的日志行（.cmd 命令、.dim 次要、<i> 是绿色对勾）
+   .v-panel                    窗口里的深色面板
+   .v-foot                     底部状态栏 */
+SCOPE .v-title { position: absolute; left: 48px; top: 120px; width: 990px; }
+SCOPE .v-title .ctx { font-family: var(--font-display); font-size: 46px; font-weight: 700; line-height: 1.3; color: var(--accent); white-space: nowrap; }
+SCOPE .v-title .ctx::before { content: "> "; }
+SCOPE .v-title .key { font-family: var(--font-cjk-display); font-size: 150px; font-weight: 900; line-height: 1.2; color: var(--ink); white-space: nowrap; letter-spacing: -0.02em; }
+SCOPE .v-title .key::after { content: ""; display: inline-block; width: .38em; height: .82em; margin-left: .12em; background: var(--accent); vertical-align: -0.06em; }
+SCOPE .v-title.m .key { font-size: 132px; }
+SCOPE .v-title.s .key { font-size: 112px; }
+SCOPE .v-media { position: absolute; left: 40px; top: 450px; width: 1000px; height: 1300px; border-radius: 22px; overflow: hidden; background: var(--surface); box-shadow: 0 0 0 2px var(--border), 0 30px 90px rgba(0,0,0,.6); }
+SCOPE .v-media::before { content: attr(data-title); position: absolute; left: 0; top: 0; right: 0; height: 72px; box-sizing: border-box; padding-left: 160px; font-family: var(--font-display); font-size: 30px; line-height: 72px; color: var(--muted); white-space: nowrap;
+  background: radial-gradient(circle at 39px 36px, #FF5F57 11px, transparent 12px), radial-gradient(circle at 75px 36px, #FEBC2E 11px, transparent 12px), radial-gradient(circle at 111px 36px, #28C840 11px, transparent 12px), #161B22; }
+SCOPE .v-body { position: absolute; left: 0; top: 72px; width: 1000px; height: 1228px; overflow: hidden; }
+SCOPE .v-body.light { background: #FFFFFF; }
+SCOPE .v-stk { position: absolute; left: 750px; top: 380px; width: 270px; height: 240px; box-sizing: border-box; background: var(--surface); border: 4px solid var(--accent); border-radius: 14px; box-shadow: 0 0 40px rgba(63,185,80,.35); text-align: center; white-space: nowrap; }
+SCOPE .v-stk b { display: block; margin-top: 14px; font-family: var(--font-display); font-size: 120px; font-weight: 800; line-height: 1.05; color: var(--accent); }
+SCOPE .v-stk span { display: block; margin-top: 10px; font-size: 44px; font-weight: 800; line-height: 1.2; color: var(--ink); }
+SCOPE .v-stk.sm b { margin-top: 40px; font-size: 80px; letter-spacing: -0.04em; }
+SCOPE .v-stk.sm span { margin-top: 22px; }
+SCOPE .v-stk.mini { left: 770px; width: 240px; height: 100px; font-size: 50px; font-weight: 800; line-height: 92px; color: var(--accent); }
+SCOPE .v-log { position: absolute; left: 44px; font-family: var(--font-display); font-size: 44px; font-weight: 700; line-height: 1.3; color: var(--ink); white-space: nowrap; }
+SCOPE .v-log.cmd { color: var(--accent); }
+SCOPE .v-log.dim { color: var(--muted); }
+SCOPE .v-log i { font-style: normal; color: var(--accent); }
+SCOPE .v-panel { position: absolute; border-radius: 18px; background: #161B22; }
+SCOPE .v-foot { position: absolute; left: 0; right: 0; top: 1796px; text-align: center; font-family: var(--font-display); font-size: 30px; color: var(--muted); white-space: nowrap; }
+SCOPE .v-foot em { font-style: normal; color: var(--accent); }

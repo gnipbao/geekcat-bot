@@ -20,9 +20,11 @@ const fail = m => { console.error('✗ ' + m); process.exit(1) }
 if (!fs.existsSync(path.join(ROOT, 'cover.json'))) fail(`${ROOT} 里没有 cover.json`)
 const c = JSON.parse(fs.readFileSync(path.join(ROOT, 'cover.json'), 'utf8'))
 const vcfg = fs.existsSync(path.join(ROOT, 'video.json')) ? JSON.parse(fs.readFileSync(path.join(ROOT, 'video.json'), 'utf8')) : {}
-const ALIAS = { pop: 'blockframe', blockframe: 'blockframe', lab: 'swiss', swiss: 'swiss', night: 'night', paper: 'paper', aurora: 'aurora', bento: 'bento', volt: 'volt' }
-const STYLE = ALIAS[c.style || vcfg.theme || 'pop']
-if (!STYLE) fail(`未知 style "${c.style}"，可用：pop（blockframe）、lab（swiss）、night、paper、aurora、bento、volt`)
+const ALIAS = { pop: 'blockframe', blockframe: 'blockframe', lab: 'swiss', swiss: 'swiss', night: 'night', paper: 'paper', aurora: 'aurora', bento: 'bento', volt: 'volt', terminal: 'terminal', greenscreen: 'bento' }
+// 主题没有自己的封面版式时，用它 theme.json 里 "cover" 指的那一套
+const themeCover = (() => { try { return loadTheme(vcfg.theme).json.cover } catch { return null } })()
+const STYLE = ALIAS[c.style || vcfg.theme || 'pop'] || (!c.style && ALIAS[themeCover])
+if (!STYLE) fail(`未知 style "${c.style}"，可用：pop（blockframe）、lab（swiss）、night、paper、aurora、bento、volt、terminal`)
 const OUT = path.join(ROOT, 'covers'); fs.mkdirSync(path.join(OUT, 'ip'), { recursive: true })
 const RATIOS = [['16x9', 1920, 1080], ['16x10', 1920, 1200], ['4x3', 1600, 1200], ['3x4', 1200, 1600], ['9x16', 1080, 1920]]
 const OUTS = [...RATIOS.map(([n, W, H]) => [`cover-${n}`, W, H]), ['youtube-1280x720', 1280, 720]]
@@ -184,6 +186,8 @@ ${hooks.map(h => `<div class="hook">${mark(h)}</div>`).join('')}${rule}${c.subti
 }
 
 // 3) 截图
+// terminal：night 的版式，换成 GitHub 深色 + 终端绿
+LOOKS.terminal = { ...LOOKS.night, ground: '#010409', ink: '#F0F6FC', soft: '#8B949E', accent: '#3FB950', ok: '#3FB950', hl: a => `background:${a};color:#010409;padding:0 .1em;box-decoration-break:clone`, cutoutFilter: loadTheme('terminal').json.mascotFilter }
 const html = (W, H) => STYLE === 'blockframe' ? blockframe(W, H) : editorial(W, H, LOOKS[STYLE])
 const files = []
 for (const [name, W, H] of OUTS) {

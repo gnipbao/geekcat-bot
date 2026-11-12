@@ -41,7 +41,60 @@ ${legacyHL(markup.trim()).replaceAll('class="ghost"', 'class="ghost" data-layout
 }
 
 /** 卡拉 OK 字幕：正在念的字高亮，念过的实色，未念的稍淡。zone：{left,width,bottom,size} */
+/** 逐词弹跳字幕：每屏拆成两行（上行白、下行强调色更大、略微倾斜），各自在第一个字念出来的时候弹进来。画面是时间的纯函数 */
+function popCaptionsHTML({ W, H, TOTAL, theme, fontsCSS, zone, data }) {
+  const wd = ch => (/[\x00-\x7f]/.test(ch) ? 0.55 : 1), isWordCh = ch => /[A-Za-z0-9]/.test(ch), PUNCT = '，。、；：！？,.;:!? '
+  const segs = data.map((seg, n) => {
+    const chars = seg.chars, total = chars.reduce((w, c) => w + wd(c[0]), 0)
+    let sp = 0
+    if (Number.isInteger(seg.br)) sp = seg.br                      // captions.py 按词算好的断点
+    else if (total > 4.5) {                                            // 在中间附近断成两行：不拆英文单词，标点留在上一行末尾
+      let acc = 0, best = 1e9
+      for (let i = 1; i < chars.length; i++) {
+        acc += wd(chars[i - 1][0])
+        if (isWordCh(chars[i - 1][0]) && isWordCh(chars[i][0])) continue
+        if (PUNCT.includes(chars[i][0])) continue
+        const d = Math.abs(acc - total / 2) - (PUNCT.includes(chars[i - 1][0]) ? 1.2 : 0)
+        if (d < best) { best = d; sp = i }
+      }
+    }
+    const clean = arr => { const a = arr.map(c => c[0]); while (a.length && PUNCT.includes(a[a.length - 1])) a.pop(); while (a.length && PUNCT.includes(a[0])) a.shift(); return a.join('') }
+    const l2 = chars.slice(sp), t2 = (l2.find(c => c[1] != null) || [0, seg.t])[1]
+    return { t: seg.t, hold: seg.hold, a: clean(chars.slice(0, sp)), b: clean(l2), t2: sp ? +t2.toFixed(3) : seg.t, r: n % 2 ? 2 : -3 }
+  }).filter(s => s.a || s.b)
+  const style = `${fontsCSS}
+        #captions { position: absolute; inset: 0; pointer-events: none; }
+        #cap-zone { position: absolute; left: ${zone.left}px; width: ${zone.width}px; bottom: ${zone.bottom}px; display: flex; justify-content: center; }
+        ${captionCSS(theme, zone.size, 'pop')}`
+  const body = `      <div id="captions" data-composition-id="captions" data-width="${W}" data-height="${H}" data-duration="${TOTAL}">
+        <div id="cap-zone" data-layout-allow-overlap data-layout-allow-occlusion><div id="cap-card" data-layout-allow-overlap data-layout-allow-occlusion></div></div>
+      </div>`
+  const script = `          var C = ${JSON.stringify(segs)};
+          var card = document.getElementById('cap-card'), last = '';
+          var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+          var pop = function (dt) { if (dt < 0) return 0; var p = Math.min(1, dt / 0.2), q = p - 1; return 0.55 + 0.45 * (1 + 2.70158 * q * q * q + 1.70158 * q * q); };   // 0.2 秒弹进来，略微过冲
+          function draw(t) {
+            var seg = null;
+            for (var i = 0; i < C.length; i++) { if (C[i].t - 0.05 <= t && t < C[i].hold) { seg = C[i]; break; } if (C[i].t > t) break; }
+            if (!seg) { if (last !== '') { card.style.display = 'none'; last = ''; } return; }
+            var s1 = pop(t - seg.t + 0.05), s2 = pop(t - seg.t2 + 0.05);
+            var key = seg.t + '|' + s1.toFixed(3) + '|' + s2.toFixed(3);
+            if (key === last) return;
+            last = key;
+            card.style.display = 'block';
+            card.innerHTML = (seg.a ? '<div class="l1" data-layout-allow-overlap data-layout-allow-occlusion style="transform:scale(' + s1.toFixed(3) + ')">' + esc(seg.a) + '</div>' : '')
+              + (s2 > 0 ? '<div class="l2" data-layout-allow-overlap data-layout-allow-occlusion style="transform:rotate(' + seg.r + 'deg) scale(' + s2.toFixed(3) + ')">' + esc(seg.b) + '</div>' : '<div class="l2" style="visibility:hidden">' + esc(seg.b) + '</div>');
+          }
+          var proxy = { t: 0 };
+          var tl = gsap.timeline({ paused: true });
+          tl.fromTo(proxy, { t: 0 }, { t: ${TOTAL}, duration: ${TOTAL}, ease: 'none', onUpdate: function () { draw(proxy.t); } }, 0);
+          draw(0);
+          window.__timelines["captions"] = tl;`
+  return wrap('captions', style, body, script)
+}
+
 export function captionsHTML({ W, H, TOTAL, theme, fontsCSS, zone, data, look = 'card' }) {
+  if (look === 'pop') return popCaptionsHTML({ W, H, TOTAL, theme, fontsCSS, zone, data })
   const style = `${fontsCSS}
         #captions { position: absolute; inset: 0; pointer-events: none; }
         #cap-zone { position: absolute; left: ${zone.left}px; width: ${zone.width}px; bottom: ${zone.bottom}px; display: flex; justify-content: center; }
@@ -216,11 +269,11 @@ export function chaptersHTML({ W, H, TOTAL, theme, fontsCSS, scenes, top = 44 })
 }
 
 /** 底板：主题底色 + 纹理铺满整个画面（录屏窗口外、透明场景下面露出来的就是它） */
-export function backdropHTML({ W, H, TOTAL, theme, fontsCSS }) {
+export function backdropHTML({ W, H, TOTAL, theme, fontsCSS, bg }) {   // bg：video.json 的 "backdrop"（任意 CSS background），盖掉主题底色，竖版做整屏色底 / 渐变时用
   const body = `      <div id="backdrop" data-composition-id="backdrop" data-width="${W}" data-height="${H}" data-duration="${TOTAL}">
         <div class="ground"></div><div class="dots"></div>
       </div>`
-  return wrap('backdrop', `${fontsCSS}\n${theme.css('#backdrop')}`, body, `          var tl = gsap.timeline({ paused: true }); tl.set({}, {}, ${TOTAL});\n          window.__timelines["backdrop"] = tl;`)
+  return wrap('backdrop', `${fontsCSS}\n${theme.css('#backdrop')}${bg ? `\n        #backdrop .ground { background: ${bg}; } #backdrop .dots { display: none; }` : ''}`, body, `          var tl = gsap.timeline({ paused: true }); tl.set({}, {}, ${TOTAL});\n          window.__timelines["backdrop"] = tl;`)
 }
 
 /** 竖版背景 + 标题条：主题底色和纹理铺满，上方栏目名 + 标题 + 当前章节，舞台画框 */

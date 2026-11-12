@@ -1,6 +1,6 @@
 ---
 name: creator-studio
-description: AI 博主的视频工作室：把一个技术主题做成讲解视频、录屏教程或口播视频，主讲可以是 IP 角色（知识猫墨墨）、摄像头真人、数字人或纯配音，七套主题（lab 实验室 / aurora 极光 / bento 便当格 / volt 电光 / night 夜间终端 / paper 手账 / pop 糖果），一次出 B站 / YouTube / 抖音 / X 各平台版本（横版烧字幕、横版不烧字幕 + SRT、竖版）和封面，用 FrameVelo 渲染（HyperFrames 兜底）。流程：调研 → 口播稿 → 豆包配音 或 录屏 / 摄像头素材导入（转写、对齐、粗剪）→ HyperFrames 场景和叠加层 → 主讲图层 → 渲染 → 封面。用户说"做一期 XX 的视频""让知识猫讲讲 XX""把这段录屏做成教程""给我的录屏加包装""出抖音竖版""按上次 REA 那期的方式做一个""用我的 IP / 真人 / 数字人讲"时使用。
+description: AI 博主的视频工作室：把一个技术主题做成讲解视频、录屏教程或口播视频，主讲可以是 IP 角色（知识猫墨墨）、摄像头真人、数字人或纯配音，九套主题（lab 实验室 / aurora 极光 / bento 便当格 / volt 电光 / night 夜间终端 / terminal 终端 / greenscreen 绿幕评论 / paper 手账 / pop 糖果），一次出 B站 / YouTube / 抖音 / X 各平台版本（横版烧字幕、横版不烧字幕 + SRT、竖版）和封面，用 FrameVelo 渲染（HyperFrames 兜底）。流程：调研 → 口播稿 → 豆包配音 或 录屏 / 摄像头素材导入（转写、对齐、粗剪）→ HyperFrames 场景和叠加层 → 主讲图层 → 渲染 → 封面。用户说"做一期 XX 的视频""让知识猫讲讲 XX""把这段录屏做成教程""给我的录屏加包装""出抖音竖版""按上次 REA 那期的方式做一个""用我的 IP / 真人 / 数字人讲"时使用。
 ---
 
 # creator-studio · 知识猫视频工作室
@@ -11,12 +11,12 @@ description: AI 博主的视频工作室：把一个技术主题做成讲解视�
 |---|---|---|
 | 形式 `format` | `explainer` 讲解（全屏动效场景，稿子先行）· `tutorial` 教程（录屏是主画面）· `talk` 口播（人像是主画面） | `video.json` |
 | 主讲 `presenter` | `mascot` IP 角色（默认墨墨；`display: stage` 像真人主播一样装在画框里，`overlay` 站在场景上自由走位）· `camera` 摄像头真人 · `avatar` 数字人视频 · `none` 纯配音 | `presenter.json`（旧工程的 `ip.json` = mascot） |
-| 主题 `theme` | `lab` 实验室（品牌默认）· `aurora` 极光（深色科技）· `bento` 便当格（浅色苹果风）· `volt` 电光（黑绿网感）· `night` 夜间终端（教程默认）· `paper` 手账 · `pop` 糖果（原 BlockFrame，旧工程默认） | `video.json` |
+| 主题 `theme` | `lab` 实验室（品牌默认）· `aurora` 极光（深色科技）· `bento` 便当格（浅色苹果风）· `volt` 电光（黑绿网感）· `night` 夜间终端（教程默认）· `terminal` 终端（AI / 开发者向，带竖版专用版式）· `greenscreen` 绿幕评论（素材铺满 + 抠像小角色，带竖版专用版式）· `paper` 手账 · `pop` 糖果（原 BlockFrame，旧工程默认） | `video.json` |
 | 平台 `platforms` | `bilibili` / `x` → 横版烧字幕 · `youtube` → 横版不烧字幕 + SRT · `douyin` / `shorts` / `channels` → 竖版 | `video.json` |
 
 怎么选：`references/formats.md`（形式和场景型）、`references/presenters.md`（主讲、版式轨道、数字人接入）、`references/themes.md`（主题，`scripts/gallery.mjs` 出对比图）、`references/platforms.md`（平台规格、安全区）。
 
-完整样例：`examples/rea/`（讲解 · 墨墨 · pop，4 分钟 8 场景，含真实终端演示）、`examples/tutorial-demo/`（教程 · 摄像头 · night，录屏推近 + 标注 + 小窗 / 侧栏 / 全屏切换）、`examples/talk-demo/`（口播 · 墨墨当主播 · volt，钩子花字 + 句首跳推 + 无底板字幕 + 自动音效，后半段配录屏）。新做一期先挑最接近的样例当参照。
+完整样例：`examples/rea/`（讲解 · 墨墨 · pop，4 分钟 8 场景，含真实终端演示）、`examples/tutorial-demo/`（教程 · 摄像头 · night，录屏推近 + 标注 + 小窗 / 侧栏 / 全屏切换）、`examples/talk-demo/`（口播 · 墨墨当主播 · volt，钩子花字 + 句首跳推 + 无底板字幕 + 自动音效，后半段配录屏）。`examples/vertical-terminal/`（竖版原生 · 墨墨小头像 · terminal，命令行标题 + 终端窗口 + 数字贴纸，抖音 / 小红书）。`examples/vertical-greenscreen/`（同一期内容的绿幕评论版：整屏素材 + 抠像墨墨 + 逐词弹跳字幕）。新做一期先挑最接近的样例当参照。
 
 ## 依赖
 
@@ -34,6 +34,7 @@ Node 22.18+、Python 3、ffmpeg、jq；HyperFrames（`npx hyperframes doctor`）
 SK=~/.agents/skills/creator-studio
 bash $SK/scripts/new.sh <videos-dir> <slug> --format tutorial --presenter camera --theme night --platforms bilibili,youtube,douyin
 ```
+抖音 / 小红书是主战场、素材本身是竖的：加 `--vertical` 建竖版原生工程（1080×1920，场景直接按竖屏写，见 `references/platforms.md`；`--theme terminal` / `greenscreen` 自带竖版版式）。
 建工程：HyperFrames 骨架 + 字体（OFL，本机缓存只下一次）+ `video.json` / `cover.json` / `presenter.json` 模板。
 
 **1. 时间轴**（两条路，产物是同一套文件：`narration/narration-full.mp3` + `words.json` + `scenes.json` + `captions.json`）

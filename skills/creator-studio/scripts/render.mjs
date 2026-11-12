@@ -22,8 +22,10 @@ fs.mkdirSync(OUT, { recursive: true })
 // 平台 → 变体
 const PLATFORM = { bilibili: 'master', x: 'master', youtube: 'clean', douyin: 'vertical', shorts: 'vertical', channels: 'vertical', xiaohongshu: 'vertical' }
 const LIMIT = { x: 140 }   // X 非 Premium 账号单条视频上限 2 分 20 秒
+// 竖版原生工程（width < height）：主版本就是竖屏成片，竖屏平台直接用它
+const PORTRAIT = (cfg.height || 1080) > (cfg.width || 1920)
 let targets
-if (opt('platform')) targets = opt('platform').split(',').map(p => { if (!PLATFORM[p]) fail(`未知平台 "${p}"，可用：${Object.keys(PLATFORM).join('、')}`); return { name: p, variant: PLATFORM[p] } })
+if (opt('platform')) targets = opt('platform').split(',').map(p => { if (!PLATFORM[p]) fail(`未知平台 "${p}"，可用：${Object.keys(PLATFORM).join('、')}`); return { name: p, variant: PORTRAIT && PLATFORM[p] === 'vertical' ? 'master' : PLATFORM[p] } })
 else {
   const v = opt('variant', 'master')
   targets = (v === 'all' ? ['master', 'clean', 'vertical'] : v.split(',')).map(x => ({ name: x, variant: x }))
@@ -83,12 +85,12 @@ for (const [variant, names] of byVariant) {
   if (!fs.existsSync(path.join(root, 'index.html'))) fail(`还没构建 ${variant} 变体：先跑 node <skill>/scripts/build.mjs ${ROOT} --variants ${variant}`)
   const out = path.join(OUT, `${slug}-${names[0]}${preview ? '-preview' : ''}.mp4`)
   const t0 = Date.now()
-  let used = engine, r = engine === 'framevelo' ? renderFrameVelo(root, out) : renderHyperFrames(root, out, variant === 'vertical')
+  let used = engine, r = engine === 'framevelo' ? renderFrameVelo(root, out) : renderHyperFrames(root, out, variant === 'vertical' || PORTRAIT)
   if (!r.ok && engine === 'framevelo') {
     // 常见原因：全局 @hyperframes/producer 升到了 FrameVelo 不支持的版本（FrameVelo 0.6 只支持 0.8.186–0.8.x）
     const hint = /distributed\.plan|is not a function|peer/i.test(r.error || '') ? '；多半是全局 @hyperframes/producer 版本和 FrameVelo 不匹配（framevelo doctor 看版本；全局 framevelo 和 @hyperframes/producer、engine 要按 FrameVelo 的 peerDependencies 配套安装，或用 FRAMEVELO_BIN 指向能用的那份）' : ''
     if (preview) fail(`FrameVelo 失败（${r.error}）${hint}。只渲一段只有 FrameVelo 支持；要渲整片加 --engine hyperframes`)
-    console.error(`! FrameVelo 失败（${r.error}）${hint}，改用 ${pinned} 渲染整片`); used = 'hyperframes'; r = renderHyperFrames(root, out, variant === 'vertical')
+    console.error(`! FrameVelo 失败（${r.error}）${hint}，改用 ${pinned} 渲染整片`); used = 'hyperframes'; r = renderHyperFrames(root, out, variant === 'vertical' || PORTRAIT)
   }
   if (!r.ok) fail(`${variant} 渲染失败：${r.error}`)
   const expect = preview ? preview[1] : TOTAL

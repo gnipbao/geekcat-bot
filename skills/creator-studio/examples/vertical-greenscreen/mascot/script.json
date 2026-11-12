@@ -1,0 +1,111 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "background": "transparent",
+  "cat": {
+    "x": 0.5,
+    "y": 1.2,
+    "scale": 1.5,
+    "flip": false
+  },
+  "lipsync": "../narration/narration-full.mp3",
+  "timeline": [
+    {
+      "at": 0,
+      "do": "idle",
+      "accessories": [
+        "glasses"
+      ]
+    },
+    {
+      "at": 3.8,
+      "do": "surprised"
+    },
+    {
+      "at": 4.9,
+      "do": "talk"
+    },
+    {
+      "at": 5.4,
+      "do": "shake"
+    },
+    {
+      "at": 6.6,
+      "do": "talk"
+    },
+    {
+      "at": 8.15,
+      "do": "nod"
+    },
+    {
+      "at": 9,
+      "do": "talk"
+    },
+    {
+      "at": 14.3,
+      "do": "wink"
+    },
+    {
+      "at": 15.3,
+      "do": "talk"
+    },
+    {
+      "at": 20.4,
+      "do": "think"
+    },
+    {
+      "at": 21.25,
+      "do": "talk"
+    },
+    {
+      "at": 26.3,
+      "do": "wink"
+    },
+    {
+      "at": 27.2,
+      "do": "idle"
+    },
+    {
+      "at": 28,
+      "do": "talk"
+    },
+    {
+      "at": 29,
+      "do": "happy"
+    },
+    {
+      "at": 30.2,
+      "do": "talk"
+    },
+    {
+      "at": 34,
+      "do": "idle"
+    },
+    {
+      "at": 35.2,
+      "do": "talk"
+    },
+    {
+      "at": 37.7,
+      "do": "cheer"
+    },
+    {
+      "at": 39,
+      "do": "talk"
+    },
+    {
+      "at": 40.6,
+      "do": "wave"
+    },
+    {
+      "at": 42,
+      "do": "talk"
+    },
+    {
+      "at": 42.7,
+      "do": "wave"
+    }
+  ],
+  "duration": 44.539
+}

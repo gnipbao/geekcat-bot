@@ -24,7 +24,7 @@ export function loadProject(root) {
   if (!FORMATS.includes(format)) throw new Error(`未知 format "${format}"，可用：${FORMATS.join('、')}`)
   const theme = loadTheme(cfg.theme || 'pop')                 // 旧工程没写 theme → pop（原 BlockFrame）
   const presenter = loadPresenter(root)
-  const track = loadTrack(root, format, presenter, TOTAL)
+  const track = loadTrack(root, format, presenter, TOTAL, H > W && theme.json.portrait && theme.json.portrait.presenter)
   return { root, cfg, scenes, W, H, TOTAL, format, theme, presenter, track, screen, platforms: cfg.platforms || [] }
 }
 
@@ -41,9 +41,11 @@ export function loadPresenter(root) {
 }
 
 // 版式轨道：[{at, mode, corner?, size?}]，按时间排序。没写时按形式给默认值
-export function loadTrack(root, format, presenter, TOTAL) {
+export function loadTrack(root, format, presenter, TOTAL, portraitDefault) {
   const f = path.join(root, 'presenter/track.json')
   let track = fs.existsSync(f) ? readJSON(f) : null
+  // 没写 track.json：竖版原生工程用主题给的小窗位置（theme.json.portrait.presenter），其余按形式
+  if (!track && portraitDefault && portraitDefault.rect) track = [{ at: 0, mode: 'pip', rect: portraitDefault.rect, shape: portraitDefault.shape || 'circle' }]
   if (!track) track = [{ at: 0, mode: { tutorial: 'pip', talk: 'full', explainer: 'side' }[format] }]
   track = track.map(k => ({ ...k, at: +k.at })).sort((a, b) => a.at - b.at)
   let cur = track[0].mode

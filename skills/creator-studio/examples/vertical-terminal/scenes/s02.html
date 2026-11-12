@@ -1,0 +1,80 @@
+<div class="v-foot">skill: story-to-handdrawn-video · MIT · <em>★ 2,434</em></div>
+<div id="s02-h1" class="v-title"><div class="ctx">原理其实很简单</div><div class="key">就三步</div></div>
+<div id="s02-h2" class="v-title m"><div class="ctx">第一步 · AI 规划</div><div class="key">把故事拆成分镜</div></div>
+<div id="s02-h3" class="v-title m"><div class="ctx">第二步 · 生图模型</div><div class="key">每页一张图画完</div></div>
+<div id="s02-h4" class="v-title"><div class="ctx">第三步 · 本地程序</div><div class="key">一页拆成三层</div></div>
+<div id="s02-h5" class="v-title s"><div class="ctx">三层依次擦出来</div><div class="key">字 → 线稿 → 上色</div></div>
+<div id="s02-h6" class="v-title"><div class="ctx">看着像手绘</div><div class="key">其实在揭图层</div></div>
+
+<div id="s02-m1" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body">
+  <div id="s02-cmd" class="v-log cmd" style="top:36px; font-size:40px;" data-text="&gt; /story-to-handdrawn-video"></div><div class="v-log dim" style="top:110px; font-size:38px;">  把下面的故事做成手绘动画</div><div class="v-panel s02-ov" style="left:40px; top:210px; width:920px; height:240px;"><div class="v-log dim" style="left:40px; top:30px; font-size:40px;">step 1 · AI</div><div style="position:absolute; left:40px; top:96px; font-size:88px; font-weight:900; color:var(--ink); white-space:nowrap;">故事 → 分镜</div></div><div class="v-panel s02-ov" style="left:40px; top:480px; width:920px; height:240px;"><div class="v-log dim" style="left:40px; top:30px; font-size:40px;">step 2 · 生图模型</div><div style="position:absolute; left:40px; top:96px; font-size:88px; font-weight:900; color:var(--ink); white-space:nowrap;">分镜 → 画面</div></div><div class="v-panel s02-ov" style="left:40px; top:750px; width:920px; height:240px;"><div class="v-log dim" style="left:40px; top:30px; font-size:40px;">step 3 · 本地程序</div><div style="position:absolute; left:40px; top:96px; font-size:88px; font-weight:900; color:var(--ink); white-space:nowrap;">画面 → 动画</div></div>
+</div></div>
+<div id="s02-m2" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body">
+  <div class="v-log" style="top:36px;"><i>✓</i> 读取故事</div><div class="v-panel" style="left:40px; top:120px; width:690px; height:170px; box-shadow:inset 0 0 0 3px var(--accent);"><div class="v-log dim" style="left:36px; top:20px; font-size:36px;">story.txt</div><div style="position:absolute; left:36px; top:82px; font-size:44px; font-weight:900; color:var(--ink); white-space:nowrap;">小猫坐在窗边。小鸟停在枝头。</div></div><div class="v-panel s02-pg" style="left:40px; top:330px; width:448px; height:650px;"><div class="v-log cmd" style="left:36px; top:28px;">page 1</div><div style="position:absolute; left:36px; top:110px; font-size:52px; font-weight:900; color:var(--ink); white-space:nowrap;">小猫坐在窗边。</div><div style="position:absolute; left:36px; right:36px; bottom:36px; height:330px; border-radius:16px; border:4px dashed rgba(255,255,255,.28);"></div></div><div class="v-panel s02-pg" style="left:512px; top:330px; width:448px; height:650px;"><div class="v-log cmd" style="left:36px; top:28px;">page 2</div><div style="position:absolute; left:36px; top:110px; font-size:52px; font-weight:900; color:var(--ink); white-space:nowrap;">小鸟停在枝头。</div><div style="position:absolute; left:36px; right:36px; bottom:36px; height:330px; border-radius:16px; border:4px dashed rgba(255,255,255,.28);"></div></div>
+</div></div>
+<div id="s02-m3" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body light">
+  <img src="../assets/media/01_master.png" style="position:absolute; left:90px; top:0; width:819px; height:1228px;"><div id="s02-ring" style="position:absolute; left:112px; top:12px; width:592px; height:198px; border:10px solid #3FB950; border-radius:50%; box-sizing:border-box;"></div><div id="s02-k1" class="kw" style="position:absolute; left:400px; top:232px; font-size:56px;">字也是画出来的</div>
+</div></div>
+<div id="s02-m4" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body">
+  <div id="s02-strip" class="v-panel" style="left:40px; top:40px; width:920px; height:362px;"><img src="../assets/media/layer-01_text.png" style="position:absolute; left:14px; top:10px; width:892px; height:297px; border-radius:10px;"><div class="v-log dim" style="left:auto; right:24px; top:310px; font-size:36px;">文字层</div></div><div id="s02-pan" class="v-panel" style="left:40px; top:430px; width:920px; height:480px;"><img src="../assets/media/layer-01_color.png" style="position:absolute; left:40px; top:20px; width:380px; height:380px; border-radius:10px;"><div style="position:absolute; left:40px; top:412px; width:380px; text-align:center; font-size:40px; font-weight:800; color:var(--ink);">彩色层</div><div style="position:absolute; left:500px; top:20px; width:380px; height:380px; box-sizing:border-box; border-radius:10px; border:4px dashed rgba(255,255,255,.3);"></div><div style="position:absolute; left:500px; top:412px; width:380px; text-align:center; font-size:40px; font-weight:800; color:var(--ink);">黑白层</div></div><img id="s02-bw" src="../assets/media/layer-01_bw.png" style="position:absolute; left:540px; top:450px; width:380px; height:380px; border-radius:10px;"><div id="s02-kw" class="kw" style="position:absolute; left:250px; top:930px; font-size:54px;">黑白稿是算出来的</div>
+</div></div>
+<div id="s02-m5" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body light">
+  <video id="s02-v" class="clip" src="../assets/media/demo-cut.mp4" muted playsinline data-start="15.379" data-duration="6.0" data-playback-rate="0.75" data-track-index="0" style="position:absolute; left:0; top:0; right:auto; bottom:auto; width:1000px; height:1333px;"></video>
+</div></div>
+<div id="s02-s0" class="v-stk"><b>3</b><span>步搞定</span></div>
+<div id="s02-s1" class="v-stk"><b>01</b><span>共 3 步</span></div>
+<div id="s02-s2" class="v-stk"><b>02</b><span>共 3 步</span></div>
+<div id="s02-s3" class="v-stk"><b>03</b><span>共 3 步</span></div>
+<div id="s02-l1" class="v-stk mini" style="top:390px;">① 文字</div>
+<div id="s02-l2" class="v-stk mini" style="top:502px;">② 线稿</div>
+<div id="s02-l3" class="v-stk mini" style="top:614px;">③ 上色</div>
+<!--JS-->
+tl.set($('#s02-s1, #s02-s2, #s02-s3, #s02-l1, #s02-l2, #s02-l3, #s02-ring, #s02-k1'), { opacity: 0 }, 0);
+enter('#s02-h1 .ctx', c(6.8), { y: 20 });
+slam('#s02-h1 .key', c(7.25));
+enter('#s02-m1', c(6.75), { y: 0 });
+type('#s02-cmd', c(6.9), 0.7);
+popIn('.s02-ov', c(7.4), 0.3);
+popIn('#s02-s0', c(7.6));
+
+out('#s02-h1, #s02-s0', c(8.95));
+enter('#s02-h2 .ctx', c(9.07), { y: 20 });
+popIn('#s02-s1', c(9.1));
+enter('#s02-m2', c(9.15), { y: 0 });
+out('#s02-m1', c(9.7), 0.05);
+slam('#s02-h2 .key', c(9.85));
+popIn('.s02-pg', c(10.0), 0.3);
+
+out('#s02-h2, #s02-s1', c(11.65));
+enter('#s02-h3 .ctx', c(11.79), { y: 20 });
+popIn('#s02-s2', c(11.82));
+out('#s02-m2', c(11.86), 0.04);
+enter('#s02-m3', c(11.9), { y: 0 });
+slam('#s02-h3 .key', c(12.49));
+popIn('#s02-ring', c(14.36));
+popIn('#s02-k1', c(14.62));
+
+out('#s02-h3, #s02-s2', c(15.45));
+enter('#s02-h4 .ctx', c(15.57), { y: 20 });
+popIn('#s02-s3', c(15.6));
+enter('#s02-m4', c(16.1), { y: 0 });
+out('#s02-m3', c(16.65), 0.05);
+slam('#s02-h4 .key', c(16.29));
+popIn('#s02-strip', c(16.5));
+popIn('#s02-pan', c(17.3));
+tl.fromTo($('#s02-bw'), { opacity: 0, x: -460, y: 0 }, { opacity: 1, x: 0, y: 0, duration: 0.6, ease: 'power3.out' }, c(19.83));
+popIn('#s02-kw', c(20.5));
+
+out('#s02-h4', c(21.15));
+enter('#s02-h5 .ctx', c(21.29), { y: 20 });
+enter('#s02-m5', c(21.35), { y: 0 });
+out('#s02-m4', c(21.9), 0.05);
+slam('#s02-h5 .key', c(21.62));
+out('#s02-s3', c(22.7));
+popIn('#s02-l1', c(22.89));
+popIn('#s02-l2', c(23.7));
+popIn('#s02-l3', c(24.5));
+
+out('#s02-h5', c(25.15));
+enter('#s02-h6 .ctx', c(25.27), { y: 20 });
+slam('#s02-h6 .key', c(26.34));

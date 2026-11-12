@@ -1,0 +1,93 @@
+/* greenscreen · 绿幕评论：素材 / 网页截图铺满整屏，主讲是带白边的抠像小角色，红白胶囊标题、黄色高亮圈、黄色数字贴纸、逐词弹跳字幕。
+   变量和横版结构沿用 bento（浅灰底、白卡片），强调色换成红 + 黄。 */
+SCOPE {
+  --hua: #FFE600;
+  --ground: #F5F5F7; --surface: #FFFFFF; --ink: #1D1D1F; --border: rgba(0,0,0,.07); --muted: #6E6E73; --line: rgba(0,0,0,.14);
+  --accent: #0071E3; --on-accent: #FFFFFF; --accent-text: #0071E3;
+  --hl: #1D1D1F; --on-hl: #FFFFFF; --mark: #FF9F0A;
+  --grad: linear-gradient(92deg, #0A84FF 0%, #7D5CFF 52%, #FF4F9A 100%);
+  --code-bg: #1D1D1F; --code-ink: #F5F5F7;
+  --ghost: rgba(0,0,0,.04); --dim: rgba(0,0,0,.45);
+  --black: #1D1D1F; --white: #FFFFFF; --offwhite: #FBFBFD;
+  --pink: #FFE3EE; --blue: #DDEEFF; --green: #DDF6E4; --yellow: #FFF1C9; --cream: #FFFFFF;
+  --bw: 1px; --bw-s: 1px; --radius: 34px; --radius-s: 16px; --radius-pill: 999px;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 24px 60px rgba(0,0,0,.09); --shadow-s: 0 1px 2px rgba(0,0,0,.05), 0 8px 22px rgba(0,0,0,.06); --shadow-hl: none;
+  --font-body: "Noto Sans SC", "Geist", sans-serif;
+  --font-display: "Geist", "Inter Tight", "Noto Sans SC", sans-serif;
+  --font-cjk-display: "Noto Sans SC", "Geist", sans-serif;
+  --font-label: "Geist", "Noto Sans SC", sans-serif;
+  --font-hand: "Geist", "Noto Sans SC", sans-serif;
+  --display-case: none;
+}
+SCOPE .dots { opacity: 1; background:
+  radial-gradient(58% 50% at 88% -12%, rgba(10,132,255,.13), transparent 70%),
+  radial-gradient(50% 46% at -4% 112%, rgba(255,79,154,.10), transparent 70%); }
+SCOPE .ghost { letter-spacing: -0.05em; }
+SCOPE .h-xl, SCOPE .h-lg, SCOPE .h-md { font-weight: 700; letter-spacing: -0.035em; }
+SCOPE .label { color: var(--muted); text-transform: none; letter-spacing: .01em; font-weight: 600; }
+SCOPE .pill { border: none; box-shadow: var(--shadow-s); color: var(--muted); text-transform: none; letter-spacing: .01em; font-weight: 600; }
+SCOPE .pill b { color: var(--ink); }
+SCOPE .tag { border: none; border-radius: 999px; background: #EFEFF2; text-transform: none; letter-spacing: 0; font-weight: 600; padding: 6px 14px; }
+SCOPE .chip { border-radius: 999px; box-shadow: none; font-weight: 600; }
+SCOPE .hl {
+  background: var(--grad) !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent !important; -webkit-text-fill-color: transparent;
+  border: none !important; box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
+SCOPE .stripe { height: 10px !important; border: none; border-radius: 999px; background: var(--grad) !important; }
+SCOPE .star { clip-path: none; border-radius: 50%; border: none; box-shadow: var(--shadow-s); }
+/* 关键词 = 灵动岛：黑色大圆角胶囊、白字 */
+SCOPE .kw { background: #1D1D1F; color: #FFFFFF; border: none; border-radius: 30px; padding: 14px 32px; box-shadow: 0 20px 50px rgba(0,0,0,.25); font-weight: 700; }
+SCOPE .kw .em { text-decoration: none; background: linear-gradient(92deg, #64D2FF, #BF9BFF, #FF8FB8); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+SCOPE .lt-name { border: none; border-radius: 22px; font-weight: 700; }
+SCOPE .lt-role { border-radius: 999px; }
+SCOPE .callout { border-radius: 18px; box-shadow: 0 0 0 8px rgba(0,113,227,.14); }
+SCOPE .callout > .callout-label { border-radius: 999px; }
+SCOPE .keycap { border-color: rgba(0,0,0,.1); border-radius: 16px; box-shadow: 0 5px 0 rgba(0,0,0,.14); }
+SCOPE .step { border: none; }
+SCOPE .step > b { background: var(--ink); color: #FFFFFF; }
+SCOPE .speed { background: var(--ink); color: #FFFFFF; }
+SCOPE .window { border-color: rgba(0,0,0,.08); }
+SCOPE .window-bar { background: #FAFAFC; border-bottom-color: rgba(0,0,0,.07); }
+SCOPE .window-bar i { border: none; background: #FF5F57; }
+SCOPE .window-bar i:nth-child(2) { background: #FEBC2E; }
+SCOPE .window-bar i:nth-child(3) { background: #28C840; }
+/* 反白：纯黑发布会 */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #000000; --surface: #1C1C1E; --ink: #F5F5F7; --border: rgba(255,255,255,.12); --muted: #A1A1A6; --line: rgba(255,255,255,.2);
+  --accent: #2997FF; --accent-text: #2997FF; --hl: #F5F5F7; --on-hl: #000000; --ghost: rgba(255,255,255,.05);
+  --grad: linear-gradient(92deg, #64D2FF 0%, #BF9BFF 52%, #FF8FB8 100%);
+  --pink: #3A1F2B; --blue: #14283F; --green: #15301D; --yellow: #3A300F; --cream: #1C1C1E; --white: #2C2C2E;
+  --shadow: none; --shadow-s: none;
+}
+SCOPE.tone-invert .dots { display: none; }
+
+SCOPE .kw { background: #FFE600; color: #111111; border: 4px solid #111111; border-radius: 16px; box-shadow: 6px 8px 0 #111111; font-weight: 900; }
+SCOPE .kw .em { background: none; -webkit-text-fill-color: #E5352B; color: #E5352B; }
+
+/* —— 竖版专用原子（video.json 的 width < height）——
+   .v-media > .v-body          整屏素材层（.light 白底，当"文档页"用）；3:4 素材用 .v-fill 的尺寸铺满，网页截图自己写宽高
+   .v-title > .ctx + .key      顶部两枚胶囊：红色小标题 + 白色标题（要放在 .v-media 后面）
+   .v-stk > b + span           右上角黄色数字贴纸（.sm 长数字；.mini 单行小条）
+   .v-ring                     黄色高亮圈（用 style 写 left / top / width / height）
+   .v-panel / .v-log           文档页里的浅灰面板和等宽文字
+   .v-foot                     这个主题不显示 */
+SCOPE .v-media { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; background: #111111; }
+SCOPE .v-media::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.36) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 56%, rgba(0,0,0,.6) 100%); }
+SCOPE .v-body { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+SCOPE .v-body.light { background: #FFFFFF; }
+SCOPE .v-title { position: absolute; left: 40px; top: 128px; display: flex; align-items: center; gap: 14px; }
+SCOPE .v-title .ctx { height: 76px; padding: 0 30px; border-radius: 38px; background: #E5352B; font-size: 40px; font-weight: 900; line-height: 76px; color: #FFFFFF; white-space: nowrap; }
+SCOPE .v-title .key { height: 76px; padding: 0 28px; border-radius: 38px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(0,0,0,.28); font-size: 38px; font-weight: 900; line-height: 76px; color: #111111; white-space: nowrap; }
+SCOPE .v-title.m .key, SCOPE .v-title.s .key { font-family: "JetBrains Mono", "Noto Sans SC", monospace; font-size: 28px; font-weight: 700; }
+SCOPE .v-stk { position: absolute; left: 780px; top: 250px; width: 260px; height: 236px; box-sizing: border-box; background: #FFE600; border: 5px solid #111111; border-radius: 20px; box-shadow: 8px 10px 0 #111111; text-align: center; white-space: nowrap; }
+SCOPE .v-stk b { display: block; margin-top: 8px; font-family: var(--font-display); font-size: 124px; font-weight: 800; line-height: 1.05; color: #111111; letter-spacing: -0.04em; }
+SCOPE .v-stk span { display: block; margin-top: 6px; font-size: 44px; font-weight: 900; line-height: 1.2; color: #111111; }
+SCOPE .v-stk.sm b { margin-top: 34px; font-size: 80px; }
+SCOPE .v-stk.sm span { margin-top: 18px; }
+SCOPE .v-stk.mini { left: 800px; width: 240px; height: 100px; font-size: 50px; font-weight: 900; line-height: 90px; color: #111111; }
+SCOPE .v-ring { position: absolute; box-sizing: border-box; border: 10px solid #FFE600; border-radius: 50%; box-shadow: 0 0 0 4px rgba(0,0,0,.55); }
+SCOPE .v-panel { position: absolute; border-radius: 26px; background: #F2F2F4; }
+SCOPE .v-log { position: absolute; left: 60px; font-family: "JetBrains Mono", "Noto Sans SC", monospace; font-size: 40px; font-weight: 700; line-height: 1.3; color: #111111; white-space: nowrap; }
+SCOPE .v-log.cmd { color: #E5352B; }
+SCOPE .v-log.dim { color: #6E6E73; }
+SCOPE .v-log i { font-style: normal; color: #1A7F37; }
+SCOPE .v-foot { display: none; }

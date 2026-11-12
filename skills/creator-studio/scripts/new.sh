@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # 新建一期视频工程：HyperFrames 骨架 + 字体（OFL，本机缓存只下载一次）+ video.json / cover.json / presenter.json 模板
 # 用法：new.sh <videos-dir> <slug> [--format explainer|tutorial|talk] [--presenter mascot|camera|avatar|none]
-#             [--theme lab|aurora|bento|volt|night|paper|pop] [--platforms bilibili,youtube,douyin,x] [--ip 角色.ip.json]
+#             [--theme lab|aurora|bento|volt|night|terminal|greenscreen|paper|pop] [--platforms bilibili,youtube,douyin,x] [--ip 角色.ip.json] [--vertical]
 # 默认：讲解 + 墨墨 + lab；--format tutorial 时默认主题 night、主讲 camera；--format talk 时默认主讲 camera
 set -euo pipefail
 SKILL="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIR="${1:?用法：new.sh <videos-dir> <slug> [--format …] [--presenter …] [--theme …] [--platforms …]}"; SLUG="${2:?缺少 slug}"; shift 2
-FORMAT=explainer; PRESENTER=""; THEME=""; PLATFORMS="bilibili,youtube,douyin"; IP="$SKILL/templates/ip/geekcat.ip.json"
+FORMAT=explainer; PRESENTER=""; THEME=""; VERTICAL=""; PLATFORMS="bilibili,youtube,douyin"; IP="$SKILL/templates/ip/geekcat.ip.json"
 while [ $# -gt 0 ]; do
   case "$1" in
     --format) FORMAT="$2"; shift 2;; --presenter) PRESENTER="$2"; shift 2;; --theme) THEME="$2"; shift 2;;
-    --platforms) PLATFORMS="$2"; shift 2;; --ip) IP="$2"; shift 2;;
+    --platforms) PLATFORMS="$2"; shift 2;; --ip) IP="$2"; shift 2;; --vertical) VERTICAL=1; shift;;
     *) echo "✗ 不认识的参数 $1" >&2; exit 1;;
   esac
 done
@@ -31,12 +31,14 @@ cp "$SKILL/templates/project/cover.json" "$P/"
 [ "$PRESENTER" = camera ] || [ "$PRESENTER" = avatar ] && cp "$SKILL/templates/project/track.json" "$P/presenter/track.json.example"
 
 # video.json 和 presenter.json
-node - "$SKILL" "$P" "$FORMAT" "$THEME" "$PLATFORMS" "$PRESENTER" "$IP" <<'EOF'
+node - "$SKILL" "$P" "$FORMAT" "$THEME" "$PLATFORMS" "$PRESENTER" "$IP" "$VERTICAL" <<'EOF'
 const fs = require('fs'), path = require('path')
-const [SKILL, P, format, theme, platforms, presenter, ipFile] = process.argv.slice(2)
+const [SKILL, P, format, theme, platforms, presenter, ipFile, vertical] = process.argv.slice(2)
 const v = JSON.parse(fs.readFileSync(path.join(SKILL, 'templates/project/video.json'), 'utf8'))
 Object.assign(v, { format, theme, platforms: platforms.split(',').map(s => s.trim()).filter(Boolean) })
 if (format !== 'explainer') v.fps = 30
+// --vertical：竖版原生工程（1080×1920，场景直接按竖屏写；抖音 / 小红书是主战场时用，见 references/platforms.md）
+if (vertical) Object.assign(v, { width: 1080, height: 1920, fps: 30, chapters: false })
 let pr
 if (presenter === 'mascot') {
   const ip = JSON.parse(fs.readFileSync(ipFile, 'utf8'))

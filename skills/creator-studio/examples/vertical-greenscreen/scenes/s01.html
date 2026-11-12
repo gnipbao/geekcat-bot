@@ -1,0 +1,15 @@
+<div id="s01-m" class="v-media"><div class="v-body">
+  <video id="s01-v" class="clip" src="../assets/media/styles-flip.mp4" muted playsinline data-start="0" data-duration="6.6" data-media-start="12" data-playback-rate="1.4" data-track-index="0" style="position:absolute; left:-180px; top:0; right:auto; bottom:auto; width:1440px; height:1920px;"></video>
+</div></div>
+<div id="s01-t1" class="v-title"><div class="ctx">就靠这种手绘动画</div><div class="key">播放破 100 万</div></div>
+<div id="s01-t2" class="v-title"><div class="ctx">没有一帧是我画的</div><div class="key">全是 AI 干的</div></div>
+<img id="s01-ach" src="../assets/media/achievement.png" style="position:absolute; left:240px; top:330px; width:600px; height:808px; border-radius:44px; box-shadow:0 40px 100px rgba(0,0,0,.6), 0 0 0 5px #FFE600;">
+<div id="s01-s" class="v-stk"><b>0</b><span>帧手画</span></div>
+<!--JS-->
+tl.set($('#s01-ach'), { rotation: -4 }, 0);
+tl.set($('.v-stk'), { rotation: 5 }, 0);
+slam('#s01-ach', c(2.5));
+out('#s01-ach', c(3.75));
+out('#s01-t1', c(3.9));
+enter('#s01-t2', c(4.05), { x: -40, y: 0 });
+popIn('#s01-s', c(4.35));

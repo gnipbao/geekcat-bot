@@ -30,7 +30,12 @@ jobs:
           node skills/creator-studio/scripts/build.mjs work/skill --variants all
           test -f work/skill/index.html && test -f work/skill/variants/clean/index.html && test -f work/skill/variants/vertical/index.html
           for t in $(ls skills/creator-studio/themes); do node -e "const f='work/skill/video.json',v=JSON.parse(require('fs').readFileSync(f));v.theme='$t';require('fs').writeFileSync(f,JSON.stringify(v))" && node skills/creator-studio/scripts/build.mjs work/skill --variants none > /dev/null || exit 1; done
-          cd work/skill && node ../../skills/creator-studio/scripts/ip.mjs info > /dev/null
+          (cd work/skill && node ../../skills/creator-studio/scripts/ip.mjs info > /dev/null)
+          for V in vertical-terminal vertical-greenscreen; do
+            rm -rf work/vskill && mkdir -p work/vskill/build && cp -r skills/creator-studio/examples/$V/scenes work/vskill/build/scenes && cp -r skills/creator-studio/examples/$V/narration skills/creator-studio/examples/$V/mascot work/vskill/ && cp skills/creator-studio/examples/$V/video.json skills/creator-studio/examples/$V/presenter.json work/vskill/
+            node skills/creator-studio/scripts/build.mjs work/vskill && grep -q 'data-width="1080"' work/vskill/index.html && test ! -d work/vskill/variants/vertical || exit 1
+          done
+          test -f work/vskill/compositions/mascot.html
       - uses: actions/upload-artifact@v4
         with:
           name: shots-${{ matrix.os }}

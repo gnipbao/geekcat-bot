@@ -43,6 +43,13 @@ export function captionCSS(theme, size, look = 'card') {
         #cap-card span.s { color: ${ink}; }
         #cap-card span.a { color: ${b.active || '#FFD700'}; }`
   }
+  if (look === 'pop') {        // 逐词弹跳字幕：一屏两行，上一行白色、下一行更大并换成强调色，按语音一行一行蹦出来（短视频口播常见的那种）
+    const b = c.pop || c.bare || {}, ink = b.color || '#FFFFFF', st = b.stroke || '#000000'
+    return `#cap-card { display: none; text-align: center; font-family: "Noto Sans SC", sans-serif; font-weight: 900; white-space: nowrap; letter-spacing: -0.02em; }
+        #cap-card div { transform-origin: 50% 70%; line-height: 1.12; paint-order: stroke fill; }
+        #cap-card .l1 { font-size: ${Math.round(size * 0.72)}px; color: ${ink}; -webkit-text-stroke: ${Math.round(size * 0.115)}px ${st}; }
+        #cap-card .l2 { font-size: ${size}px; color: ${b.active || '#FFE600'}; -webkit-text-stroke: ${Math.round(size * 0.14)}px ${st}; filter: drop-shadow(0 ${Math.round(size * 0.065)}px 0 rgba(0,0,0,.35)); }`
+  }
   return `#cap-card { display: none; ${c.card} font-size: ${size}px; line-height: 1.25; letter-spacing: 0.01em; white-space: nowrap; transform-origin: 50% 100%; }
         #cap-card span { ${c.dim} }   /* 未念的字：观众会提前读，不能太淡 */
         #cap-card span.s { ${c.spoken} }

@@ -47,10 +47,19 @@ const CAPTIONS = cfg.captions !== false && fs.existsSync(capPath)
 const isVideoPresenter = ['camera', 'avatar'].includes(presenter.kind)
 // IP 角色的两种出场方式：overlay（老样子，站在场景上面自由走位）/ stage（像真人主播：装在画框里，有演播背景，全屏 / 侧栏 / 小窗 / 跳推都跟真人一样）
 // 没写 display 时：讲解 = overlay，教程 / 口播 = stage
-const STAGE = presenter.kind === 'mascot' && (presenter.display ? presenter.display === 'stage' : format !== 'explainer')
+const VPP = (H > W && theme.json.portrait && theme.json.portrait.presenter) || {}     // 竖版里主题给主讲的默认值
+const DISPLAY = presenter.display || VPP.display
+const STAGE = presenter.kind === 'mascot' && (DISPLAY ? DISPLAY === 'stage' : format !== 'explainer')
 const framed = isVideoPresenter || STAGE
+// 主讲画框的层级：讲解在场景上面；教程 / 口播在叠加层下面（字贴在人像上）。presenter.json 写 "front": true 时始终在最上面（小窗压在素材卡片角上）
+// 竖版原生工程（video.json 的 width < height，例如 1080×1920）：场景直接按竖屏写，主版本就是竖屏平台的成片，不再另拼竖版变体
+const PORTRAIT = H > W
+// 竖版原生工程的默认值来自主题：theme.json 的 "portrait"（整屏底色、字幕位置、主讲小窗的位置和是否置顶）；video.json / presenter.json / track.json 写了就以它们为准
+const VP = (PORTRAIT && theme.json.portrait) || {}
+const PZ = (presenter.front ?? (VP.presenter && VP.presenter.front)) || format === 'explainer' ? 50 : 8
 // 角色的"机位"：一张 1920×1080 的画布，角色半身居中；face 是脸的位置（小窗 / 侧栏 / 推近都围着它）。presenter.json 的 camera 可以覆盖
-const CAM = { w: 1920, h: 1080, cat: { x: 0.5, y: 1.2, scale: 1.5 }, face: { x: 0.44, y: 0.41, w: 0.3, h: 0.45 }, ...(presenter.camera || {}) }
+const CAM = { ...(PORTRAIT ? { w: 1080, h: 1920, cat: { x: 0.5, y: 1.1, scale: 0.95 }, face: { x: 0.435, y: 0.594, w: 0.54, h: 0.29 } }
+  : { w: 1920, h: 1080, cat: { x: 0.5, y: 1.2, scale: 1.5 }, face: { x: 0.44, y: 0.41, w: 0.3, h: 0.45 } }), ...(presenter.camera || {}) }
 // 音效：教程 / 口播默认开（按场景里的动效自动配），讲解默认关；video.json 的 "sfx": false / true / { "volume": 0.8 }
 const SFX_ON = cfg.sfx === undefined ? format !== 'explainer' : !!cfg.sfx
 const sfxVol = (cfg.sfx && cfg.sfx.volume) || 1
@@ -63,8 +72,9 @@ else if (vflag && vflag !== 'none') VARIANTS.push(...vflag.split(',').map(s => s
 else if (!vflag) {
   const pf = P.platforms
   if (pf.includes('youtube')) VARIANTS.push('clean')
-  if (pf.some(p => ['douyin', 'shorts', 'channels', 'xiaohongshu'].includes(p))) VARIANTS.push('vertical')
+  if (!PORTRAIT && pf.some(p => ['douyin', 'shorts', 'channels', 'xiaohongshu'].includes(p))) VARIANTS.push('vertical')
 }
+if (PORTRAIT && VARIANTS.includes('vertical')) fail('这个工程本身就是竖版（video.json 的 width < height），主版本就是竖屏成片，不需要 vertical 变体')
 for (const v of VARIANTS) if (!['master', 'clean', 'vertical'].includes(v)) fail(`未知变体 "${v}"，可用：clean、vertical、all、none`)
 
 // 音效表：从场景源码里的动效调用（slam / popIn / flash …，时间写成 c(秒)）、换场、主讲版式切换里自动收集，再稀疏化
@@ -108,7 +118,7 @@ function buildVariant(v) {
   }
   const comp = path.join(dir, 'compositions'); fs.mkdirSync(comp, { recursive: true })
   const caps = CAPTIONS && v !== 'clean'
-  const cs = cfg.captionStyle || {}, capLook = cs.look || (format === 'talk' ? 'bare' : 'card')
+  const ownCS = cfg.captionStyle || {}, cs = { ...(VP.captions || {}), ...ownCS }, capLook = cs.look || (format === 'talk' ? 'bare' : 'card')
   let stageLayer = null
   const fontsSub = fontFaceCSS({ root: ROOT, base: '../' }), fontsRoot = fontFaceCSS({ root: ROOT, base: '' })
   const hosts = []
@@ -121,7 +131,7 @@ function buildVariant(v) {
     writeFresh(path.join(comp, 'vheader.html'), vheaderHTML({ W: VW, H: VH, TOTAL, theme, fontsCSS: fontsSub, label, title, scenes, stage: V_LAYOUT.stage }))
     hosts.push({ id: 'vheader', src: 'compositions/vheader.html', start: 0, dur: TOTAL, track: 0, z: 0 })
   } else {
-    writeFresh(path.join(comp, 'backdrop.html'), backdropHTML({ W, H, TOTAL, theme, fontsCSS: fontsSub }))
+    writeFresh(path.join(comp, 'backdrop.html'), backdropHTML({ W, H, TOTAL, theme, fontsCSS: fontsSub, bg: cfg.backdrop ?? VP.backdrop }))
     hosts.push({ id: 'backdrop', src: 'compositions/backdrop.html', start: 0, dur: TOTAL, track: 0, z: 0 })
   }
 
@@ -151,7 +161,7 @@ function buildVariant(v) {
     const m = probe(path.join(ROOT, src))
     writeFresh(path.join(comp, 'presenter.html'), presenterHTML({ W: VW, H: VH, TOTAL, theme, src, SW: m.width, SH: m.height, face: faceFor(ROOT, src, presenter.face), track, layout: vertical ? 'vertical' : 'landscape' }))
     // 讲解（场景不透明、给主讲留了位置）主讲在场景上面；教程 / 口播的场景是透明叠加层，要压在人像上面
-    hosts.push({ id: 'presenter', src: 'compositions/presenter.html', start: 0, dur: TOTAL, track: 20, z: format === 'explainer' ? 50 : 8 })
+    hosts.push({ id: 'presenter', src: 'compositions/presenter.html', start: 0, dur: TOTAL, track: 20, z: PZ })
   } else if (STAGE) {
     const id = (cfg.ip && cfg.ip.id) || presenter.id || 'mascot'
     const sp = path.join(ROOT, 'mascot/script.json')
@@ -163,18 +173,19 @@ function buildVariant(v) {
     const ipFile = fs.existsSync(path.join(ROOT, 'presenter.json')) ? 'presenter.json' : 'ip.json'
     try { execFileSync('node', [path.join(HERE, 'ip.mjs'), 'layer', '--ip', path.join(ROOT, ipFile), '--script', ss, '--out', path.join(comp, id + '.html')], { cwd: ROOT, stdio: ['ignore', 'ignore', 'inherit'] }) }
     catch { fail(`${presenter.name || id} 的图层生成失败（先跑 node <skill>/scripts/ip.mjs validate --script mascot/script.json 看报错）`) }
-    stageLayer = mascotStage({ W: VW, H: VH, theme, id, src: `compositions/${id}.html`, start: 0, dur: TOTAL, SW: CAM.w, SH: CAM.h, face: CAM.face, track, layout: vertical ? 'vertical' : 'landscape', z: format === 'explainer' ? 50 : 8 })
+    stageLayer = mascotStage({ W: VW, H: VH, theme, id, src: `compositions/${id}.html`, start: 0, dur: TOTAL, SW: CAM.w, SH: CAM.h, face: CAM.face, track, layout: vertical ? 'vertical' : 'landscape', z: PZ })
   } else if (presenter.kind === 'mascot') {
     const id = (cfg.ip && cfg.ip.id) || presenter.id || 'mascot'
     const layer = path.join(ROOT, (cfg.ip && cfg.ip.src) || `compositions/${id}.html`)
-    if (vertical) {
-      // 竖版：同一份角色剧本，站位固定在主讲区（动作、口型不变）
+    const fixedCat = vertical ? V_LAYOUT.mascot : (PORTRAIT && VPP.cat) || null
+    if (fixedCat) {
+      // 竖版变体，或主题给了站位的竖版原生工程（抠像小角色）：同一份角色剧本，站位固定（动作、口型不变）
       const sp = path.join(ROOT, 'mascot/script.json')
       if (fs.existsSync(sp)) {
-        const s = JSON.parse(fs.readFileSync(sp, 'utf8')), M = V_LAYOUT.mascot
+        const s = JSON.parse(fs.readFileSync(sp, 'utf8')), M = fixedCat
         Object.assign(s, { width: VW, height: VH, cat: { ...(s.cat || {}), x: M.x, y: M.y, scale: M.scale, flip: false } })
         s.timeline = (s.timeline || []).map(({ cat, ...e }) => e)
-        const vs = path.join(dir, 'mascot/script.json'); fs.mkdirSync(path.dirname(vs), { recursive: true }); dropMissingLipsync(s, vs); writeFresh(vs, JSON.stringify(s))
+        const vs = path.join(dir, vertical ? 'mascot/script.json' : 'mascot/portrait.json'); fs.mkdirSync(path.dirname(vs), { recursive: true }); dropMissingLipsync(s, vs); writeFresh(vs, JSON.stringify(s))
         const ipFile = fs.existsSync(path.join(ROOT, 'presenter.json')) ? 'presenter.json' : 'ip.json'
         try {
           execFileSync('node', [path.join(HERE, 'ip.mjs'), 'layer', '--ip', path.join(ROOT, ipFile), '--script', vs, '--out', path.join(comp, id + '.html')], { cwd: ROOT, stdio: ['ignore', 'ignore', 'inherit'] })
@@ -190,21 +201,22 @@ function buildVariant(v) {
   // 字幕：竖版用更短的行（每屏 ≤ 12 字），放在主讲区下沿，避开平台底部的标题 / 按钮
   if (caps) {
     let data = JSON.parse(fs.readFileSync(capPath, 'utf8'))
-    if (vertical) {
+    if (vertical || PORTRAIT || capLook === 'pop') {          // 竖版每屏 ≤ 12 字；逐词弹跳字幕每屏 ≤ 8 字（拆成两行）
       const out = path.join(dir, 'narration/captions-vertical.json')
       fs.rmSync(out, { force: true })
-      execFileSync('python3', [path.join(HERE, 'captions.py'), ROOT, '--max', '12', '--out', out], { stdio: ['ignore', 'ignore', 'inherit'] })
+      execFileSync('python3', [path.join(HERE, 'captions.py'), ROOT, '--max', String(capLook === 'pop' ? (ownCS.max ?? 8) : (cs.max ?? 12)), '--out', out], { stdio: ['ignore', 'ignore', 'inherit'] })
       data = JSON.parse(fs.readFileSync(out, 'utf8'))
     }
-    const bare = capLook === 'bare'
-    const zone = vertical ? V_LAYOUT.captions : { left: cs.left ?? (bare ? 160 : 120), width: cs.width ?? (bare ? 1600 : 1400), bottom: cs.bottom ?? (bare ? 64 : 34), size: cs.size ?? (bare ? 60 : 48) }
+    const bare = capLook === 'bare' || capLook === 'pop'
+    const popSize = capLook === 'pop' ? (ownCS.size ?? (VW < VH ? 150 : 120)) : null       // 逐词弹跳：字号和每屏字数不跟主题给普通字幕的默认值走
+    const zone = vertical ? { ...V_LAYOUT.captions, ...(popSize ? { size: 120 } : {}) } : PORTRAIT ? { left: cs.left ?? 90, width: cs.width ?? 900, bottom: cs.bottom ?? 450, size: popSize ?? cs.size ?? 58 } : { left: cs.left ?? (bare ? 160 : 120), width: cs.width ?? (bare ? 1600 : 1400), bottom: cs.bottom ?? (bare ? 64 : 34), size: popSize ?? cs.size ?? (bare ? 60 : 48) }
     writeFresh(path.join(comp, 'captions.html'), captionsHTML({ W: VW, H: VH, TOTAL, theme, fontsCSS: fontsSub, zone, data, look: capLook }))
     hosts.push({ id: 'captions', src: 'compositions/captions.html', start: 0, dur: TOTAL, track: 30, z: 60, attrs: ' data-track-kind="captions" data-layout-allow-overlap data-layout-allow-occlusion' })
   }
 
   // 章节胶囊（口播默认开；竖版的标题条里已经有章节）
   if ((cfg.chapters ?? format === 'talk') && !vertical) {
-    writeFresh(path.join(comp, 'chapters.html'), chaptersHTML({ W, H, TOTAL, theme, fontsCSS: fontsSub, scenes }))
+    writeFresh(path.join(comp, 'chapters.html'), chaptersHTML({ W, H, TOTAL, theme, fontsCSS: fontsSub, scenes, top: cfg.chaptersTop ?? (PORTRAIT ? 150 : 44) }))
     hosts.push({ id: 'chapters', src: 'compositions/chapters.html', start: 0, dur: TOTAL, track: 31, z: 55 })
   }
   const audios = [...sfxCues.map((c, i) => ({ id: 'sfx-' + i, src: c.src, at: c.at, volume: c.volume, dur: Math.min(c.dur, +(TOTAL - c.at).toFixed(3)), track: 11 + (i % 3) })),

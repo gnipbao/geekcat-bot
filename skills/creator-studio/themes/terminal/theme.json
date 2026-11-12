@@ -1,0 +1,60 @@
+{
+  "name": "terminal",
+  "label": "终端",
+  "description": "GitHub 深色底 #010409、终端绿 #3FB950、白色粗标题带光标、等宽小字。AI / 开发者内容用；带一套竖版专用版式：命令行标题 + 终端窗口 + 绿色数字贴纸 + 底部状态栏，主讲缩成左下角的小圆头像。",
+  "bestFor": [
+    "talk",
+    "tutorial",
+    "explainer"
+  ],
+  "grounds": [
+    "#010409"
+  ],
+  "named": {
+    "cream": "#010409",
+    "offwhite": "#010409",
+    "yellow": "#0B0F06",
+    "blue": "#050B14",
+    "pink": "#0F0810",
+    "green": "#06110A",
+    "white": "#0D1117",
+    "black": "#010409",
+    "surface": "#0D1117",
+    "deep": "#000000"
+  },
+  "palette": {
+    "ground": "#010409",
+    "ink": "#F0F6FC",
+    "accent": "#3FB950",
+    "mark": "#3FB950",
+    "surface": "#0D1117"
+  },
+  "captions": {
+    "card": "padding:12px 32px 16px; background:rgba(13,17,23,.92); border:1.5px solid #30363D; border-radius:14px; box-shadow:0 14px 40px rgba(0,0,0,.5); color:#F0F6FC; font-family:\"Noto Sans SC\",\"Inter\",sans-serif; font-weight:900;",
+    "dim": "color:rgba(240,246,252,.7);",
+    "spoken": "color:#F0F6FC;",
+    "active": "color:#010409; background:#3FB950; box-shadow:0 0 0 3px #3FB950; border-radius:3px;",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#56D364"
+    }
+  },
+  "presenter": {
+    "frame": "border:3px solid #3FB950; box-shadow:0 0 40px rgba(63,185,80,.35), 0 24px 60px rgba(0,0,0,.55); background:#000;",
+    "pipRadius": "28px",
+    "radius": "18px",
+    "bw": 3,
+    "stage": "radial-gradient(70% 80% at 50% 32%, #FFFDF6 0%, #F3EAD3 60%, #DCCFAE 100%)"
+  },
+  "portrait": {
+    "backdrop": "radial-gradient(80% 40% at 50% 0%, rgba(63,185,80,.16), transparent 70%), linear-gradient(#010409,#010409)",
+    "captions": { "look": "bare", "left": 250, "width": 790, "bottom": 250, "size": 56, "max": 11 },
+    "presenter": { "rect": [30, 1540, 210, 210], "shape": "circle", "front": true },
+    "media": { "x": 40, "y": 522, "width": 1000, "height": 1228 }
+  },
+  "cover": "night",
+  "transition": "fade",
+  "mascotFilter": "drop-shadow(0 0 1.6px rgba(240,246,252,.95)) drop-shadow(0 0 26px rgba(63,185,80,.3))",
+  "tilt": 0
+}

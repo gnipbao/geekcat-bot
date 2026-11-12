@@ -1,0 +1,78 @@
+{
+  "name": "greenscreen",
+  "label": "绿幕评论",
+  "description": "把网页、截图、素材铺满整屏，主讲是左下角带白边的抠像小角色，红白胶囊标题、黄色高亮圈和数字贴纸、逐词弹跳字幕。AI 资讯、工具点评、\"带你看一个项目\"用；横版沿用 bento 的浅色结构。",
+  "bestFor": [
+    "talk",
+    "tutorial"
+  ],
+  "tilt": 0,
+  "grounds": [
+    "#F5F5F7"
+  ],
+  "named": {
+    "cream": "#F5F5F7",
+    "offwhite": "#FBFBFD",
+    "yellow": "#F7F5EE",
+    "blue": "#EEF3F9",
+    "pink": "#F8F0F4",
+    "green": "#EFF6F1",
+    "white": "#FFFFFF"
+  },
+  "palette": {
+    "ground": "#F5F5F7",
+    "ink": "#1D1D1F",
+    "accent": "#0071E3",
+    "mark": "#FF9F0A",
+    "surface": "#FFFFFF"
+  },
+  "captions": {
+    "card": "padding:12px 38px 16px; background:#1D1D1F; border-radius:999px; box-shadow:0 18px 44px rgba(0,0,0,.22); color:#FFFFFF; font-family:\"Noto Sans SC\",\"Geist\",sans-serif; font-weight:700;",
+    "dim": "color:rgba(255,255,255,.6);",
+    "spoken": "color:#FFFFFF;",
+    "active": "color:#64D2FF;",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#FFE600"
+    },
+    "pop": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#FFE600"
+    }
+  },
+  "presenter": {
+    "frame": "border:0 solid transparent; box-shadow:0 2px 4px rgba(0,0,0,.05), 0 30px 70px rgba(0,0,0,.16); background:#000;",
+    "pipRadius": "40px",
+    "radius": "36px",
+    "bw": 0,
+    "stage": "radial-gradient(70% 80% at 50% 30%, #FFFFFF 0%, #EEF1F7 60%, #DCE3F0 100%)"
+  },
+  "cover": "bento",
+  "transition": "fade",
+  "portrait": {
+    "backdrop": "#111111",
+    "captions": {
+      "look": "pop",
+      "left": 290,
+      "width": 750,
+      "bottom": 300
+    },
+    "presenter": {
+      "display": "overlay",
+      "cat": {
+        "x": 0.13,
+        "y": 1.085,
+        "scale": 0.31
+      }
+    },
+    "media": {
+      "x": 0,
+      "y": 0,
+      "width": 1080,
+      "height": 1920
+    }
+  },
+  "mascotFilter": "drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(0 12px 18px rgba(0,0,0,.45))"
+}
