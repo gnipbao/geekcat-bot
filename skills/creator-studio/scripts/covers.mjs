@@ -20,7 +20,7 @@ const fail = m => { console.error('✗ ' + m); process.exit(1) }
 if (!fs.existsSync(path.join(ROOT, 'cover.json'))) fail(`${ROOT} 里没有 cover.json`)
 const c = JSON.parse(fs.readFileSync(path.join(ROOT, 'cover.json'), 'utf8'))
 const vcfg = fs.existsSync(path.join(ROOT, 'video.json')) ? JSON.parse(fs.readFileSync(path.join(ROOT, 'video.json'), 'utf8')) : {}
-const ALIAS = { pop: 'blockframe', blockframe: 'blockframe', lab: 'swiss', swiss: 'swiss', night: 'night', paper: 'paper', aurora: 'aurora', bento: 'bento', volt: 'volt', terminal: 'terminal', greenscreen: 'bento' }
+const ALIAS = { pop: 'blockframe', blockframe: 'blockframe', lab: 'swiss', swiss: 'swiss', night: 'night', paper: 'paper', aurora: 'aurora', bento: 'bento', volt: 'volt', terminal: 'terminal', greenscreen: 'bento', headline: 'night', markup: 'paper', prompt: 'aurora', cinema: 'night' }
 // 主题没有自己的封面版式时，用它 theme.json 里 "cover" 指的那一套
 const themeCover = (() => { try { return loadTheme(vcfg.theme).json.cover } catch { return null } })()
 const STYLE = ALIAS[c.style || vcfg.theme || 'pop'] || (!c.style && ALIAS[themeCover])

@@ -1,0 +1,85 @@
+{
+  "name": "headline",
+  "label": "大字",
+  "description": "素材铺满整屏压暗，标题是压在画面上的特粗白字 + 黄色大字（开场钩子居中放到最大），黄色数字徽章。短视频开场、数据冲击、观点快评用；横版沿用 night 的结构。",
+  "bestFor": [
+    "tutorial",
+    "explainer"
+  ],
+  "grounds": [
+    "#0E0F11"
+  ],
+  "named": {
+    "cream": "#0E0F11",
+    "offwhite": "#0E0F11",
+    "yellow": "#13120E",
+    "blue": "#0D1215",
+    "pink": "#130E12",
+    "green": "#0D1310",
+    "white": "#17191D",
+    "black": "#0E0F11",
+    "surface": "#17191D",
+    "deep": "#08090B"
+  },
+  "palette": {
+    "ground": "#0E0F11",
+    "ink": "#EDEBE6",
+    "accent": "#F7CB46",
+    "mark": "#3DDC84",
+    "surface": "#17191D"
+  },
+  "captions": {
+    "card": "padding:12px 32px 16px; background:rgba(14,15,17,.9); border:1.5px solid #383C44; border-radius:14px; box-shadow:0 14px 40px rgba(0,0,0,.5); color:#EDEBE6; font-family:\"Noto Sans SC\",\"Inter\",sans-serif; font-weight:900;",
+    "dim": "color:rgba(237,235,230,.7);",
+    "spoken": "color:#EDEBE6;",
+    "active": "color:#0E0F11; background:#F7CB46; box-shadow:0 0 0 3px #F7CB46; border-radius:3px;",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#FFE600"
+    },
+    "pop": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#FFE600"
+    }
+  },
+  "presenter": {
+    "frame": "border:5px solid #FFFFFF; box-shadow:0 14px 40px rgba(0,0,0,.5); background:#000;",
+    "pipRadius": "28px",
+    "radius": "18px",
+    "bw": 5,
+    "stage": "radial-gradient(70% 80% at 50% 32%, #FFFDF6 0%, #F3EAD3 60%, #DCCFAE 100%)"
+  },
+  "cover": "night",
+  "transition": "fade",
+  "mascotFilter": "drop-shadow(0 0 1.6px rgba(237,235,230,.95)) drop-shadow(0 0 26px rgba(247,203,70,.28))",
+  "tilt": 0,
+  "portrait": {
+    "backdrop": "#0B0B0B",
+    "captions": {
+      "look": "bare",
+      "left": 250,
+      "width": 790,
+      "bottom": 250,
+      "size": 58,
+      "max": 11
+    },
+    "presenter": {
+      "rect": [
+        36,
+        1560,
+        200,
+        200
+      ],
+      "shape": "circle",
+      "front": true
+    },
+    "media": {
+      "x": 0,
+      "y": 0,
+      "width": 1080,
+      "height": 1920
+    }
+  }
+}

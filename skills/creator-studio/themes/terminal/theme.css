@@ -38,35 +38,36 @@ SCOPE.tone-invert, SCOPE .tone-invert {
   --pink: #F6D6E4; --blue: #D3E7F2; --green: #D3EEDC; --yellow: #F7E3A1; --cream: #E6EDF3;
 }
 
-/* —— 竖版专用原子（video.json 的 width < height）。场景里只写这些类名，位置和外观都在这里 ——
-   .v-title > .ctx + .key      上方标题：命令行提示符小字 + 白色粗体大字带光标（.m / .s 给长一点的标题降字号）
-   .v-media[data-title] > .v-body   终端窗口：标题栏由主题画，素材放进 .v-body（1000×1228；.light 是白底）
-   .v-stk > b + span           窗口右上角的数字贴纸（.sm 给长数字；.mini 是单行小条，用 style 改 top）
-   .v-log                      窗口里的日志行（.cmd 命令、.dim 次要、<i> 是绿色对勾）
-   .v-panel                    窗口里的深色面板
-   .v-foot                     底部状态栏 */
-SCOPE .v-title { position: absolute; left: 48px; top: 120px; width: 990px; }
-SCOPE .v-title .ctx { font-family: var(--font-display); font-size: 46px; font-weight: 700; line-height: 1.3; color: var(--accent); white-space: nowrap; }
+/* —— 竖版版式：命令行标题 + 终端窗口（素材放窗口里）+ 窗口角上的绿色数字贴纸 + 底部状态栏 —— */
+SCOPE { --v-ink: #F0F6FC; --v-sub: #8B949E; --v-panel: #161B22; --v-accent: #3FB950; --v-dash: rgba(255,255,255,.3); --v-radius: 18px; --v-fs-h: 40px; --v-fs-strong: 84px; --v-stk-top: 380px; }
+SCOPE .v-title .ctx { font-family: var(--font-display); font-size: 46px; font-weight: 700; line-height: 1.3; color: var(--accent); }
 SCOPE .v-title .ctx::before { content: "> "; }
-SCOPE .v-title .key { font-family: var(--font-cjk-display); font-size: 150px; font-weight: 900; line-height: 1.2; color: var(--ink); white-space: nowrap; letter-spacing: -0.02em; }
+SCOPE .v-title .key { font-family: var(--font-cjk-display); font-size: 150px; font-weight: 900; line-height: 1.2; color: var(--ink); letter-spacing: -0.02em; }
 SCOPE .v-title .key::after { content: ""; display: inline-block; width: .38em; height: .82em; margin-left: .12em; background: var(--accent); vertical-align: -0.06em; }
 SCOPE .v-title.m .key { font-size: 132px; }
 SCOPE .v-title.s .key { font-size: 112px; }
-SCOPE .v-media { position: absolute; left: 40px; top: 450px; width: 1000px; height: 1300px; border-radius: 22px; overflow: hidden; background: var(--surface); box-shadow: 0 0 0 2px var(--border), 0 30px 90px rgba(0,0,0,.6); }
+SCOPE .v-media { left: 40px; top: 450px; width: 1000px; height: 1300px; border-radius: 22px; background: var(--surface); box-shadow: 0 0 0 2px var(--border), 0 30px 90px rgba(0,0,0,.6); }
 SCOPE .v-media::before { content: attr(data-title); position: absolute; left: 0; top: 0; right: 0; height: 72px; box-sizing: border-box; padding-left: 160px; font-family: var(--font-display); font-size: 30px; line-height: 72px; color: var(--muted); white-space: nowrap;
   background: radial-gradient(circle at 39px 36px, #FF5F57 11px, transparent 12px), radial-gradient(circle at 75px 36px, #FEBC2E 11px, transparent 12px), radial-gradient(circle at 111px 36px, #28C840 11px, transparent 12px), #161B22; }
-SCOPE .v-body { position: absolute; left: 0; top: 72px; width: 1000px; height: 1228px; overflow: hidden; }
-SCOPE .v-body.light { background: #FFFFFF; }
-SCOPE .v-stk { position: absolute; left: 750px; top: 380px; width: 270px; height: 240px; box-sizing: border-box; background: var(--surface); border: 4px solid var(--accent); border-radius: 14px; box-shadow: 0 0 40px rgba(63,185,80,.35); text-align: center; white-space: nowrap; }
-SCOPE .v-stk b { display: block; margin-top: 14px; font-family: var(--font-display); font-size: 120px; font-weight: 800; line-height: 1.05; color: var(--accent); }
-SCOPE .v-stk span { display: block; margin-top: 10px; font-size: 44px; font-weight: 800; line-height: 1.2; color: var(--ink); }
+SCOPE .v-body { top: 72px; }
+SCOPE .v-body.doc { background: var(--surface); }
+SCOPE .v-fill, SCOPE .v-fill.fit { left: 0; top: 0; width: 1000px; height: 1333px; }
+SCOPE .v-page { width: 1000px; }
+SCOPE .v-doc { top: 0; padding: 34px 40px; gap: 24px; }
+SCOPE .v-h { font-family: var(--font-display); font-weight: 700; color: var(--accent); }
+SCOPE .v-h::before { content: "> "; }
+SCOPE .v-row { padding: 32px 40px; }
+SCOPE .v-row > b { width: 130px; height: 130px; background: #0D1117; color: var(--accent); box-shadow: inset 0 0 0 3px var(--accent); font-size: 84px; line-height: 130px; }
+SCOPE .v-bar { background: #161B22; box-shadow: inset 0 0 0 3px var(--accent); }
+SCOPE .v-bar strong { font-size: 50px; }
+SCOPE .v-cell small { font-family: var(--font-display); }
+SCOPE .v-stk { left: 750px; width: 270px; height: 240px; background: var(--surface); border: 4px solid var(--accent); border-radius: 14px; box-shadow: 0 0 40px rgba(63,185,80,.35); }
+SCOPE .v-stk b { margin-top: 14px; font-family: var(--font-display); font-size: 120px; font-weight: 800; line-height: 1.05; color: var(--accent); }
+SCOPE .v-stk span { margin-top: 10px; font-size: 44px; font-weight: 800; line-height: 1.2; color: var(--ink); }
 SCOPE .v-stk.sm b { margin-top: 40px; font-size: 80px; letter-spacing: -0.04em; }
 SCOPE .v-stk.sm span { margin-top: 22px; }
-SCOPE .v-stk.mini { left: 770px; width: 240px; height: 100px; font-size: 50px; font-weight: 800; line-height: 92px; color: var(--accent); }
-SCOPE .v-log { position: absolute; left: 44px; font-family: var(--font-display); font-size: 44px; font-weight: 700; line-height: 1.3; color: var(--ink); white-space: nowrap; }
-SCOPE .v-log.cmd { color: var(--accent); }
-SCOPE .v-log.dim { color: var(--muted); }
-SCOPE .v-log i { font-style: normal; color: var(--accent); }
-SCOPE .v-panel { position: absolute; border-radius: 18px; background: #161B22; }
-SCOPE .v-foot { position: absolute; left: 0; right: 0; top: 1796px; text-align: center; font-family: var(--font-display); font-size: 30px; color: var(--muted); white-space: nowrap; }
+SCOPE .v-stk.mini { left: 770px; width: 240px; font-size: 50px; font-weight: 800; line-height: 92px; color: var(--accent); }
+SCOPE .v-pop { box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 3px var(--accent); }
+SCOPE .v-tags { left: 30px; top: 160px; }
+SCOPE .v-foot { display: block; position: absolute; left: 0; right: 0; top: 1796px; text-align: center; font-family: var(--font-display); font-size: 30px; color: var(--muted); white-space: nowrap; }
 SCOPE .v-foot em { font-style: normal; color: var(--accent); }

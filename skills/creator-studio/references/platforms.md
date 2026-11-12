@@ -28,10 +28,10 @@
 要展示的素材本身是竖图或竖视频（3:4 的手绘页、手机录屏）时，套进横版再缩成竖版会太小。这时直接按竖屏写：`new.sh … --vertical` 建工程（或 `video.json` 写 `"width": 1080, "height": 1920`），场景按 1080×1920 的像素排版，主版本就是竖屏成片，`render.mjs --platform douyin,xiaohongshu` 直接用它，不再另拼 `variants/vertical/`。
 
 - **画面铺满，不留空白**：背景和素材一直铺到底（约 y 1780），底部被平台标题盖住的那一段只放不重要的东西（素材下沿、状态栏）；不要为了"安全区"把下面四分之一空着。关键内容（标题、数字、字幕）放在上 150px 以下、y 1700 以上，右侧 x > 950 且 y 在 900–1500 之间（点赞评论按钮）不放字。
-- 带竖版版式的主题（`terminal`、`greenscreen`，见 `themes.md`）会给好整屏底色、字幕位置、主讲小头像的位置，场景用 `.v-*` 原子写；其他主题要自己在 `video.json` 写 `"backdrop"`（整屏底色，任意 CSS background）、`captionStyle`，在 `presenter.json` 写 `"front": true`（小头像压在素材卡片上面）。
+- 带竖版版式的主题（`terminal`、`greenscreen`、`headline`、`markup`、`prompt`、`cinema`，见 `themes.md`）会给好整屏底色、字幕、主讲的位置，场景用 `.v-*` 原子写，同一份场景可以在它们之间换；其他主题要自己在 `video.json` 写 `"backdrop"`（整屏底色，任意 CSS background）、`captionStyle`，在 `presenter.json` 写 `"front": true`（小头像压在素材卡片上面）。
 - 字幕默认每屏 ≤ 12 字、放在 y ≈ 1400–1470；`captionStyle` 的 `left / width / bottom / size / max` 可以改。
 - stage 模式的 IP 角色自动换成竖构图机位（头在画面中下部，上方 0–800px 留给钩子大字）。这个机位下跳推要带 `"shift": [0, 0.2]`，否则脸会被推到画面上方、压住大字。
-- 素材（图片、视频）直接写进场景：视频用一个不计时的 `.card` 包住（动效加在外层），`<video class="clip" muted playsinline data-start data-duration [data-media-start] [data-playback-rate]>`，`data-start` 是场景本地时间（旁白时间减去场景起点，场景起点 = `scenes.json` 的 `start − 0.5`，第一个场景是 0）。
+- 素材（图片、视频）直接写进场景：用竖版原子时放进 `.v-fill` / `.v-page`；不用原子时视频用一个不计时的 `.card` 包住（动效加在外层），`<video class="clip" muted playsinline data-start data-duration [data-media-start] [data-playback-rate]>`，`data-start` 是场景本地时间（旁白时间减去场景起点，场景起点 = `scenes.json` 的 `start − 0.5`，第一个场景是 0）。
 - 主讲在竖版里保持很小（约 200px 的圆形头像，放左下角）：`presenter/track.json` 写 `[{"at": 0, "mode": "pip", "rect": [30, 1540, 210, 210], "shape": "circle"}]`；要压在素材卡片角上就在 `presenter.json` 写 `"front": true`，否则会被卡片盖住。
 
 ## 变体目录

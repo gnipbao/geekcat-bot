@@ -1,0 +1,77 @@
+<div class="v-foot">skill: story-to-handdrawn-video · MIT · <em>★ 2,434</em></div>
+<div id="s02-m1" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body doc">
+  <div class="v-doc"><div class="v-h">三步出片</div><div class="v-row"><b>1</b><div><small>AI</small><strong>故事 → 分镜</strong></div></div><div class="v-row"><b>2</b><div><small>生图模型</small><strong>分镜 → 画面</strong></div></div><div class="v-row"><b>3</b><div><small>本地程序</small><strong>画面 → 动画</strong></div></div></div>
+</div></div>
+<div id="s02-m2" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body doc">
+  <div class="v-doc"><div class="v-h">先拆分镜</div><div class="v-bar"><small>你的故事</small><strong>小猫坐在窗边。小鸟停在枝头。</strong></div><div class="v-cols"><div class="v-cell"><small>第 1 页</small><strong>小猫坐在窗边。</strong><i class="v-slot"></i></div><div class="v-cell"><small>第 2 页</small><strong>小鸟停在枝头。</strong><i class="v-slot"></i></div></div></div>
+</div></div>
+<div id="s02-m3" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body light">
+  <div class="v-fill fit"><img src="../assets/media/01_master.png"><div id="s02-ring" class="v-ring" style="left:6%; top:0.6%; width:68%; height:16.5%;"></div><div id="s02-k1" class="kw" style="position:absolute; left:38%; top:19%; font-size:56px;">字也是画出来的</div></div>
+</div></div>
+<div id="s02-m4" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body doc">
+  <div class="v-doc"><div class="v-h">一页拆成三层</div><div id="s02-strip" class="v-shot"><img src="../assets/media/layer-01_text.png"><small>文字层</small></div><div id="s02-pan" class="v-cols"><div class="v-cell"><div class="v-sq"><img src="../assets/media/layer-01_color.png"></div><small>彩色层</small></div><div class="v-cell"><div class="v-sq slot"><img id="s02-bw" src="../assets/media/layer-01_bw.png"></div><small>黑白层 · 算出来的</small></div></div></div>
+</div></div>
+<div id="s02-m5" class="v-media" data-title="~/story-to-handdrawn-video"><div class="v-body light">
+  <div class="v-fill fit"><video id="s02-v" class="clip" src="../assets/media/demo-cut.mp4" muted playsinline data-start="15.379" data-duration="6.0" data-playback-rate="0.75" data-track-index="0"></video></div>
+</div></div>
+<div id="s02-h1" class="v-title"><div class="ctx">原理其实很简单</div><div class="key">就三步</div></div>
+<div id="s02-h2" class="v-title m"><div class="ctx">第一步 · AI 规划</div><div class="key">把故事<br class="v-br">拆成分镜</div></div>
+<div id="s02-h3" class="v-title m"><div class="ctx">第二步 · 生图模型</div><div class="key">每页一张图<br class="v-br">画完</div></div>
+<div id="s02-h4" class="v-title"><div class="ctx">第三步 · 本地程序</div><div class="key">一页拆成<br class="v-br">三层</div></div>
+<div id="s02-h5" class="v-title s"><div class="ctx">三层依次擦出来</div><div class="key">字 → 线稿<br class="v-br">→ 上色</div></div>
+<div id="s02-h6" class="v-title"><div class="ctx">看着像手绘</div><div class="key">其实在<br class="v-br">揭图层</div></div>
+<div id="s02-s0" class="v-stk"><b>3</b><span>步搞定</span></div>
+<div id="s02-s1" class="v-stk"><b>01</b><span>共 3 步</span></div>
+<div id="s02-s2" class="v-stk"><b>02</b><span>共 3 步</span></div>
+<div id="s02-s3" class="v-stk"><b>03</b><span>共 3 步</span></div>
+<div id="s02-l1" class="v-stk mini" style="--i:0;">① 文字</div>
+<div id="s02-l2" class="v-stk mini" style="--i:1;">② 线稿</div>
+<div id="s02-l3" class="v-stk mini" style="--i:2;">③ 上色</div>
+<!--JS-->
+tl.set($('#s02-s1, #s02-s2, #s02-s3, #s02-l1, #s02-l2, #s02-l3, #s02-ring, #s02-k1'), { opacity: 0 }, 0);
+enter('#s02-h1', c(6.8), { y: 0 });
+slam('#s02-h1 .key', c(7.25));
+enter('#s02-m1', c(6.75), { y: 0 });
+popIn('#s02-m1 .v-row', c(7.3), 0.3);
+popIn('#s02-s0', c(7.6));
+
+out('#s02-h1, #s02-s0', c(8.95));
+enter('#s02-h2', c(9.07), { y: 0 });
+popIn('#s02-s1', c(9.1));
+enter('#s02-m2', c(9.15), { y: 0 });
+out('#s02-m1', c(9.7), 0.05);
+slam('#s02-h2 .key', c(9.85));
+popIn('#s02-m2 .v-cell', c(10.0), 0.3);
+
+out('#s02-h2, #s02-s1', c(11.65));
+enter('#s02-h3', c(11.79), { y: 0 });
+popIn('#s02-s2', c(11.82));
+out('#s02-m2', c(11.86), 0.04);
+enter('#s02-m3', c(11.9), { y: 0 });
+slam('#s02-h3 .key', c(12.49));
+popIn('#s02-ring', c(14.36));
+popIn('#s02-k1', c(14.62));
+
+out('#s02-h3, #s02-s2', c(15.45));
+enter('#s02-h4', c(15.57), { y: 0 });
+popIn('#s02-s3', c(15.6));
+enter('#s02-m4', c(16.1), { y: 0 });
+out('#s02-m3', c(16.65), 0.05);
+slam('#s02-h4 .key', c(16.29));
+popIn('#s02-strip', c(16.5));
+popIn('#s02-pan', c(17.3));
+tl.fromTo($('#s02-bw'), { opacity: 0, xPercent: -108 }, { opacity: 1, xPercent: 0, duration: 0.6, ease: 'power3.out' }, c(19.83));
+
+out('#s02-h4', c(21.15));
+enter('#s02-h5', c(21.29), { y: 0 });
+enter('#s02-m5', c(21.35), { y: 0 });
+out('#s02-m4', c(21.9), 0.05);
+slam('#s02-h5 .key', c(21.62));
+out('#s02-s3', c(22.7));
+popIn('#s02-l1', c(22.89));
+popIn('#s02-l2', c(23.7));
+popIn('#s02-l3', c(24.5));
+
+out('#s02-h5', c(25.15));
+enter('#s02-h6', c(25.27), { y: 0 });
+slam('#s02-h6 .key', c(26.34));

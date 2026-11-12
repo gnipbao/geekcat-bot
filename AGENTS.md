@@ -178,7 +178,7 @@ node render/render.mjs hyperframes mascot/script.json -o compositions/mascot.htm
 
 ## 做一整期视频（skill）
 
-用户要的不只是叠加素材，而是"让知识猫讲一期 XX""把录屏做成教程""出抖音竖版"时，按 [`skills/creator-studio/SKILL.md`](skills/creator-studio/SKILL.md) 走：讲解 / 录屏教程 / 口播三种形式，主讲可以是知识猫（就是上面的 `hyperframes` 命令）、摄像头真人、数字人或纯配音，九套主题，按平台出横版 / 去字幕版 / 竖版和封面，FrameVelo 渲染。样例：`skills/creator-studio/examples/rea/`（讲解）、`skills/creator-studio/examples/tutorial-demo/`（教程）。
+用户要的不只是叠加素材，而是"让知识猫讲一期 XX""把录屏做成教程""出抖音竖版"时，按 [`skills/creator-studio/SKILL.md`](skills/creator-studio/SKILL.md) 走：讲解 / 录屏教程 / 口播三种形式，主讲可以是知识猫（就是上面的 `hyperframes` 命令）、摄像头真人、数字人或纯配音，十三套主题，按平台出横版 / 去字幕版 / 竖版和封面，FrameVelo 渲染。样例：`skills/creator-studio/examples/rea/`（讲解）、`skills/creator-studio/examples/tutorial-demo/`（教程）。
 
 ## 直播 / OBS
 

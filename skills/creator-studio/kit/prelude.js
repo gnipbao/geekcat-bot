@@ -7,6 +7,8 @@ function c(t) { return Math.max(0, t - A); }                       // 旁白绝�
 function rep(p) { return Math.max(0, Math.floor((D - 0.1) / p) - 1); } // 有限次循环，不超出场景时长
 // 倾斜装饰只用 GSAP 设置，避免 CSS transform 与补间冲突。TILT：主题的倾斜系数（theme.json.tilt；pop 是 1，极简主题是 0）
 R.querySelectorAll('[data-rot]').forEach(function (el) { tl.set(el, { rotation: +el.dataset.rot * TILT }, 0); });
+// 竖版数字贴纸的倾斜角度由主题给（--v-stk-rot）。写在这里而不是 CSS transform，免得和弹出动效冲突
+(function () { var r = parseFloat(getComputedStyle(R).getPropertyValue('--v-stk-rot')) || 0; if (r) R.querySelectorAll('.v-stk').forEach(function (el) { tl.set(el, { rotation: r }, 0); }); })();
 function drift(sel, vars, period) { var els = $(sel); if (els.length) tl.to(els, Object.assign({ duration: period, ease: 'sine.inOut', yoyo: true, repeat: rep(period) }, vars), 0); }
 function enter(sel, t, from, stagger) {
   var els = $(sel); if (!els.length) return;

@@ -1,0 +1,66 @@
+/* headline · 大字：素材铺满整屏并压暗，标题直接压在画面上（白色小字 + 黄色特粗大字、黑描边），开场钩子居中放到最大。
+   变量和横版结构沿用 night（近黑底、黄色强调）。 */
+SCOPE {
+  --hua: #F7CB46;
+  --ground: #0E0F11; --surface: #17191D; --ink: #EDEBE6; --border: #383C44; --muted: #8E929B; --line: #383C44;
+  --accent: #F7CB46; --on-accent: #0E0F11; --accent-text: #F7CB46;
+  --hl: #F7CB46; --on-hl: #0E0F11; --mark: #3DDC84;
+  --code-bg: #08090B; --code-ink: #E6E6E6;
+  --texture: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  --texture-size: 48px 48px; --texture-opacity: 1;
+  --ghost: rgba(255,255,255,.04); --dim: rgba(0,0,0,.62);
+  --black: #0E0F11; --white: #17191D; --offwhite: #1B1D21;
+  --pink: #3A2230; --blue: #1C2E39; --green: #1A3326; --yellow: #3A321C; --cream: #22252B;
+  --bw: 2px; --bw-s: 1.5px; --radius: 18px; --radius-s: 10px; --radius-pill: 999px;
+  --shadow: 0 24px 60px rgba(0,0,0,.55); --shadow-s: 0 8px 22px rgba(0,0,0,.45); --shadow-hl: 0 0 0 6px rgba(247,203,70,.18);
+  --font-body: "Noto Sans SC", "Inter", sans-serif;
+  --font-display: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-cjk-display: "Noto Sans SC", "JetBrains Mono", sans-serif;
+  --font-label: "JetBrains Mono", "Noto Sans SC", monospace;
+  --font-hand: "JetBrains Mono", "Noto Sans SC", monospace;
+  --display-case: none;
+}
+SCOPE .stripe { border-color: var(--border); background: repeating-linear-gradient(45deg, var(--accent) 0 7px, transparent 7px 18px) !important; opacity: .75; }
+SCOPE .star { filter: drop-shadow(0 0 18px rgba(247,203,70,.35)); }
+SCOPE .pill { background: rgba(23,25,29,.92); }
+SCOPE .pill::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--mark); box-shadow: 0 0 10px var(--mark); flex: none; }
+SCOPE .h-xl, SCOPE .h-lg { letter-spacing: -0.04em; }
+SCOPE .keycap { box-shadow: 0 7px 0 #000; }
+SCOPE .callout { box-shadow: 0 0 0 6px rgba(247,203,70,.15), 0 0 40px rgba(247,203,70,.25); }
+/* 反白：浅色底（对比段落、片尾） */
+SCOPE.tone-invert, SCOPE .tone-invert {
+  --ground: #EDEBE6; --surface: #FFFFFF; --ink: #0E0F11; --border: #0E0F11; --muted: #5C6068; --line: #0E0F11;
+  --accent: #0E0F11; --on-accent: #F7CB46; --accent-text: #B8860B;
+  --texture: linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px);
+  --ghost: rgba(0,0,0,.05); --shadow: 0 18px 40px rgba(0,0,0,.18);
+  --pink: #F6D6E4; --blue: #D3E7F2; --green: #D3EEDC; --yellow: #F7E3A1; --cream: #E3E1DB;
+}
+
+/* —— 竖版版式：整屏素材压暗 + 压在画面上的大字标题（.hook 居中最大）+ 标题上方的黄色数字徽章 —— */
+SCOPE { --v-ink: #111111; --v-sub: #5C6068; --v-panel: #F4F4F0; --v-accent: #FFE600; --v-dash: rgba(0,0,0,.28); --v-fs-h: 70px; --v-fs-strong: 68px; --v-fs-small: 36px; }
+SCOPE .v-media { background: #0B0B0B; }
+SCOPE .v-media::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: rgba(0,0,0,.4); }
+SCOPE .v-body.doc { background: linear-gradient(180deg, #1B1B1B 0%, #0B0B0B 100%); }
+SCOPE .v-doc { top: 740px; gap: 18px; }
+SCOPE .v-fill.fit { top: 700px; }
+SCOPE .v-h { display: none; }
+SCOPE .v-row { padding: 20px 30px; }
+SCOPE .v-row > b { width: 120px; height: 120px; font-size: 78px; line-height: 120px; }
+SCOPE .v-slot { height: 210px; }
+SCOPE .v-title { left: 56px; top: 190px; right: 56px; }
+SCOPE .v-title .ctx { font-family: var(--font-cjk-display); font-size: 76px; font-weight: 900; line-height: 1.2; color: #FFFFFF; -webkit-text-stroke: 14px #000; paint-order: stroke fill; }
+SCOPE .v-title .key, SCOPE .v-title.m .key, SCOPE .v-title.s .key { font-family: var(--font-cjk-display); font-size: 184px; font-weight: 900; line-height: 1.1; white-space: normal; text-wrap: balance; color: #FFE600; -webkit-text-stroke: 28px #000; paint-order: stroke fill; letter-spacing: -0.04em; filter: drop-shadow(0 12px 0 rgba(0,0,0,.4)); }
+SCOPE .v-br { display: inline; }
+SCOPE .v-title.hook { top: 520px; text-align: center; }
+SCOPE .v-title.hook .ctx { font-size: 88px; }
+SCOPE .v-title.hook .key { font-size: 300px; line-height: 1.05; -webkit-text-stroke: 38px #000; paint-order: stroke fill; }
+SCOPE .v-title.hook.m .key { font-size: 240px; }
+SCOPE .v-title.hook.s .key { font-size: 210px; }
+SCOPE .v-stk { left: 56px; top: 104px; width: auto; height: 72px; padding: 0 26px; display: flex; align-items: center; gap: 14px; background: #FFE600; border: 4px solid #000; border-radius: 14px; box-shadow: 5px 6px 0 #000; }
+SCOPE .v-stk b { font-family: var(--font-cjk-display); font-size: 50px; font-weight: 900; line-height: 1; color: #000; }
+SCOPE .v-stk span { font-size: 36px; font-weight: 900; line-height: 1; color: #000; }
+SCOPE .v-stk.mini { left: calc(56px + var(--i, 0) * 236px); top: 104px; width: auto; padding: 0 22px; font-size: 40px; font-weight: 900; line-height: 64px; color: #000; }
+SCOPE .v-ring { border-color: #FFE600; box-shadow: 0 0 0 4px rgba(0,0,0,.6); }
+SCOPE .v-pop { top: 30%; box-shadow: 0 40px 100px rgba(0,0,0,.7), 0 0 0 5px #FFE600; }
+SCOPE .v-tags { top: 760px; }
+SCOPE .kw { background: #FFE600; color: #111111; border: 4px solid #111111; border-radius: 14px; box-shadow: 6px 8px 0 #111111; font-weight: 900; }

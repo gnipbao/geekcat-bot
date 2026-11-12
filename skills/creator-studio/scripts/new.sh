@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 新建一期视频工程：HyperFrames 骨架 + 字体（OFL，本机缓存只下载一次）+ video.json / cover.json / presenter.json 模板
 # 用法：new.sh <videos-dir> <slug> [--format explainer|tutorial|talk] [--presenter mascot|camera|avatar|none]
-#             [--theme lab|aurora|bento|volt|night|terminal|greenscreen|paper|pop] [--platforms bilibili,youtube,douyin,x] [--ip 角色.ip.json] [--vertical]
+#             [--theme lab|aurora|bento|volt|night|paper|pop|terminal|greenscreen|headline|markup|prompt|cinema] [--platforms bilibili,youtube,douyin,x] [--ip 角色.ip.json] [--vertical]
 # 默认：讲解 + 墨墨 + lab；--format tutorial 时默认主题 night、主讲 camera；--format talk 时默认主讲 camera
 set -euo pipefail
 SKILL="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

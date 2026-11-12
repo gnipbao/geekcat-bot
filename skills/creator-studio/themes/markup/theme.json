@@ -1,0 +1,76 @@
+{
+  "name": "markup",
+  "label": "批注",
+  "description": "纸色底，素材是带黑边硬阴影的卡片，上面叠手绘批注：红圈、手写红字、黄色荧光笔；标题带荧光笔划线，数字写在黄色便签上。教程、拆解、对比用；横版沿用 paper 的结构。",
+  "bestFor": [
+    "explainer",
+    "talk"
+  ],
+  "grounds": [
+    "#FBF8F1"
+  ],
+  "named": {
+    "cream": "#FBF8F1",
+    "offwhite": "#FFFDF8",
+    "yellow": "#FFF8DE",
+    "blue": "#F1F6FC",
+    "pink": "#FCF2F4",
+    "green": "#F2F8EC",
+    "white": "#FFFFFF",
+    "paper": "#FBF8F1"
+  },
+  "palette": {
+    "ground": "#FBF8F1",
+    "ink": "#222222",
+    "accent": "#E8590C",
+    "mark": "#FFE066",
+    "surface": "#FFFFFF"
+  },
+  "captions": {
+    "card": "padding:8px 22px 12px; background:#FBF8F1; border:none; border-radius:12px; box-shadow:none; color:#222; font-family:\"Noto Sans SC\",sans-serif; font-weight:900;",
+    "dim": "color:rgba(34,34,34,.62);",
+    "spoken": "color:#222;",
+    "active": "color:#222; background:linear-gradient(transparent 50%, #FFE066 50%, #FFE066 94%, transparent 94%);",
+    "bare": {
+      "color": "#FFFFFF",
+      "stroke": "#000000",
+      "active": "#FFE066"
+    }
+  },
+  "presenter": {
+    "frame": "border:4px solid #222; box-shadow:5px 6px 0 #222; background:#222;",
+    "pipRadius": "50%",
+    "radius": "18px 7px 15px 9px / 9px 15px 7px 18px",
+    "bw": 4,
+    "stage": "#FFF7D6"
+  },
+  "cover": "paper",
+  "transition": "fade",
+  "tilt": 0,
+  "portrait": {
+    "captions": {
+      "look": "card",
+      "left": 250,
+      "width": 790,
+      "bottom": 232,
+      "size": 54,
+      "max": 11
+    },
+    "presenter": {
+      "rect": [
+        36,
+        1610,
+        200,
+        200
+      ],
+      "shape": "circle",
+      "front": true
+    },
+    "media": {
+      "x": 60,
+      "y": 480,
+      "width": 960,
+      "height": 1100
+    }
+  }
+}

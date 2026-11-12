@@ -63,31 +63,18 @@ SCOPE.tone-invert .dots { display: none; }
 SCOPE .kw { background: #FFE600; color: #111111; border: 4px solid #111111; border-radius: 16px; box-shadow: 6px 8px 0 #111111; font-weight: 900; }
 SCOPE .kw .em { background: none; -webkit-text-fill-color: #E5352B; color: #E5352B; }
 
-/* —— 竖版专用原子（video.json 的 width < height）——
-   .v-media > .v-body          整屏素材层（.light 白底，当"文档页"用）；3:4 素材用 .v-fill 的尺寸铺满，网页截图自己写宽高
-   .v-title > .ctx + .key      顶部两枚胶囊：红色小标题 + 白色标题（要放在 .v-media 后面）
-   .v-stk > b + span           右上角黄色数字贴纸（.sm 长数字；.mini 单行小条）
-   .v-ring                     黄色高亮圈（用 style 写 left / top / width / height）
-   .v-panel / .v-log           文档页里的浅灰面板和等宽文字
-   .v-foot                     这个主题不显示 */
-SCOPE .v-media { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; background: #111111; }
+/* —— 竖版版式：素材铺满整屏 + 顶部红白两枚胶囊 + 黄色数字贴纸和高亮圈（主讲是抠像小角色，字幕是逐词弹跳） —— */
+SCOPE { --v-accent: #E5352B; --v-stk-rot: 5; }
+SCOPE .v-media { background: #111111; }
 SCOPE .v-media::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.36) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 56%, rgba(0,0,0,.6) 100%); }
-SCOPE .v-body { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
-SCOPE .v-body.light { background: #FFFFFF; }
-SCOPE .v-title { position: absolute; left: 40px; top: 128px; display: flex; align-items: center; gap: 14px; }
-SCOPE .v-title .ctx { height: 76px; padding: 0 30px; border-radius: 38px; background: #E5352B; font-size: 40px; font-weight: 900; line-height: 76px; color: #FFFFFF; white-space: nowrap; }
-SCOPE .v-title .key { height: 76px; padding: 0 28px; border-radius: 38px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(0,0,0,.28); font-size: 38px; font-weight: 900; line-height: 76px; color: #111111; white-space: nowrap; }
-SCOPE .v-title.m .key, SCOPE .v-title.s .key { font-family: "JetBrains Mono", "Noto Sans SC", monospace; font-size: 28px; font-weight: 700; }
-SCOPE .v-stk { position: absolute; left: 780px; top: 250px; width: 260px; height: 236px; box-sizing: border-box; background: #FFE600; border: 5px solid #111111; border-radius: 20px; box-shadow: 8px 10px 0 #111111; text-align: center; white-space: nowrap; }
-SCOPE .v-stk b { display: block; margin-top: 8px; font-family: var(--font-display); font-size: 124px; font-weight: 800; line-height: 1.05; color: #111111; letter-spacing: -0.04em; }
-SCOPE .v-stk span { display: block; margin-top: 6px; font-size: 44px; font-weight: 900; line-height: 1.2; color: #111111; }
+SCOPE .v-title { left: 40px; top: 128px; display: flex; align-items: center; gap: 14px; }
+SCOPE .v-title .ctx { height: 76px; padding: 0 30px; border-radius: 38px; background: #E5352B; font-size: 40px; font-weight: 900; line-height: 76px; color: #FFFFFF; }
+SCOPE .v-title .key { height: 76px; padding: 0 28px; border-radius: 38px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(0,0,0,.28); font-size: 38px; font-weight: 900; line-height: 76px; color: #111111; }
+SCOPE .v-stk { background: #FFE600; border: 5px solid #111111; border-radius: 20px; box-shadow: 8px 10px 0 #111111; }
+SCOPE .v-stk b { margin-top: 8px; font-family: var(--font-display); font-size: 124px; font-weight: 800; line-height: 1.05; color: #111111; letter-spacing: -0.04em; }
+SCOPE .v-stk span { margin-top: 6px; font-size: 44px; font-weight: 900; line-height: 1.2; color: #111111; }
 SCOPE .v-stk.sm b { margin-top: 34px; font-size: 80px; }
 SCOPE .v-stk.sm span { margin-top: 18px; }
-SCOPE .v-stk.mini { left: 800px; width: 240px; height: 100px; font-size: 50px; font-weight: 900; line-height: 90px; color: #111111; }
-SCOPE .v-ring { position: absolute; box-sizing: border-box; border: 10px solid #FFE600; border-radius: 50%; box-shadow: 0 0 0 4px rgba(0,0,0,.55); }
-SCOPE .v-panel { position: absolute; border-radius: 26px; background: #F2F2F4; }
-SCOPE .v-log { position: absolute; left: 60px; font-family: "JetBrains Mono", "Noto Sans SC", monospace; font-size: 40px; font-weight: 700; line-height: 1.3; color: #111111; white-space: nowrap; }
-SCOPE .v-log.cmd { color: #E5352B; }
-SCOPE .v-log.dim { color: #6E6E73; }
-SCOPE .v-log i { font-style: normal; color: #1A7F37; }
-SCOPE .v-foot { display: none; }
+SCOPE .v-stk.mini { left: 800px; width: 240px; font-size: 50px; font-weight: 900; line-height: 90px; color: #111111; }
+SCOPE .v-ring { border-color: #FFE600; box-shadow: 0 0 0 4px rgba(0,0,0,.55); }
+SCOPE .v-pop { box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 5px #FFE600; }

@@ -93,3 +93,52 @@ SCOPE .window-bar { position: absolute; left: 0; right: 0; top: 0; height: 52px;
   font-family: var(--font-label); font-size: 20px; color: var(--muted); white-space: nowrap; overflow: hidden; }
 SCOPE .window-bar i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); flex: none; }
 SCOPE .window-bar span { margin-left: 10px; }
+
+/* —— 竖版原子（竖版原生工程：video.json 的 width < height）。场景只写这些类名，位置和外观由主题决定，同一份场景可以换主题 ——
+   .v-media[data-title] > .v-body[.doc|.light]   素材区；.doc 是放说明内容的"文档页"，.light 是白底
+   .v-fill[.fit] > img|video                      3:4 素材盒子（.fit：边上有字、不能裁的素材）；批注用百分比写在盒子里
+   .v-page[style="aspect-ratio:…"] > img          网页长截图盒子
+   .v-doc > .v-h / .v-row / .v-bar / .v-cols > .v-cell / .v-shot / .v-sq / .v-slot   文档页里的排版块
+   .v-title[.hook][.m|.s] > .ctx + .key           标题（.hook 是开场钩子；.m / .s 给 7 / 8 个字以上的标题降字号）
+   .v-stk[.sm|.mini] > b + span                   数字贴纸（.mini 用 style="--i:0" 往下排）
+   .v-ring  .v-note  .v-pop  .v-tags  .v-cta  .v-foot   高亮圈 / 手写批注 / 居中弹出的图 / 一列标签 / 素材上的结论条 / 页脚 */
+SCOPE { --v-ink: #111111; --v-sub: #6E6E73; --v-panel: #F2F2F4; --v-accent: #E5352B; --v-dash: rgba(0,0,0,.25); --v-radius: 26px; --v-fs-h: 84px; --v-fs-strong: 76px; --v-fs-small: 40px; --v-stk-top: 250px; --v-stk-rot: 0; }
+SCOPE .v-media { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+SCOPE .v-body { position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; }
+SCOPE .v-body.light, SCOPE .v-body.doc { background: #FFFFFF; }
+SCOPE .v-fill { position: absolute; left: -180px; top: 0; width: 1440px; height: 1920px; }
+SCOPE .v-fill.fit { left: -60px; top: 170px; width: 1200px; height: 1600px; }
+SCOPE .v-page { position: absolute; left: 0; top: 0; width: 1250px; transform-origin: 0 0; }
+SCOPE .v-fill > img, SCOPE .v-fill > video, SCOPE .v-page > img { position: absolute; left: 0; top: 0; right: auto; bottom: auto; width: 100%; height: 100%; object-fit: contain; }
+SCOPE .v-doc { position: absolute; left: 0; right: 0; top: 230px; box-sizing: border-box; padding: 0 60px; display: flex; flex-direction: column; gap: 28px; color: var(--v-ink); }
+SCOPE .v-doc small { display: block; font-size: var(--v-fs-small); font-weight: 800; line-height: 1.2; color: var(--v-sub); white-space: nowrap; }
+SCOPE .v-doc strong { display: block; font-size: var(--v-fs-strong); font-weight: 900; line-height: 1.25; color: var(--v-ink); white-space: nowrap; }
+SCOPE .v-h { font-size: var(--v-fs-h); font-weight: 900; line-height: 1.2; color: var(--v-ink); white-space: nowrap; }
+SCOPE .v-row { display: flex; align-items: center; gap: 36px; padding: 40px; border-radius: var(--v-radius); background: var(--v-panel); }
+SCOPE .v-row > b { flex: none; width: 150px; height: 150px; border-radius: 50%; background: var(--v-ink); color: #FFE600; text-align: center; font-family: var(--font-display); font-size: 96px; font-weight: 800; line-height: 150px; }
+SCOPE .v-bar { padding: 28px 40px 34px; border-radius: var(--v-radius); background: var(--v-ink); }
+SCOPE .v-bar small { color: #A1A1A6; }
+SCOPE .v-bar strong { font-size: 54px; color: #FFFFFF; }
+SCOPE .v-cols { display: flex; gap: 24px; }
+SCOPE .v-cell { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 18px; padding: 30px 32px; border-radius: var(--v-radius); background: var(--v-panel); }
+SCOPE .v-cell small { color: var(--v-accent); font-size: 44px; }
+SCOPE .v-cell strong { font-size: 52px; }
+SCOPE .v-slot { display: block; height: 300px; border-radius: 18px; border: 5px dashed var(--v-dash); }
+SCOPE .v-sq { position: relative; aspect-ratio: 1; border-radius: 14px; }
+SCOPE .v-sq.slot { box-sizing: border-box; border: 5px dashed var(--v-dash); }
+SCOPE .v-sq > img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 14px; }
+SCOPE .v-shot { padding: 12px 14px 14px; border-radius: var(--v-radius); background: var(--v-panel); }
+SCOPE .v-shot > img { display: block; width: 100%; border-radius: 12px; }
+SCOPE .v-shot small { margin-top: 8px; text-align: right; }
+SCOPE .v-title { position: absolute; left: 48px; top: 120px; }
+SCOPE .v-title .ctx, SCOPE .v-title .key { white-space: nowrap; }
+SCOPE .v-br { display: none; }                                 /* 标题里建议的换行位置：只有把大标题排成两行的主题才用 */
+SCOPE .v-stk { position: absolute; left: 780px; top: var(--v-stk-top); width: 260px; height: 236px; box-sizing: border-box; text-align: center; white-space: nowrap; }
+SCOPE .v-stk b, SCOPE .v-stk span { display: block; }
+SCOPE .v-stk.mini { top: calc(var(--v-stk-top) + var(--i, 0) * 116px); height: 100px; }
+SCOPE .v-ring { position: absolute; box-sizing: border-box; border: 10px solid var(--v-accent); border-radius: 50%; }
+SCOPE .v-note { display: none; }
+SCOPE .v-pop { position: absolute; left: calc(50% - 300px); top: 14%; width: 600px; height: 808px; border-radius: 44px; box-shadow: 0 40px 100px rgba(0,0,0,.6); }
+SCOPE .v-tags { position: absolute; left: 44px; top: 300px; display: flex; flex-direction: column; align-items: flex-start; gap: 26px; }
+SCOPE .v-cta { position: absolute; left: 0; right: 0; top: 60%; display: flex; justify-content: center; }
+SCOPE .v-foot { display: none; }
